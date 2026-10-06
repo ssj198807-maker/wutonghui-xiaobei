@@ -1,0 +1,60 @@
+{
+  "name": "wutonghui-xiaobei-desktop",
+  "version": "2.0.0-dev",
+  "description": "wutonghui-xiaobei 桌面 GUI（v2.0 Local-First Desktop）",
+  "main": "main.cjs",
+  "private": true,
+  "author": "吴桐荟运营平台 Contributors (forked from TeamWiseFlow/xiaobei by bigbrother666sh)",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dev": "WUTONGHUI_DEV=1 electron .",
+    "build:mac-arm64": "electron-builder --mac --arm64 --x64=false",
+    "build:mac-x64": "electron-builder --mac --x64 --arm64=false",
+    "build:mac-universal": "electron-builder --mac --universal",
+    "build:linux": "electron-builder --linux",
+    "build:win": "electron-builder --win"
+  },
+  "devDependencies": {
+    "electron": "^32.3.3",
+    "electron-builder": "^25.0.0"
+  },
+  "build": {
+    "appId": "com.wutonghui.ops-platform",
+    "productName": "wutonghui-xiaobei",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "main.cjs",
+      "preload.cjs",
+      "renderer/**/*",
+      "package.json"
+    ],
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "arm64"
+          ]
+        }
+      ],
+      "hardenedRuntime": false,
+      "gatekeeperAssess": false
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "Office"
+    },
+    "publish": null
+  }
+}
