@@ -1,7 +1,7 @@
 {
   "name": "camoufox-cli",
-  "version": "0.7.3-wiseflow.2",
-  "description": "Anti-detect headless browser automation CLI & Skills for AI agents, powered by Camoufox (wiseflow fork)",
+  "version": "0.7.3-wutonghui.2",
+  "description": "Anti-detect headless browser automation CLI & Skills for AI agents, powered by Camoufox (wutonghui fork)",
   "type": "module",
   "bin": {
     "camoufox-cli": "./dist/cli.js"
@@ -25,8 +25,8 @@
   "repository": "https://github.com/Bin-Huang/camoufox-cli",
   "homepage": "https://github.com/Bin-Huang/camoufox-cli",
   "bugs": "https://github.com/Bin-Huang/camoufox-cli/issues",
-  "wiseflowFork": true,
-  "wiseflowForkBaseline": "0.7.3",
+  "wutonghuiFork": true,
+  "wutonghuiForkBaseline": "0.7.3",
   "dependencies": {
     "camoufox-js": "0.11.2",
     "pdf-lib": "^1.17.1",

@@ -1,7 +1,7 @@
 {
   "name": "rss-reader-skill",
   "version": "1.0.0",
-  "description": "RSS/Atom feed reader skill for wiseflow",
+  "description": "RSS/Atom feed reader skill for wutonghui",
   "type": "module",
   "dependencies": {
     "rss-parser": "^3.13.0"

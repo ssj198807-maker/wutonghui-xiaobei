@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # init.sh — 为单项设计任务创建标准目录结构 + brief 模板
 # 用法: design-full init <任务名>（wrapper 转发到本脚本）
-# 示例: design-full init wiseflow-official-website
+# 示例: design-full init wutonghui-official-website
 
 set -euo pipefail
 

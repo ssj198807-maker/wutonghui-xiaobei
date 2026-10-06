@@ -23,16 +23,16 @@
 
 ```bash
 # macOS / Linux（GitHub 线路）
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/TeamWiseFlow/xiaobei/master/scripts/install.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/TeamWiseFlow/wutonghui-xiaobei/master/scripts/install.sh)"
 # macOS / Linux（atomgit 线路，国内；tarball 走 atomgit.com → GitCode CDN，全程国内直连，脚本也从 raw.atomgit.com 拉取）
-bash -c "$(curl -fsSL https://raw.atomgit.com/wiseflow/xiaobei/raw/master/scripts/install-atomgit.sh)"
+bash -c "$(curl -fsSL https://raw.atomgit.com/wutonghui/wutonghui-xiaobei/raw/master/scripts/install-atomgit.sh)"
 ```
 
 ```powershell
 # Windows（PowerShell，需 Git Bash 或 WSL；GitHub 线路）
-irm https://raw.githubusercontent.com/TeamWiseFlow/xiaobei/master/scripts/install.ps1 | iex
+irm https://raw.githubusercontent.com/TeamWiseFlow/wutonghui-xiaobei/master/scripts/install.ps1 | iex
 # Windows（atomgit 线路，国内；脚本和 tarball 全程走 atomgit，不经 GitHub）
-irm https://raw.atomgit.com/wiseflow/xiaobei/raw/master/scripts/install-atomgit.ps1 | iex
+irm https://raw.atomgit.com/wutonghui/wutonghui-xiaobei/raw/master/scripts/install-atomgit.ps1 | iex
 ```
 
 > **Windows 用户请以管理员身份运行 PowerShell 再安装**（右键 PowerShell → "以管理员身份运行"）。
@@ -49,18 +49,18 @@ irm https://raw.atomgit.com/wiseflow/xiaobei/raw/master/scripts/install-atomgit.
 | `--skip-bind` | `XIAOBEI_SKIP_BIND=1` | 跳过末尾微信扫码绑定（CI / 自动化） |
 | `--skip-browser` | `XIAOBEI_SKIP_BROWSER=1` | 跳过 camoufox-cli 浏览器二进制安装（冒烟 / CI，省 ~557MB Firefox 下载） |
 | `--no-prompt` | `XIAOBEI_NO_PROMPT=1` | 关闭交互提示（CI / 自动化，隐含 `--skip-bind`） |
-| `--root <dir>` | `XIAOBEI_HOME=<dir>` | 程序目录覆盖（默认 `~/xiaobei`） |
-| — | `XIAOBEI_TAG=<tag>` | 指定版本 tag（默认拉最新 release；sh 也认 `XIAOBEI_TAG` env） |
+| `--root <dir>` | `WUTONGHUI_HOME=<dir>` | 程序目录覆盖（默认 `~/wutonghui-xiaobei`） |
+| — | `WUTONGHUI_TAG=<tag>` | 指定版本 tag（默认拉最新 release；sh 也认 `WUTONGHUI_TAG` env） |
 | — | `XIAOBEI_TARBALL=<path>` | 本地已下好的 tarball 路径，跳过下载（sh 也认此 env） |
 | `--verbose` | — | 打印 debug 输出（仅 sh） |
 
-环境变量：`XIAOBEI_REPO`（仅 GitHub 线路认，atomgit 线路硬编码 `wiseflow/xiaobei`）、`XIAOBEI_TAG`（指定版本）、`XIAOBEI_TARBALL`（本地已下好的 tarball 路径，跳过下载）、`XIAOBEI_HOME`（程序目录覆盖）、`OPENCLAW_HOME`（运行数据目录覆盖）。
+环境变量：`WUTONGHUI_REPO`（仅 GitHub 线路认，atomgit 线路硬编码 `wutonghui/wutonghui-xiaobei`）、`WUTONGHUI_TAG`（指定版本）、`XIAOBEI_TARBALL`（本地已下好的 tarball 路径，跳过下载）、`WUTONGHUI_HOME`（程序目录覆盖）、`OPENCLAW_HOME`（运行数据目录覆盖）。
 
 执行流程：
 
 1. 检测 OS + arch → 选 tarball asset（linux-x64 / mac-arm64 / mac-x64 / win-x64）
-2. 解析最新 release tag（GitHub 线路走 `api.github.com`，回退 gh CLI；atomgit 线路走 `api.atomgit.com/api/v5`；`XIAOBEI_TAG` 直接指定）
-3. 下载预构建 tarball → 解压到 `~/xiaobei/`（程序目录）
+2. 解析最新 release tag（GitHub 线路走 `api.github.com`，回退 gh CLI；atomgit 线路走 `api.atomgit.com/api/v5`；`WUTONGHUI_TAG` 直接指定）
+3. 下载预构建 tarball → 解压到 `~/wutonghui-xiaobei/`（程序目录）
 4. `pnpm install --prod --frozen-lockfile`（用自带的 portable Node + pnpm，在 `openclaw/` 下）
 5. `pip install --user`（skills 的 Python 依赖）
 6. awada 本地插件 deps（`awada/` 下 `npm install --omit=dev` 装 ws+zod）
@@ -70,7 +70,7 @@ irm https://raw.atomgit.com/wiseflow/xiaobei/raw/master/scripts/install-atomgit.
 10. 首装末尾：自动出微信绑定二维码（已绑过则跳过），手机扫码确认即用
 11. 升级：只刷 `daemon.env` 路径 + restart gateway，不碰运行数据
 
-> 目录职责：`~/xiaobei/` = 程序（引擎 + 模板 + 脚本 + 工具 + wrapper）；`~/.openclaw/` = 运行数据（openclaw.json + daemon.env + workspaces + logs）。升级只换 `~/xiaobei/`，用户数据不动。
+> 目录职责：`~/wutonghui-xiaobei/` = 程序（引擎 + 模板 + 脚本 + 工具 + wrapper）；`~/.openclaw/` = 运行数据（openclaw.json + daemon.env + workspaces + logs）。升级只换 `~/wutonghui-xiaobei/`，用户数据不动。
 
 ---
 
@@ -137,10 +137,10 @@ cd openclaw && pnpm build && cd ..   # 首次或修改源码后手动 build
 
 | 场景 | 命令 |
 |------|------|
-| 小白首装（macOS/Linux，GitHub） | `bash -c "$(curl -fsSL https://raw.githubusercontent.com/TeamWiseFlow/xiaobei/master/scripts/install.sh)"` |
-| 小白首装（macOS/Linux，国内 atomgit） | `bash -c "$(curl -fsSL https://raw.atomgit.com/wiseflow/xiaobei/raw/master/scripts/install-atomgit.sh)"` |
-| 小白首装（Windows，GitHub） | **以管理员身份打开 PowerShell**，然后 `irm https://raw.githubusercontent.com/TeamWiseFlow/xiaobei/master/scripts/install.ps1 \| iex` |
-| 小白首装（Windows，国内 atomgit） | **以管理员身份打开 PowerShell**，然后 `irm https://raw.atomgit.com/wiseflow/xiaobei/raw/master/scripts/install-atomgit.ps1 \| iex` |
+| 小白首装（macOS/Linux，GitHub） | `bash -c "$(curl -fsSL https://raw.githubusercontent.com/TeamWiseFlow/wutonghui-xiaobei/master/scripts/install.sh)"` |
+| 小白首装（macOS/Linux，国内 atomgit） | `bash -c "$(curl -fsSL https://raw.atomgit.com/wutonghui/wutonghui-xiaobei/raw/master/scripts/install-atomgit.sh)"` |
+| 小白首装（Windows，GitHub） | **以管理员身份打开 PowerShell**，然后 `irm https://raw.githubusercontent.com/TeamWiseFlow/wutonghui-xiaobei/master/scripts/install.ps1 \| iex` |
+| 小白首装（Windows，国内 atomgit） | **以管理员身份打开 PowerShell**，然后 `irm https://raw.atomgit.com/wutonghui/wutonghui-xiaobei/raw/master/scripts/install-atomgit.ps1 \| iex` |
 | 老用户升级 | 重跑对应线路的 install 脚本（保留 `~/.openclaw` 运行数据） |
 | 已 git clone 的开发者升级 | `./scripts/update.sh` |
 | 修改了 patch 后测试 | `./scripts/apply-addons.sh` |

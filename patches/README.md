@@ -1,6 +1,6 @@
-# Wiseflow Patches
+# WutongHui Patches
 
-wiseflow 针对原版 openclaw 提供的非侵入式补丁与依赖覆盖，由 `apply-addons.sh` 自动应用。
+wutonghui 针对原版 openclaw 提供的非侵入式补丁与依赖覆盖，由 `apply-addons.sh` 自动应用。
 
 ### 1. 代码补丁（*.patch）
 
@@ -37,7 +37,7 @@ wiseflow 针对原版 openclaw 提供的非侵入式补丁与依赖覆盖，由 
 
 | 补丁 | 删除时间 | 原因 |
 |------|---------|------|
-| `001-relax-exec-allowlist-shell-syntax.patch` | 2026-06-25（升级至 openclaw v2026.6.10） | 上游 exec 审批重构为 risk-based，`&&`/`\|\|`/`;` 复合命令已原生支持逐段匹配 allowlist；wiseflow 已改走 `.sh` 脚本不再直接 exec。原目标代码 `splitShellPipeline` 已删，无法 re-port |
+| `001-relax-exec-allowlist-shell-syntax.patch` | 2026-06-25（升级至 openclaw v2026.6.10） | 上游 exec 审批重构为 risk-based，`&&`/`\|\|`/`;` 复合命令已原生支持逐段匹配 allowlist；wutonghui 已改走 `.sh` 脚本不再直接 exec。原目标代码 `splitShellPipeline` 已删，无法 re-port |
 | `001-browser-camoufox-pivot.patch`（monolith） | 2026-07-11（拆分） | 35 文件合一失效面太大，按「一个 patch 只改一个上游文件」拆成 35 个单文件 patch，移至 `browser-camoufox-pivot/patches/`（见 §1b）。内容不变，干净上游逐个 `git apply --3way` 验证通过 |
 | `004-chrome-port-grace-retry.patch` | 2026-06-25（升级至 openclaw v2026.6.10） | 上游新增 `ensureManagedChromePortAvailable` + `recoverOwnedStaleManagedChromeCdpListener`，完全覆盖 |
 | `003-act-field-validation.patch` | 2026-07-11（浏览器转向） | 默认走 camoufox-cli（不经 browser tool 的 act 路由），fallback 路径偶尔用，前置校验价值有限；先拿掉，后面有需求再加 |

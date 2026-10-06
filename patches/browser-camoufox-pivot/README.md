@@ -4,7 +4,7 @@
 
 ## 为什么存在
 
-openclaw/ 是上游工作树，**不是** wiseflow 代码仓的一部分。对 openclaw 的所有改动必须经 `patches/` + `scripts/apply-addons.sh`：
+openclaw/ 是上游工作树，**不是** wutonghui 代码仓的一部分。对 openclaw 的所有改动必须经 `patches/` + `scripts/apply-addons.sh`：
 
 - **修改现有文件** → `patches/001-browser-camoufox-pivot.patch`（git apply）
 - **新增文件** → 本目录 `files/`（整文件 ship，apply-addons.sh `cp` 进去）

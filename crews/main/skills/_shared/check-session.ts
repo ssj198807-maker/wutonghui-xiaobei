@@ -21,7 +21,7 @@
  *   douyin pong 回 status_code=4 被判 SESSION_EXPIRED 触发误报重登，但同 cookie 真实
  *   取数成功（探活端点被风控/限流间歇拦截），见 workspace-main/douyin/20260902 排查文档。
  *
- *   pong 结果落 ~/.cache/wiseflow-check-login/<platform>.json，TTL 600s。
+ *   pong 结果落 ~/.cache/wutonghui-check-login/<platform>.json，TTL 600s。
  *   批量调用复用同一缓存，把 N 次 pong 压成 1 次，避免批量签名触风控。
  *
  * 导出：
@@ -53,7 +53,7 @@ export function buildCookieMap(raw: unknown): CookieMap {
 }
 
 const SESSIONS_DIR = join(homedir(), ".openclaw", "logins");
-const CACHE_DIR = join(homedir(), ".cache", "wiseflow-check-login");
+const CACHE_DIR = join(homedir(), ".cache", "wutonghui-check-login");
 const PING_TTL_MS = 10 * 60 * 1000;
 const DEFAULT_UA =
   "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36";

@@ -28,11 +28,11 @@ message(action="sendAttachment", file_name="<文件名>")
 > 参数名必须是 `file_name`（带下划线），不得传 `filePath` 或 `filename`。`file_name` 对应微信网盘中已存的文件名，不是本地路径。
 
 **可用文件**：
-- `wiseflow5x.mp4` — 小贝（xiaobei）系统演示视频
+- `wutonghui5x.mp4` — 吴桐荟（wutonghui-xiaobei）系统演示视频
 
 **示例**：
 ```
-message(action="sendAttachment", file_name="wiseflow5x.mp4")
+message(action="sendAttachment", file_name="wutonghui5x.mp4")
 ```
 
 ## 完整发送流程

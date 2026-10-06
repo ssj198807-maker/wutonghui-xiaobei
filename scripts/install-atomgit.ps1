@@ -1,12 +1,12 @@
-# install-atomgit.ps1 - wiseflow one-click install script (Windows, prebuilt tarball route, atomgit mirror)
+# install-atomgit.ps1 - wutonghui one-click install script (Windows, prebuilt tarball route, atomgit mirror)
 #
 # Difference from install.ps1: this script uses the atomgit mirror (tarball via atomgit.com ->
 # GitCode CDN, tag resolution via api.atomgit.com/api/v5), bypassing GitHub; suitable for networks
 # inside mainland China. GitHub-accessible users should use install.ps1 (GitHub direct) instead.
 #   To be friendly to `irm | iex` (so a one-liner works for beginners), the [CmdletBinding]param()
 #   header is removed; all optional params go through environment variables:
-#     $env:XIAOBEI_HOME        Program directory override (default ~\xiaobei)
-#     $env:XIAOBEI_TAG         Specify a release tag (default pulls latest)
+#     $env:WUTONGHUI_HOME        Program directory override (default ~\wutonghui-xiaobei)
+#     $env:WUTONGHUI_TAG         Specify a release tag (default pulls latest)
 #     $env:XIAOBEI_TARBALL     Path to a locally downloaded tarball, skips download
 #     $env:XIAOBEI_FORCE       =1 force overwrite existing runtime data (~\.openclaw)
 #     $env:XIAOBEI_SKIP_BIND   =1 skip the WeChat scan-to-bind step at the end
@@ -14,7 +14,7 @@
 #     $env:XIAOBEI_NO_PROMPT   =1 skip all interactive prompts (CI/automation)
 #
 # Usage (PowerShell, requires Git Bash or WSL):
-#   irm https://raw.atomgit.com/wiseflow/xiaobei/raw/master/scripts/install-atomgit.ps1 | iex
+#   irm https://raw.atomgit.com/wutonghui/wutonghui-xiaobei/raw/master/scripts/install-atomgit.ps1 | iex
 #   # or locally:
 #   powershell -ExecutionPolicy Bypass -File install-atomgit.ps1
 #
@@ -26,9 +26,9 @@
 #   mojibake parsing errors under Windows PowerShell 5.1 with a non-BOM file.
 #
 # Structurally identical to install.sh (Plan B slim tarball):
-#   1. Pull xiaobei-{tag}-win-x64.tar.gz (atomgit CDN; Windows bsdtar natively supports gzip, no
+#   1. Pull wutonghui-xiaobei-{tag}-win-x64.tar.gz (atomgit CDN; Windows bsdtar natively supports gzip, no
 #      need to install zstd)
-#   2. Extract to $XIAOBEI_HOME (default $env:USERPROFILE\xiaobei, the program directory)
+#   2. Extract to $WUTONGHUI_HOME (default $env:USERPROFILE\wutonghui-xiaobei, the program directory)
 #   3. portable node + pnpm install --prod --frozen-lockfile (under openclaw\)
 #   4. pip install --user (python deps for skills; only runs if python is present)
 #   5. Place config-templates\openclaw.json -> $OPENCLAW_HOME\openclaw.json + prefill WeChat binding
@@ -40,9 +40,9 @@
 #   9. Interactive prompt for AWK_API_KEY -> write daemon.env + setx user env var -> attempt
 #      openclaw daemon install
 #
-# Directory responsibilities: $XIAOBEI_HOME (~\xiaobei) = program; $OPENCLAW_HOME (~\.openclaw)
+# Directory responsibilities: $WUTONGHUI_HOME (~\wutonghui-xiaobei) = program; $OPENCLAW_HOME (~\.openclaw)
 #   = runtime data.
-# Windows native wrapper: $XIAOBEI_HOME\bin\openclaw.cmd (WSL/Git Bash users can also use bin\openclaw).
+# Windows native wrapper: $WUTONGHUI_HOME\bin\openclaw.cmd (WSL/Git Bash users can also use bin\openclaw).
 
 $ErrorActionPreference = "Stop"
 
@@ -52,11 +52,11 @@ $ErrorActionPreference = "Stop"
 #                          GET works, ~140MB)
 #   latest tag resolution goes through api.atomgit.com/api/v5 (NOT Gitea v1; both host and version
 #                          differ)
-$Repo = "wiseflow/xiaobei"
-$AtomgitMirror = "https://atomgit.com/wiseflow/xiaobei"
-$AtomgitApi = "https://api.atomgit.com/api/v5/repos/wiseflow/xiaobei"
+$Repo = "wutonghui/wutonghui-xiaobei"
+$AtomgitMirror = "https://atomgit.com/wutonghui/wutonghui-xiaobei"
+$AtomgitApi = "https://api.atomgit.com/api/v5/repos/wutonghui/wutonghui-xiaobei"
 
-$Root = if ($env:XIAOBEI_HOME) { $env:XIAOBEI_HOME } else { Join-Path $env:USERPROFILE "xiaobei" }
+$Root = if ($env:WUTONGHUI_HOME) { $env:WUTONGHUI_HOME } else { Join-Path $env:USERPROFILE "wutonghui-xiaobei" }
 $OpenclawHome = if ($env:OPENCLAW_HOME) { $env:OPENCLAW_HOME } else { Join-Path $env:USERPROFILE ".openclaw" }
 
 # Behavior switches (env vars, =1 to enable).
@@ -105,28 +105,28 @@ function Capture-Streamed([scriptblock]$sb) {
 
 # --- 1. Resolve latest release tag (atomgit v5 API) ---
 function Resolve-Tag {
-    if ($env:XIAOBEI_TAG) { return $env:XIAOBEI_TAG }
+    if ($env:WUTONGHUI_TAG) { return $env:WUTONGHUI_TAG }
     try {
-        $rel = Invoke-RestMethod "$AtomgitApi/releases/latest" -Headers @{ "User-Agent" = "xiaobei-install" }
+        $rel = Invoke-RestMethod "$AtomgitApi/releases/latest" -Headers @{ "User-Agent" = "wutonghui-xiaobei-install" }
         if ($rel.tag_name) { return $rel.tag_name }
-    } catch { Write-Warn "atomgit v5 API fetch failed, please set `$env:XIAOBEI_TAG=` manually and re-run" }
+    } catch { Write-Warn "atomgit v5 API fetch failed, please set `$env:WUTONGHUI_TAG=` manually and re-run" }
     throw "unable to resolve the latest release tag (atomgit v5 API)"
 }
 
 # --- 2. Download tarball (atomgit CDN) ---
-# Version-level cache: same tag + plat re-uses ~/.xiaobei/cache/<asset>,
+# Version-level cache: same tag + plat re-uses ~/.wutonghui-xiaobei/cache/<asset>,
 # skipping the 120MB re-download on rerun (incl. failed retry).
 # Atomic write: download to <cached>.part first, then Move-Item -Force to <cached>,
 # so a broken network never leaves a half-written file that the next run would
 # mistake for a complete cache hit.
 function Download-Tarball([string]$tag) {
-    $asset = "xiaobei-$tag-win-x64.tar.gz"
+    $asset = "wutonghui-xiaobei-$tag-win-x64.tar.gz"
     if ($env:XIAOBEI_TARBALL -and (Test-Path $env:XIAOBEI_TARBALL)) {
         Write-Ok "using local tarball: $env:XIAOBEI_TARBALL"
         return $env:XIAOBEI_TARBALL
     }
 
-    $cacheDir = if ($env:XIAOBEI_CACHE_DIR) { $env:XIAOBEI_CACHE_DIR } else { Join-Path $env:USERPROFILE ".xiaobei\cache" }
+    $cacheDir = if ($env:XIAOBEI_CACHE_DIR) { $env:XIAOBEI_CACHE_DIR } else { Join-Path $env:USERPROFILE ".wutonghui-xiaobei\cache" }
     $cached = Join-Path $cacheDir $asset
 
     if (Test-Path $cached -PathType Leaf) {
@@ -140,7 +140,7 @@ function Download-Tarball([string]$tag) {
     $part = "$cached.part"
     if (Test-Path $part) { Remove-Item $part -Force }
     try {
-        Invoke-WebRequest -Uri $url -OutFile $part -Headers @{ "User-Agent" = "xiaobei-install" }
+        Invoke-WebRequest -Uri $url -OutFile $part -Headers @{ "User-Agent" = "wutonghui-xiaobei-install" }
         Move-Item -Path $part -Destination $cached -Force
     } catch {
         if (Test-Path $part) { Remove-Item $part -Force }
@@ -211,7 +211,7 @@ function Install-PythonDeps {
 # Health check: if the existing config is missing models/agents.defaults (most likely a minimal config
 # auto-created by `openclaw plugins install` when Install-WeixinPlugin ran first, or by openclaw's
 # first launch), back it up and overwrite with the template; otherwise channels/bindings would be
-# missing forever and xiaobei could never start.
+# missing forever and wutonghui-xiaobei could never start.
 function Place-Config {
     Write-Stage "Placing config template"
     New-Item -ItemType Directory -Force -Path $OpenclawHome | Out-Null
@@ -244,16 +244,16 @@ function Place-Config {
         Write-Ok "openclaw.json already present and healthy (has models + agents.defaults), keeping"
     }
 
-    # Resolve the ${XIAOBEI_HOME} env ref inside plugins.load.paths to an absolute path, to avoid a
-    # "plugin path not found" false alarm when the CLI context lacks XIAOBEI_HOME; AWK_API_KEY is a
-    # secret so its env ref is left untouched. This is a file-level replacement (the ${XIAOBEI_HOME}
+    # Resolve the ${WUTONGHUI_HOME} env ref inside plugins.load.paths to an absolute path, to avoid a
+    # "plugin path not found" false alarm when the CLI context lacks WUTONGHUI_HOME; AWK_API_KEY is a
+    # secret so its env ref is left untouched. This is a file-level replacement (the ${WUTONGHUI_HOME}
     # template token only appears in plugins.load.paths); inside a JSON string a backslash is an
     # escape char, so we normalize paths to forward slashes. Idempotent: a no-op if already resolved.
     $raw = [System.IO.File]::ReadAllText($cfg)
-    if ($raw.Contains('${XIAOBEI_HOME}')) {
+    if ($raw.Contains('${WUTONGHUI_HOME}')) {
         $rootFwd = $Root -replace '\\', '/'
-        [System.IO.File]::WriteAllText($cfg, $raw.Replace('${XIAOBEI_HOME}', $rootFwd), [System.Text.UTF8Encoding]::new($false))
-        Write-Ok "resolved XIAOBEI_HOME refs -> $rootFwd"
+        [System.IO.File]::WriteAllText($cfg, $raw.Replace('${WUTONGHUI_HOME}', $rootFwd), [System.Text.UTF8Encoding]::new($false))
+        Write-Ok "resolved WUTONGHUI_HOME refs -> $rootFwd"
     }
 }
 
@@ -612,7 +612,7 @@ function Repair-GatewayCmd {
 
 # --- 11. Interactive AWK_API_KEY prompt + start gateway ---
 # Env division (mirrors install.sh / upstream lessons learned):
-#   ~/.openclaw/.env        <- business vars (AWK_API_KEY/XIAOBEI_HOME/OPENCLAW_STATE_DIR), sourced by the
+#   ~/.openclaw/.env        <- business vars (AWK_API_KEY/WUTONGHUI_HOME/OPENCLAW_STATE_DIR), sourced by the
 #                              openclaw CLI when run bare
 #   ~/.openclaw/daemon.env  <- used by the gateway service, holds only 3 fixed values
 #                              (OPENCLAW_BROWSER_TIMEOUT_MS/OPENCLAW_DISABLE_BONJOUR/PATH) + OPENCLAW_STATE_DIR
@@ -658,13 +658,13 @@ function Install-GatewayAndEnv {
     # it is wrapped in single quotes with any embedded single quote escaped as '\''.
     $exportLines = @()
     if (Test-Path $dotEnv) { $exportLines = Get-Content $dotEnv }
-    $exportLines = $exportLines | Where-Object { $_ -notmatch "^export AWK_API_KEY=" -and $_ -notmatch "^export XIAOBEI_HOME=" -and $_ -notmatch "^export OPENCLAW_STATE_DIR=" }
+    $exportLines = $exportLines | Where-Object { $_ -notmatch "^export AWK_API_KEY=" -and $_ -notmatch "^export WUTONGHUI_HOME=" -and $_ -notmatch "^export OPENCLAW_STATE_DIR=" }
     if ($awkKey) {
         $awkEsc = $awkKey -replace "'", "'\''"
         $exportLines += "export AWK_API_KEY='$awkEsc'"
     }
     $rootEsc = $Root -replace "'", "'\''"
-    $exportLines += "export XIAOBEI_HOME='$rootEsc'"
+    $exportLines += "export WUTONGHUI_HOME='$rootEsc'"
     $homeEsc = $OpenclawHome -replace "'", "'\''"
     $exportLines += "export OPENCLAW_STATE_DIR='$homeEsc'"
     # Write with UTF-8 NO BOM + explicit CRLF line breaks (mirrors install.ps1's Write-EnvFile).
@@ -695,10 +695,10 @@ function Install-GatewayAndEnv {
     Write-Ok "daemon.env written (used by the gateway service, 3 fixed values + PATH + OPENCLAW_STATE_DIR)"
 
     # Load the .env business vars into the current install shell so that subsequent daemon install /
-    # gateway restart / channels login config validation can resolve AWK_API_KEY / XIAOBEI_HOME (the
+    # gateway restart / channels login config validation can resolve AWK_API_KEY / WUTONGHUI_HOME (the
     # bare CLI would normally `. .env`, and the install shell needs them too).
     if ($awkKey) { $env:AWK_API_KEY = $awkKey }
-    $env:XIAOBEI_HOME = $Root
+    $env:WUTONGHUI_HOME = $Root
     $env:OPENCLAW_STATE_DIR = $OpenclawHome
 
     # setx the user env var (so new terminals / gateway subprocesses inherit AWK_API_KEY)
@@ -740,7 +740,7 @@ function Bind-WeixinChannel {
     if (Test-WeixinBound) { Write-Ok "WeChat account already bound, skipping scan"; return }
     if (-not (Test-Path $ClawCmd)) { Write-Warn "openclaw wrapper not found ($ClawCmd), skipping WeChat binding"; return }
     Write-Stage "Binding WeChat channel (scan with your phone)"
-    Write-Host "  A QR code will appear next; scan it with WeChat and tap confirm, then xiaobei is ready to use."
+    Write-Host "  A QR code will appear next; scan it with WeChat and tap confirm, then wutonghui-xiaobei is ready to use."
     Write-Host "  Take your time scanning - the QR code auto-refreshes; just continue once scanned."
     Write-Host ""
     for ($i = 1; $i -le 5; $i++) {
@@ -753,7 +753,7 @@ function Bind-WeixinChannel {
 
 # --- main ---
 function Main {
-    Write-Host "wiseflow installer (Windows, atomgit) - prebuilt tarball route" -ForegroundColor Magenta
+    Write-Host "wutonghui installer (Windows, atomgit) - prebuilt tarball route" -ForegroundColor Magenta
     Write-Host "  Program dir : $Root"
     Write-Host "  Runtime dir : $OpenclawHome"
     Write-Host "  Repo        : $Repo (atomgit)"
@@ -798,12 +798,12 @@ function Main {
         $envFile = Join-Path $OpenclawHome "daemon.env"
         if (Test-Path $envFile) {
             $lines = Get-Content $envFile
-            $lines = $lines | Where-Object { $_ -notmatch "^XIAOBEI_HOME=" }
-            $lines += "XIAOBEI_HOME=$Root"
+            $lines = $lines | Where-Object { $_ -notmatch "^WUTONGHUI_HOME=" }
+            $lines += "WUTONGHUI_HOME=$Root"
             # WriteAllText no-BOM + CRLF（Set-Content -Encoding UTF8 会写 BOM，gateway.cmd call daemon.env 炸）
             $envFileContent = (($lines | Where-Object { $_ }) -join "`r`n") + "`r`n"
             [System.IO.File]::WriteAllText($envFile, $envFileContent, (New-Object System.Text.UTF8Encoding($false)))
-            Write-Ok "daemon.env XIAOBEI_HOME refreshed"
+            Write-Ok "daemon.env WUTONGHUI_HOME refreshed"
         }
         Repair-GatewayCmd
         Invoke-Streamed { & $ClawCmd gateway restart }
@@ -818,9 +818,9 @@ function Main {
 
     Write-Host ""
     if ($isUpdate) {
-        Write-Host "wiseflow updated successfully!" -ForegroundColor Green
+        Write-Host "wutonghui updated successfully!" -ForegroundColor Green
     } else {
-        Write-Host "wiseflow installed successfully!" -ForegroundColor Green
+        Write-Host "wutonghui installed successfully!" -ForegroundColor Green
     }
     Write-Host ""
     Write-Host "Next steps:" -ForegroundColor Cyan

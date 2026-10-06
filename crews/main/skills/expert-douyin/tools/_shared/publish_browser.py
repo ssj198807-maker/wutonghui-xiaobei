@@ -13,7 +13,7 @@ MANAGE_URL = 'https://creator.douyin.com/creator-micro/content/manage'
 
 @contextlib.contextmanager
 def publish_lock():
-    path = Path(tempfile.gettempdir()) / f'xiaobei-douyin-publication-{os.getuid()}.lock'
+    path = Path(tempfile.gettempdir()) / f'wutonghui-xiaobei-douyin-publication-{os.getuid()}.lock'
     with path.open('a') as handle:
         try:
             fcntl.flock(handle, fcntl.LOCK_EX | fcntl.LOCK_NB)

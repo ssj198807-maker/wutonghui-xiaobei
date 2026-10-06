@@ -1,4 +1,4 @@
-# 小贝系统视频能力重新规划 — 调研与开发计划
+# 吴桐荟系统视频能力重新规划 — 调研与开发计划
 
 > 起草日期：2026-07-25（周六）
 > 状态：调研期历史文档（未进入开发），**不作为当前实现依据**
@@ -11,9 +11,9 @@
 
 ### 1.1 main agent 与 content-producer 在视频生产上的分工界限
 
-小贝 main agent 与 content-producer 在视频生产上的职责边界如下：
+吴桐荟 main agent 与 content-producer 在视频生产上的职责边界如下：
 
-| 维度 | main agent（小贝） | content-producer |
+| 维度 | main agent（吴桐荟） | content-producer |
 |------|------------------|------------------|
 | 平台运营 | ✅ 全部负责：发送数据监控等 | ❌ 不负责 |
 | 视频生产 | ⚠️ 受限 | ✅ 主力 |
@@ -183,7 +183,7 @@ CP 侧已有视频生产不是一条链，是**三条平行路径**，按内容�
 | TTS | 公共 `siliconflow-tts` | 公共 `siliconflow-tts` + MiniMax 扩展 | ✅ 公共部分共享，不重复；CP MiniMax 是另一条 TTS 路属 CP 范畴 | 已落地 |
 | Stock Footage | 公共 `pexels-footage` / `pixabay-footage` | 同 | ✅ 完全共享，不重复 | 已落地 |
 | 图像/封面 | 公共 `siliconflow-img-gen` | 同 | ✅ 完全共享，不重复 | 已是公共 |
-| 工作区约定 | `output_videos/<topic-en-slug>/` | `design_assets/YYYY-MM-DD-<task>/`（init-workspace）+ `output_videos/<slug>/`（collage-broll 沿 xiaobei 路径契约） | ⚠️ CP 内部两套目录并存——设计任务走 design_assets，视频任务走 output_videos | **不强行统一**——main 用 output_videos，CP 视频也用 output_videos（collage-broll 已如此），CP 设计用 design_assets，各自自洽 |
+| 工作区约定 | `output_videos/<topic-en-slug>/` | `design_assets/YYYY-MM-DD-<task>/`（init-workspace）+ `output_videos/<slug>/`（collage-broll 沿 wutonghui-xiaobei 路径契约） | ⚠️ CP 内部两套目录并存——设计任务走 design_assets，视频任务走 output_videos | **不强行统一**——main 用 output_videos，CP 视频也用 output_videos（collage-broll 已如此），CP 设计用 design_assets，各自自洽 |
 | 简单剪辑 | main 专属 `extract_and_concat.py` + 去口气词 + 高光剪辑（待写） | CP 无 | ❌ 无重复——CP 不做基于已有素材的轻剪辑 | 已定 4.4 |
 | 脚本生成 | main 不出脚本 | CP 范畴（待后续规划） | ❌ 无重复 | 已定 4.1 |
 
@@ -204,7 +204,7 @@ CP 侧已有视频生产不是一条链，是**三条平行路径**，按内容�
 - 用户只提供视频**主题**或**关键词**，自动生成：视频脚本 → 匹配素材 → 生成字幕和背景音乐 → 合成高清短视频
 - 四种使用方式：AI Agent / WebUI / API / CLI
 - 代码按控制器、服务、模型等职责分层（`app/` 目录）
-- 调研代码仓一律放：`~/wiseflow-pro/` 下
+- 调研代码仓一律放：`~/wutonghui-pro/` 下
 
 #### 能力特性（从 README 摘录）
 
@@ -387,12 +387,12 @@ main 侧 `video-edit/SKILL.md` 与 README 按决策 4.2/4.3 引用 `aigc-video-g
 
 | 项目 | clone 位置 | License | 定位一句话 |
 |------|-----------|---------|-----------|
-| OpenMontage | `~/wiseflow-pro/OpenMontage` | **AGPLv3** | agent-first 制片流水线：12 pipeline / 52 tool / manifest+stage-director 治理 |
-| ViMax（HKUDS） | `~/wiseflow-pro/ViMax` | MIT | 学术派 agentic 视频生成：脚本→分镜→机位树→一致性→AIGC 出片 |
-| HyperFrames（HeyGen） | `~/wiseflow-pro/hyperframes` | Apache-2.0 | HTML→MP4 确定性渲染引擎 + 19 个 agent skill |
-| html-video（nexu-io） | `~/wiseflow-pro/html-video` | Apache-2.0 | 引擎之上的 meta-layer：素材+意图 → content-graph → HTML 分镜 → MP4 |
+| OpenMontage | `~/wutonghui-pro/OpenMontage` | **AGPLv3** | agent-first 制片流水线：12 pipeline / 52 tool / manifest+stage-director 治理 |
+| ViMax（HKUDS） | `~/wutonghui-pro/ViMax` | MIT | 学术派 agentic 视频生成：脚本→分镜→机位树→一致性→AIGC 出片 |
+| HyperFrames（HeyGen） | `~/wutonghui-pro/hyperframes` | Apache-2.0 | HTML→MP4 确定性渲染引擎 + 19 个 agent skill |
+| html-video（nexu-io） | `~/wutonghui-pro/html-video` | Apache-2.0 | 引擎之上的 meta-layer：素材+意图 → content-graph → HTML 分镜 → MP4 |
 
-> 备注：`~/wiseflow-pro/html-video` 的 origin 是 `bigbrother666sh/html-video`（用户 fork），不是 nexu-io 上游；本轮读的是 fork 的 `main`（HEAD `90a036a`）。`~/wiseflow-pro/OpenMontage`、`html-video` 本轮之前已 clone，`ViMax`、`hyperframes` 本轮新 clone（`--depth 1`）。
+> 备注：`~/wutonghui-pro/html-video` 的 origin 是 `bigbrother666sh/html-video`（用户 fork），不是 nexu-io 上游；本轮读的是 fork 的 `main`（HEAD `90a036a`）。`~/wutonghui-pro/OpenMontage`、`html-video` 本轮之前已 clone，`ViMax`、`hyperframes` 本轮新 clone（`--depth 1`）。
 
 ---
 

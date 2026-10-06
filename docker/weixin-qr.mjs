@@ -47,8 +47,8 @@ const accountsMod = await import(pathToFileURL(path.join(weixinDir, 'dist/src/au
 // import 走绝对路径,兜底按真实装位置/dist/plugin-sdk/account-id.js。
 let normalizeAccountId;
 for (const p of [
-  '/opt/xiaobei/openclaw/dist/plugin-sdk/account-id.js',
-  '/opt/xiaobei/openclaw/dist/extensions/node_modules/openclaw/plugin-sdk/account-id.js',
+  '/opt/wutonghui-xiaobei/openclaw/dist/plugin-sdk/account-id.js',
+  '/opt/wutonghui-xiaobei/openclaw/dist/extensions/node_modules/openclaw/plugin-sdk/account-id.js',
 ]) {
   try {
     ({ normalizeAccountId } = await import(pathToFileURL(p).href));

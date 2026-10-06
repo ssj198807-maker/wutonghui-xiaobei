@@ -5,7 +5,7 @@
 Main Agent 会在绑定流程中自动执行安装脚本：
 
 ```bash
-WISEFLOW_CONFIRM_WECOM_INSTALL=confirmed /home/wukong/wiseflow-pro/crews/it-engineer/skills/work-channel-binding/scripts/install-wecom-channel.sh
+WISEFLOW_CONFIRM_WECOM_INSTALL=confirmed /home/wukong/wutonghui-pro/crews/it-engineer/skills/work-channel-binding/scripts/install-wecom-channel.sh
 ```
 
 用户不需要手动运行 `npx`。安装完成后，后续绑定账号与修改 `openclaw.json` 可能需要重启 Gateway 才能生效。

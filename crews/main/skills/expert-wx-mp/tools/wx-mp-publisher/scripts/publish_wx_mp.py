@@ -39,7 +39,7 @@ def _detect_crew_workspace() -> Path:
       A. 直接部署：技能本体就在 ~/.openclaw/workspace-<crew>/skills/ 下，
          SKILLS_DIR.parent 即工作区。
       B. 软链部署（D21）：~/.openclaw/workspace-<crew>/skills/expert-wx-mp →
-         ~/wiseflow/crews/<crew>/skills/expert-wx-mp。__file__ resolve() 后落在
+         ~/wutonghui/crews/<crew>/skills/expert-wx-mp。__file__ resolve() 后落在
          代码仓，但主题注册表等运行时数据只在 ~/.openclaw/workspace-<crew>/wx_mp/
          下，因此按 crews/<crew> 映射回 ~/.openclaw/workspace-<crew>/。
     兜底：向上探测含 wx_mp/wenyan-theme/ 或 db/published_track.db 的目录；

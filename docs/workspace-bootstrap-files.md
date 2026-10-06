@@ -2,7 +2,7 @@
 
 > 版本基准：openclaw v2026.4.11
 
-每个 crew 的 workspace 目录（`~/.openclaw/workspace-<id>/`）下存放着一系列 Markdown 文件，openclaw 在每次 agent 运行时将它们注入系统提示，从而影响 agent 的行为、人格和记忆。本文档说明各文件的作用、加载时机，以及 wiseflow 在标准机制之上做的扩展约定。
+每个 crew 的 workspace 目录（`~/.openclaw/workspace-<id>/`）下存放着一系列 Markdown 文件，openclaw 在每次 agent 运行时将它们注入系统提示，从而影响 agent 的行为、人格和记忆。本文档说明各文件的作用、加载时机，以及 wutonghui 在标准机制之上做的扩展约定。
 
 ---
 
@@ -93,9 +93,9 @@ agent 应在 `AGENTS.md` 中明确记录此约定：
 
 ---
 
-## 六、xiaobei 扩展文件（非 openclaw 原生）
+## 六、wutonghui-xiaobei 扩展文件（非 openclaw 原生）
 
-以下文件是 xiaobei 的约定扩展，**openclaw 框架不会自动处理**，由脚本或 agent 按需读取后写入 `openclaw.json`。
+以下文件是 wutonghui-xiaobei 的约定扩展，**openclaw 框架不会自动处理**，由脚本或 agent 按需读取后写入 `openclaw.json`。
 
 ### 6.1 DECLARED_SKILLS — 外部 crew 技能白名单
 
@@ -141,13 +141,13 @@ agent 应在 `AGENTS.md` 中明确记录此约定：
 
 ## 七、各 Crew 文件配置速查
 
-> **2026-07-04 修订（D8 扁平化 + D19 权限放开）**：从 Pro 仓 addons 层级结构改为 client 仓扁平结构。原 `hrbp` / `selfmedia-operator` / `business-developer` / `designer` 全部合入 `main`（AI 搞钱搭子「小贝」）。`main` / `content-producer` / `it-engineer` 升为 T3 full，`sales-cs` 维持 T0。（产品拆分决策已落地，历史规划文档已清理，可从 git 历史恢复。）
+> **2026-07-04 修订（D8 扁平化 + D19 权限放开）**：从 Pro 仓 addons 层级结构改为 client 仓扁平结构。原 `hrbp` / `selfmedia-operator` / `business-developer` / `designer` 全部合入 `main`（AI 搞钱搭子「吴桐荟」）。`main` / `content-producer` / `it-engineer` 升为 T3 full，`sales-cs` 维持 T0。（产品拆分决策已落地，历史规划文档已清理，可从 git 历史恢复。）
 
 ### 内置 Crew（对内，T3 full — D19 已落）
 
 | Crew | 角色 | 特殊文件 | 备注 |
 |------|------|---------|------|
-| `main` | DEFAULT — AI 搞钱搭子「小贝」（OPC / 中小微企业老板） | 标准 8 个文件 | 整合原 selfmedia-operator + business-developer + IR 三模式；绑 openclaw-weixin |
+| `main` | DEFAULT — AI 搞钱搭子「吴桐荟」（OPC / 中小微企业老板） | 标准 8 个文件 | 整合原 selfmedia-operator + business-developer + IR 三模式；绑 openclaw-weixin |
 | `content-producer` | 内容制作（视频 / 图像） | 标准 8 个文件 | 整合原 video-producer + designer |
 | `it-engineer` | sub-agent，无 channel | 标准 8 个文件 + D19/D20/部署运维知识（注入到 MEMORY 顶部） | Phase 8.1 记忆注入已完成（2026-07-04） |
 | `_template` | crew 创建模板 | 标准 8 个文件 | D8 扁平化时搬入 |

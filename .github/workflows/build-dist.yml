@@ -26,7 +26,7 @@ jobs:
   build:
     runs-on: ubuntu-24.04
     steps:
-      - name: Checkout xiaobei
+      - name: Checkout wutonghui-xiaobei
         uses: actions/checkout@v5
 
       - name: Read pinned openclaw version
@@ -105,7 +105,7 @@ jobs:
           rsync -a --exclude='node_modules' --exclude='.git' \
             "$REPO/patches/camoufox-cli/" "$STAGE/camoufox-cli/"
 
-          # 4. xiaobei 模板与脚本
+          # 4. wutonghui-xiaobei 模板与脚本
           cp -a "$REPO/crews" "$STAGE/crews"
           cp -a "$REPO/skills" "$STAGE/skills"
           cp -a "$REPO/config-templates" "$STAGE/config-templates"
@@ -175,7 +175,7 @@ jobs:
               mv "/tmp/$subdir" "$PKG/tools/node"
             fi
 
-            # wrapper: <ROOT>/bin/openclaw → portable node + openclaw.mjs（ROOT 默认 ~/.xiaobei）
+            # wrapper: <ROOT>/bin/openclaw → portable node + openclaw.mjs（ROOT 默认 ~/.wutonghui-xiaobei）
             cat > "$PKG/bin/openclaw" <<'EOF'
           #!/usr/bin/env bash
           HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -198,13 +198,13 @@ jobs:
             # 树内 703 个 symlink 全是相对、目标在树内、全是文件（无目录链接），解引用安全无功能损失
             # （CLAUDE.md→AGENTS.md、rubric_notes.md→../rubric_notes.md、dist-runtime .d.ts→dist/... 都是部署态只读引用）。
             if [[ "$plat" == linux-x64 ]]; then
-              ASSET="xiaobei-${TAG}-${plat}.tar.zst"
+              ASSET="wutonghui-xiaobei-${TAG}-${plat}.tar.zst"
               tar --zstd -cf "$RUNNER_TEMP/out/$ASSET" -C "$PKG" .
             elif [[ "$plat" == win-x64 ]]; then
-              ASSET="xiaobei-${TAG}-${plat}.tar.gz"
+              ASSET="wutonghui-xiaobei-${TAG}-${plat}.tar.gz"
               tar --dereference -czf "$RUNNER_TEMP/out/$ASSET" -C "$PKG" .
             else
-              ASSET="xiaobei-${TAG}-${plat}.tar.gz"
+              ASSET="wutonghui-xiaobei-${TAG}-${plat}.tar.gz"
               tar -czf "$RUNNER_TEMP/out/$ASSET" -C "$PKG" .
             fi
             ls -lh "$RUNNER_TEMP/out/$ASSET"
@@ -223,7 +223,7 @@ jobs:
             echo "无 release tag（asset_tag=$ASSET_TAG），跳过冒烟自检"
             exit 0
           fi
-          TB="$RUNNER_TEMP/out/xiaobei-$ASSET_TAG-linux-x64.tar.zst"
+          TB="$RUNNER_TEMP/out/wutonghui-xiaobei-$ASSET_TAG-linux-x64.tar.zst"
           [[ -f "$TB" ]] || { echo "❌ tarball 不存在：$TB"; exit 1; }
           SMOKE="$RUNNER_TEMP/smoke"
           rm -rf "$SMOKE"
@@ -231,21 +231,21 @@ jobs:
           # 解压一份拿到 scripts/install.sh（install.sh 会再按 XIAOBEI_TARBALL 解压到 program）
           tar --zstd -xf "$TB" -C "$SMOKE/extract"
           [[ -f "$SMOKE/extract/scripts/install.sh" ]] || { echo "❌ tarball 缺 scripts/install.sh"; exit 1; }
-          export XIAOBEI_HOME="$SMOKE/program"
+          export WUTONGHUI_HOME="$SMOKE/program"
           export OPENCLAW_HOME="$SMOKE/runtime"
           export XIAOBEI_TARBALL="$TB"
-          export XIAOBEI_TAG="$ASSET_TAG"
+          export WUTONGHUI_TAG="$ASSET_TAG"
           export XIAOBEI_SOURCE=github
           export AWK_API_KEY="smoke-test-key"
           bash "$SMOKE/extract/scripts/install.sh" \
-            --no-prompt --skip-bind --skip-browser --root "$XIAOBEI_HOME"
-          "$XIAOBEI_HOME/bin/openclaw" --version
+            --no-prompt --skip-bind --skip-browser --root "$WUTONGHUI_HOME"
+          "$WUTONGHUI_HOME/bin/openclaw" --version
           echo "✅ 冒烟自检通过：tarball 可解压 + 依赖可装 + 引擎可起"
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: xiaobei-tarballs
+          name: wutonghui-xiaobei-tarballs
           path: |
             ${{ runner.temp }}/out/*.tar.zst
             ${{ runner.temp }}/out/*.tar.gz

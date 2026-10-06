@@ -20,18 +20,18 @@ set -o pipefail
 
 log() {
   echo "[bootstrap] $*" >&2
-  echo "[bootstrap] $*" >> /opt/xiaobei/.bootstrap-log
+  echo "[bootstrap] $*" >> /opt/wutonghui-xiaobei/.bootstrap-log
 }
 
 # 首行无条件打印——证明脚本能跑起来（不依赖任何变量）
-# ACR buildkit 不显示 RUN 步骤的 stdout/stderr，诊断标记同时写 /opt/xiaobei/.bootstrap-log
+# ACR buildkit 不显示 RUN 步骤的 stdout/stderr，诊断标记同时写 /opt/wutonghui-xiaobei/.bootstrap-log
 # 文件——Dockerfile 在 bootstrap RUN 后加独立 cat 步骤显示该文件（cat 步骤的 stdout
 # buildkit 会显示）
-: > /opt/xiaobei/.bootstrap-log 2>/dev/null || true
+: > /opt/wutonghui-xiaobei/.bootstrap-log 2>/dev/null || true
 log "=== docker-bootstrap.sh started ==="
 log "pwd=$(pwd) HOME=${HOME:-unset}"
 
-PROJECT_ROOT="${XIAOBEI_ROOT:-/opt/xiaobei}"
+PROJECT_ROOT="${XIAOBEI_ROOT:-/opt/wutonghui-xiaobei}"
 OPENCLAW_HOME="${OPENCLAW_HOME:-/root/.openclaw}"
 OPENCLAW_CONFIG_PATH="${OPENCLAW_CONFIG_PATH:-$OPENCLAW_HOME/openclaw.json}"
 # 显式标记 Docker 部署环境——setup-crew.sh 依赖此变量生成正确的 OFB_ENV.md
@@ -58,12 +58,12 @@ cp "$PROJECT_ROOT/config/daemon.env.template" "$OPENCLAW_HOME/daemon.env"
 cp "$PROJECT_ROOT/config/.env.template" "$OPENCLAW_HOME/.env"
 chmod 600 "$OPENCLAW_HOME/daemon.env" "$OPENCLAW_HOME/.env"
 
-# template 内 ${XIAOBEI_HOME} 解析成容器内固定路径写回
+# template 内 ${WUTONGHUI_HOME} 解析成容器内固定路径写回
 node -e '
     const fs = require("fs");
     const p = process.argv[1];
     let raw = fs.readFileSync(p, "utf8");
-    raw = raw.replace(/\$\{XIAOBEI_HOME\}/g, "/opt/xiaobei");
+    raw = raw.replace(/\$\{WUTONGHUI_HOME\}/g, "/opt/wutonghui-xiaobei");
     fs.writeFileSync(p, raw);
 ' "$OPENCLAW_CONFIG_PATH"
 log "STEP 1 done: config template placed"

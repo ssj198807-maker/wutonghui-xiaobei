@@ -49,14 +49,14 @@ python3 /home/wukong/.openclaw/workspace-main/skills/login-manager/scripts/login
 
 ```bash
 # 公共技能（apply-addons.sh 已跑）
-for s in ~/wiseflow/skills/*/; do
+for s in ~/wutonghui/skills/*/; do
     sname=$(basename "$s")
     ln -sfn "$s" "$HOME/.openclaw/skills/$sname"
 done
 
 # crew 私有技能（sync_crew_skills 已跑）
 for crew in main content-producer it-engineer sales-cs; do
-    for s in ~/wiseflow/crews/$crew/skills/*/; do
+    for s in ~/wutonghui/crews/$crew/skills/*/; do
         sname=$(basename "$s")
         ln -sfn "$s" "$HOME/.openclaw/workspace-$crew/skills/$sname"
     done
@@ -64,7 +64,7 @@ done
 ```
 
 **注意**：
-- 软链到本仓 `~/wiseflow/skills/<name>`（**不**软链到 `openclaw/skills` bundled）
+- 软链到本仓 `~/wutonghui/skills/<name>`（**不**软链到 `openclaw/skills` bundled）
 - 软链本身是 Linux filesystem 操作，**不**走 openclaw 配置
 - `apply-addons.sh` 现走 `rm -rf + ln -s` 幂等重建（已是 symlink 时重建无害）；`sync_crew_skills` 同幂等
 - openclaw skill loader 跟随软链（`local-loader.ts` readdirSync isDirectory + realpathSync）
@@ -72,7 +72,7 @@ done
 ### 3.2 Docker 镜像（维持 COPY）
 
 ```dockerfile
-# Dockerfile wiseflow-layer 阶段（dev plan §Phase 6）
+# Dockerfile wutonghui-layer 阶段（dev plan §Phase 6）
 COPY skills/ /root/.openclaw/skills/
 COPY crews/main/skills/ /root/.openclaw/workspace-main/skills/
 COPY crews/content-producer/skills/ /root/.openclaw/workspace-content-producer/skills/
@@ -80,7 +80,7 @@ COPY crews/it-engineer/skills/ /root/.openclaw/workspace-it-engineer/skills/
 # sales-cs 默认不 COPY（用户启用时由 it-engineer 单独处理）
 ```
 
-**为何不软链**：容器内 `~/wiseflow` 不存在（代码 COPY 进镜像）；软链目标失效。
+**为何不软链**：容器内 `~/wutonghui` 不存在（代码 COPY 进镜像）；软链目标失效。
 
 ### 3.3 排除项
 
@@ -88,7 +88,7 @@ COPY crews/it-engineer/skills/ /root/.openclaw/workspace-it-engineer/skills/
 
 ```bash
 # ❌ 不要这样做
-ln -sfn ~/wiseflow-pro/openclaw/skills/email-ops ~/.openclaw/skills/email-ops
+ln -sfn ~/wutonghui-pro/openclaw/skills/email-ops ~/.openclaw/skills/email-ops
 ```
 
 **理由**：
@@ -179,7 +179,7 @@ login-manager check douyin   # wrapper 在 PATH 中
 **未落**：
 
 - C 类多并列脚本分发器 wrapper（~8 个 skill，按需演进，本轮不做）。
-- Docker 镜像内 wrapper 暴露：容器内 `~/wiseflow` 不存在，软链失效；走 `COPY` 时把 wrapper 一并 COPY + 容器 entrypoint 自管 PATH。本轮不动 Docker。
+- Docker 镜像内 wrapper 暴露：容器内 `~/wutonghui` 不存在，软链失效；走 `COPY` 时把 wrapper 一并 COPY + 容器 entrypoint 自管 PATH。本轮不动 Docker。
 
 **Wrapper 模板**（以 email-ops 为例，薄转发 py）：
 

@@ -1,7 +1,7 @@
 ---
 name: wxwork-drive
 description: Manage spaces, folders and files in WeChat Work WeDrive (企业微信微盘) via
-  wiseflow-relay — create space, create folder, upload image/video, list, info, rename,
+  wutonghui-relay — create space, create folder, upload image/video, list, info, rename,
   move, delete, and share files via file-level share link. Standard flow
   建空间 → 传文件 → file-share 发分享链接给同事. Credentials (corp_id + corp_secret)
   read from daemon.env and passed per-request; relay is stateless. Space/folder IDs
@@ -104,7 +104,7 @@ wxwork-drive <subcommand> [args...]
 
 ```bash
 # 1. 建空间（首次）并设为默认
-wxwork-drive space-create main wiseflow素材 --default
+wxwork-drive space-create main wutonghui素材 --default
 
 # 2. 在空间根建文件夹，并记为默认上传文件夹
 wxwork-drive mkdir main 2026-07 --default-folder

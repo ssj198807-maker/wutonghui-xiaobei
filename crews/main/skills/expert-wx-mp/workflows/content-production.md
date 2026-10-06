@@ -74,7 +74,7 @@ DNA template 是选题、标题、段落结构、句式、语气和表达路线�
 | 素材 | 用户提供的文案、笔记、截图、链接、数据、案例必须优先使用 |
 | 目标读者 | 未指定时按 `business_knowledge.md` 和 DNA 受众关系推导 |
 | 字数 | 长文未指定时按 DNA template，再无要求默认 1500-2500 字；小绿书正文按用户意图，不强行拉长 |
-| 署名 | 用户指定或有要求 `author` 时逐字使用，如无默认使用 `xiaobei` |
+| 署名 | 用户指定或有要求 `author` 时逐字使用，如无默认使用 `wutonghui-xiaobei` |
 | 原文链接 | 用户指定或有要求 `source_url` 时逐字保留；没有则不编造 |
 | CTA | 用户指定 CTA 时优先执行；未指定时按业务目标与 DNA template 推导，注意微信公众号不允许出现明显的二维码或者链接引流 |
 
@@ -222,7 +222,7 @@ Agent 不需要手动上传图片；发布脚本会自动收集并上传上述�
 
 初稿定稿后，按 `wx-mp-publisher` 规范把 YAML frontmatter 直接写入 `article.md`。Frontmatter 在本 workflow 过程中加入，`wx-mp-publisher` 只做校验、不负责生成。
 
-- 指定 `author`、`source_url` 时逐字或按原意执行；未指定时，author 使用 `xiaobei`, source_url不填。
+- 指定 `author`、`source_url` 时逐字或按原意执行；未指定时，author 使用 `wutonghui-xiaobei`, source_url不填。
 - `need_open_comment` 和 `only_fans_can_comment` 按用户要求,如果没有要求的话，前者选True，后者选False。
 
 公众号长文：

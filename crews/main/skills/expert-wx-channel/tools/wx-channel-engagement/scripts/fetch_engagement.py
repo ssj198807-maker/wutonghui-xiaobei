@@ -650,7 +650,7 @@ def match_post(rows: list[dict], target_desc: str, target_date: str | None = Non
     """按完整视频描述在后台列表里找最匹配的行，返回 {desc, metrics}
 
     视频号作品管理页只展示完整视频描述（desc）；发布页虽可另填短标题，但管理页不展示、抓不到——DB 里 title 列存的
-    也应是完整 desc（见 main AGENTS.md 发布工作流）。匹配策略（小贝建议）：
+    也应是完整 desc（见 main AGENTS.md 发布工作流）。匹配策略（吴桐荟建议）：
     1. 用发布日期±1天筛同日候选（后台行 published_at 形如「2026年08月03日 12:06」）
     2. 拿 desc 前 60 字归一化包含匹配——避开 hashtag 噪声，够区分
     3. 兜底：不按日期筛，全列表前 60 字归一化包含

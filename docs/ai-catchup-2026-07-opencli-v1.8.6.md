@@ -2,7 +2,7 @@
 
 > **背景**：本轮已借鉴 v1.8.2（per-category source guides，#46 完成）。本报告分析 **v1.8.4 / v1.8.5 / v1.8.6** 3 个新 release 的**值得借鉴**变更。
 >
-> **架构约束不变**（dev plan §3.0 / memory 02-upstream-sources.md）：OpenCLI 走**浏览器扩展 + page.evaluate**，xiaobei 走 **camoufox-cli + CDP**。**不搬代码**，只吸收 design pattern。
+> **架构约束不变**（dev plan §3.0 / memory 02-upstream-sources.md）：OpenCLI 走**浏览器扩展 + page.evaluate**，wutonghui-xiaobei 走 **camoufox-cli + CDP**。**不搬代码**，只吸收 design pattern。
 
 ## 一、v1.8.4-1.8.6 关键变更
 
@@ -45,7 +45,7 @@ chore(release): 1.8.4
 
 ---
 
-## 二、对 xiaobei 借鉴分析
+## 二、对 wutonghui-xiaobei 借鉴分析
 
 ### 2.1 强相关：v1.8.6 命令可靠性 / 超时模式
 
@@ -268,7 +268,7 @@ def camoufox_eval_with_reliability(
 
 ## 六、2026-07-14 catchup（b0f84c9，83 commits 全扫）
 
-> 本轮在 v1.8.6 分析之后又做了一轮全量 catchup：上游基线从 `8ed8ca26`（2026-06-13）推进到 `b0f84c9`，中间 83 commits 逐条扫完。用户定调明确：**OpenCLI 是 Chrome Extension 架构，wiseflow 主推 camoufox-cli，操作指导不一定适用，只借鉴方法 + 平台风控经验，不搬代码**。最终只吸收两条，其余评估后排除。
+> 本轮在 v1.8.6 分析之后又做了一轮全量 catchup：上游基线从 `8ed8ca26`（2026-06-13）推进到 `b0f84c9`，中间 83 commits 逐条扫完。用户定调明确：**OpenCLI 是 Chrome Extension 架构，wutonghui 主推 camoufox-cli，操作指导不一定适用，只借鉴方法 + 平台风控经验，不搬代码**。最终只吸收两条，其余评估后排除。
 
 ### 6.1 吸收的 2 条
 
@@ -307,4 +307,4 @@ def camoufox_eval_with_reliability(
 - `docs/ai-catchup-2026-07-twitter-and-search.md`（AiToEarn Twitter + OpenCLI smart-search 借鉴）
 - `memory/02-upstream-sources.md`（上游来源表）
 - `memory/30-client-dev-session-2026-07-04.md`（本轮开发约束）
-- `memory/40-wiseflow-pro-sandbox.md`（借鉴项目代码仓规则）
+- `memory/40-wutonghui-pro-sandbox.md`（借鉴项目代码仓规则）

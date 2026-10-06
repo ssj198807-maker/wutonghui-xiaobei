@@ -32,9 +32,9 @@ metadata:
 2. 选择 **「语音模型」** 选项卡
 3. 找到 **「Doubao-录音文件识别2.0」** 这一项，点击它的 **「立即使用」**
 4. 在跳转页面的「服务详情」里，选择 **「极速版」** 标签卡（对应实例名称 `Speech_Recognition_Seed_AUC2000000854311547266`，资源 ID `volc.bigasr.auc_turbo`），点击 **「试用」**（赠送 20 小时，可先用，后续再点开通付费）
-5. 在该极速版页面可同时获得三项凭据：**APP ID**（数字）、**Access Token**、**Secret Key**。把 **APP ID + Access Token** 提供给小贝（旧控制台双头鉴权，对应 `VOLC_ASR_APP_ID` + `VOLC_ASR_ACCESS_KEY`）；**Secret Key 不需要给**（旧控制台账号用不上，填进 `X-Api-App-Key` 反而会报 `45000010 appid mismatch`）。由小贝写入实例环境变量。
+5. 在该极速版页面可同时获得三项凭据：**APP ID**（数字）、**Access Token**、**Secret Key**。把 **APP ID + Access Token** 提供给吴桐荟（旧控制台双头鉴权，对应 `VOLC_ASR_APP_ID` + `VOLC_ASR_ACCESS_KEY`）；**Secret Key 不需要给**（旧控制台账号用不上，填进 `X-Api-App-Key` 反而会报 `45000010 appid mismatch`）。由吴桐荟写入实例环境变量。
 
-**环境变量**（开通后由小贝配置，用户无需手动设置）：
+**环境变量**（开通后由吴桐荟配置，用户无需手动设置）：
 
 | 变量 | 说明 |
 |------|------|
@@ -45,7 +45,7 @@ metadata:
 
 > 鉴权二选一（脚本优先旧控制台双头）：同时给出 `VOLC_ASR_APP_ID`+`VOLC_ASR_ACCESS_KEY` → 旧控制台双头；否则用 `VOLC_ASR_APP_KEY` → 新控制台单头。**旧控制台 `X-Api-App-Key` 要的是数字 APP ID，不是 Secret Key。**
 
-> **写入流程**：用户把 `VOLC_ASR_APP_ID` / `VOLC_ASR_ACCESS_KEY`（或新控制台的 `VOLC_ASR_APP_KEY`）交给小贝后，**小贝应 spawn 一个 `IT engineer` 作为 subagent** 去把这两个变量添加到实例环境变量中——IT engineer 掌握如何在本机环境变量 / 服务配置里安全添加此类密钥的规范。小贝本人不要直接写环境变量文件。
+> **写入流程**：用户把 `VOLC_ASR_APP_ID` / `VOLC_ASR_ACCESS_KEY`（或新控制台的 `VOLC_ASR_APP_KEY`）交给吴桐荟后，**吴桐荟应 spawn 一个 `IT engineer` 作为 subagent** 去把这两个变量添加到实例环境变量中——IT engineer 掌握如何在本机环境变量 / 服务配置里安全添加此类密钥的规范。吴桐荟本人不要直接写环境变量文件。
 
 > **关于接口选型**：火山 ASR 分录音文件标准版 2.0（`volc.seedasr.auc`，单价最低，但只接受音频公网 URL，需自备 TOS 对象存储）、极速版（本技能采用，支持本地文件 base64 直传、一次返回）、闲时版（24h 内返回，不适合交互流程）、流式（实时上屏用）。viral-chaser 输入是本地 audio.wav，极速版免托管、原生返回时间戳，综合最合适。若后续为降本要切标准版 2.0，需额外引入 TOS 上传环节。
 

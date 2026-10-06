@@ -84,7 +84,7 @@ expose_skill_wrappers() {
 # 仅在源码部署跑：Docker 走 COPY，容器内 PATH 由 entrypoint 自管，不调本函数。
 ensure_openclaw_bin_in_path() {
   mkdir -p "$OPENCLAW_BIN_DIR"
-  local marker='# wiseflow skill wrappers (D21)'
+  local marker='# wutonghui skill wrappers (D21)'
   local line="export PATH=\"\$HOME/.openclaw/bin:\$PATH\"  $marker"
 
   local rc_file=""

@@ -92,7 +92,7 @@ def _dismiss_draft_dialog(session: str) -> None:
     """上传页可能弹「你还有上次未发布的视频，是否继续编辑？」草稿恢复框。
 
     点「放弃」清掉旧草稿，给新发布一个干净的上传页。无弹窗则 no-op。
-    旧草稿在场时新视频上传/发布会被带偏（2026-07-17 xiaobei 事故根因之一：
+    旧草稿在场时新视频上传/发布会被带偏（2026-07-17 wutonghui-xiaobei 事故根因之一：
     上次失败发布留了草稿，新发布被旧草稿带偏，页面跳管理页但实际没发出去）。
     """
     has_dialog = camoufox_eval(
@@ -119,7 +119,7 @@ def camoufox_eval(session: str, js: str, timeout: int = 30) -> Optional[str]:
     若 eval 不带 --persistent 又恰好是首个触发 daemon spawn 的调用,会起一个非持久 daemon
     (临时 profile /tmp/playwright_firefoxdev_profile-XXX,无 auth cookie),后续
     camoufox_open --persistent 进来也复用这个非持久 daemon → 全程临时 profile → 登录页 +
-    work_list sc=8(2026-07-18 xiaobei get-link 事故根因)。所有 camoufox-cli 调用必须
+    work_list sc=8(2026-07-18 wutonghui-xiaobei get-link 事故根因)。所有 camoufox-cli 调用必须
     一致带 --persistent,保证 daemon 首次 spawn 即持久。
     """
     cmd = [CAMOUFOX_BIN, "--session", session, "--persistent", "--json", "eval", js]
@@ -379,7 +379,7 @@ def cmd_publish(*, session: str) -> None:
     aweme_id 捕获不到 → exit 3（发布可能未真正成功，不再误报 ok）。"""
     # 拦截器：捕获所有 fetch/XHR 响应，深度搜索 aweme_id/item_id，全量记 debug 日志。
     # 旧版只匹配 url 含 'publish' 的请求 + 固定提取路径，对不上抖音真实发布接口，
-    # aweme_id 一直 null（2026-07-17 xiaobei 事故）。现改为全量捕获 + 深度提取 + debug 落盘，
+    # aweme_id 一直 null（2026-07-17 wutonghui-xiaobei 事故）。现改为全量捕获 + 深度提取 + debug 落盘，
     # 下次跑能把真实发布 API 的 URL/响应 shape 反馈回来精准收窄。
     # aweme_id + debug 都写 localStorage：发布后页面跳管理页，window 变量随旧 document 销毁，
     # localStorage 在 creator.douyin.com 同源下跨导航存活，管理页能读回。
@@ -485,7 +485,7 @@ def cmd_publish(*, session: str) -> None:
                 session,
                 f"try{{localStorage.setItem('douyin_last_aweme_id',{json.dumps(aweme_id)});}}catch(e){{}}",
             )
-    # debug 日志落盘供排查（aweme_id 命中与否都写，方便 xiaobei 回传真实发布 API shape）
+    # debug 日志落盘供排查（aweme_id 命中与否都写，方便 wutonghui-xiaobei 回传真实发布 API shape）
     debug_path = f"/tmp/dy-publish-debug-{int(time.time())}.json"
     debug_entries = _read_publish_debug(session)
     try:
@@ -494,7 +494,7 @@ def cmd_publish(*, session: str) -> None:
     except Exception as e:
         sys.stderr.write(f"warn: debug 日志写盘失败: {e}\n")
     # aweme_id 没捕获到 → 发布可能未真正成功（拦截器没命中真实发布 API，或发布被服务端拒了）。
-    # 不再误报 ok——宁可误判失败让人工核实管理页，不可误报成功。（2026-07-17 xiaobei 事故根因之二）
+    # 不再误报 ok——宁可误判失败让人工核实管理页，不可误报成功。（2026-07-17 wutonghui-xiaobei 事故根因之二）
     if not aweme_id:
         sys.stderr.write(
             "error: 发布流程走完但未捕获到 aweme_id——发布可能未真正成功（发布 API 未命中拦截器或被服务端拒绝）。\n"
@@ -514,7 +514,7 @@ WORK_LIST_URL = (
 def _fetch_newest_aweme_id(session: str, since_ts: Optional[int] = None) -> tuple[Optional[str], Optional[str]]:
     """直接打作品管理 list API 拿最新作品的 aweme_id。
 
-    发布走 form/导航(非 fetch/XHR),发布页拦截器抓不到 aweme_id(2026-07-17 xiaobei 事故)。
+    发布走 form/导航(非 fetch/XHR),发布页拦截器抓不到 aweme_id(2026-07-17 wutonghui-xiaobei 事故)。
     但发布成功后作品进管理页 list,同源 fetch work_list 带 cookie 即可拿到 aweme_list。
     列表**不按 create_time 排序**,必须自己排序取最新。
 
@@ -525,7 +525,7 @@ def _fetch_newest_aweme_id(session: str, since_ts: Optional[int] = None) -> tupl
     Returns:
         (aweme_id, title) 或 (None, None)。
 
-    headless session 登录态间歇性不稳(2026-07-17 xiaobei 事故:同 URL 同 session
+    headless session 登录态间歇性不稳(2026-07-17 wutonghui-xiaobei 事故:同 URL 同 session
     有时 status_code=0 有时 =8,连发 15 次全 0 但偶发 8,无法稳定复现)。
     status_code!=0 时纯重试(同页连发就稳,不需 reload),最多 3 次;
     3 次全 sc!=0 → exit 2(SESSION_EXPIRED)让调用方走 login-manager 重登。

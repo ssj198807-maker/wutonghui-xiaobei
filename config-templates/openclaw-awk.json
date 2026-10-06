@@ -120,7 +120,7 @@
       {
         "id": "main",
         "default": true,
-        "name": "小贝",
+        "name": "吴桐荟",
         "workspace": "~/.openclaw/workspace-main",
         "skills": [
           "smart-search",
@@ -345,7 +345,7 @@
   },
   "plugins": {
     "load": {
-      "paths": ["${XIAOBEI_HOME}/awada"]
+      "paths": ["${WUTONGHUI_HOME}/awada"]
     },
     "entries": {
       "awada": {

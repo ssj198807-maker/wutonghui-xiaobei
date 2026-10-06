@@ -209,10 +209,10 @@ profile 丢失 / 损坏 / 指纹错配 → **重建 + 重登录，绝对不允�
 
 - `**v5.6.0 更新**` 中要体现本次对浏览器架构的重新设计，并且CHANGELOG.md 详细记录
 - `## 🔧 比原版更强、更适合国内网络环境的浏览器方案` 段落更新
-- `## 🤝 xiaobei 基于如下优秀的开源项目` 去掉Patchright，增加camoufox（🦊 Anti-detect browser）  https://github.com/daijro/camoufox 
+- `## 🤝 wutonghui-xiaobei 基于如下优秀的开源项目` 去掉Patchright，增加camoufox（🦊 Anti-detect browser）  https://github.com/daijro/camoufox 
 
 **落地（2026-07-12）**：
 - README.md `**v5.6.0 更新**` 新增「浏览器架构重新设计（双线栈）」段（线 1 forked camoufox-cli + 线 2 host/node fallback + 删 sandbox/local-managed/patchright + 每平台一持久化 session + profile 丢失重建不导入）。
 - README.md `## 🔧 比原版更强、更适合国内网络环境的浏览器方案` patch 表重写：加 `patches/camoufox-cli/`（fork + 3 新功能）+ `patches/browser-camoufox-pivot/`（35 单文件 patch + adapter + 删 sandbox/local-managed）+ `patches/overrides.sh`（去 patchright）+ 002 留 + 007 留改名 + 003/005/006 划掉标删。
-- README.md `## 🤝 xiaobei 基于如下优秀的开源项目` 去掉 Patchright 行，加 camoufox（🦊 https://github.com/daijro/camoufox）。
+- README.md `## 🤝 wutonghui-xiaobei 基于如下优秀的开源项目` 去掉 Patchright 行，加 camoufox（🦊 https://github.com/daijro/camoufox）。
 - CHANGELOG.md v5.6.0 顶部新增「浏览器栈整体替换（双线栈）」section（双线栈 + §1 fork + §2 extension 改造/patches 重组 + §2.3 setup-crew + §7 twitter-interact + §8 profile 丢失 + §9 README/CHANGELOG + §3-§6 并行中 + 核心原则 8 点）。

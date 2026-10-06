@@ -1,7 +1,7 @@
 # openclaw/extensions/browser 替换接口/兼容层调研（spec §2.1）
 
 > 2026-07-11 · 对应 [`browser-stack-replacement-spec-2026-07.md`](./browser-stack-replacement-spec-2026-07.md) §2.1 的 7 项调研。
-> 调研范围：`/home/wukong/wiseflow/openclaw/extensions/browser/` + openclaw core 对它的依赖面。
+> 调研范围：`/home/wukong/wutonghui/openclaw/extensions/browser/` + openclaw core 对它的依赖面。
 > 原则：调研结论出来前不动 extension 代码——本文件只产出结论与方案，不落实改码。
 
 ---

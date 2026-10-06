@@ -1,7 +1,7 @@
 #!/bin/bash
 # agent-skills.sh - 统一计算 Agent 的技能过滤配置
 #
-# 设计理念（wiseflow）：
+# 设计理念（wutonghui）：
 #   两种技能解析模式，由 SOUL.md 中的 crew-type 决定：
 #
 #   inherit 模式（对内 Crew，crew-type: internal）：
@@ -72,7 +72,7 @@ list_builtin_skill_names() {
   done | sort
 }
 
-# wiseflow 指定的全局基线技能（对所有对内 Crew 统一开放的 7 个上游内置技能）
+# wutonghui 指定的全局基线技能（对所有对内 Crew 统一开放的 7 个上游内置技能）
 # 变更须同步更新 config-templates/openclaw.json 的 skills.entries 确保这些技能处于 enabled 状态
 #
 # 不在此基线的说明：
@@ -223,7 +223,7 @@ console.log(JSON.stringify(Array.from(new Set(lines))));
   # ── inherit 模式（对内 Crew）──
   # 层次：① 7 个基线上游技能  ② addon/项目全局技能  ③ Agent 专属技能（BUILTIN_SKILLS）  ④ -DENIED  ⑤ +workspace
 
-  # ① wiseflow 指定的 7 个基线技能
+  # ① wutonghui 指定的 7 个基线技能
   local default_builtins=""
   default_builtins="$(list_default_global_skill_names)"
 
@@ -284,7 +284,7 @@ console.log(JSON.stringify(Array.from(new Set(lines))));
 # 参数:
 #   $1  workspace_dir   agent 的 workspace 目录
 #   $2  skills_json     JSON 数组字符串（resolve_agent_skills_json 的输出）
-#   $3  project_root    wiseflow 项目根目录
+#   $3  project_root    wutonghui 项目根目录
 #
 # 设计：
 #   1. 收集脚本路径：只处理有可执行位或以 .sh/.mjs/.ts/.js 结尾的文件，跳过 .py/.json 等。

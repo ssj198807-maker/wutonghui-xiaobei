@@ -300,7 +300,7 @@ export async function executeCamoufoxCliAction(
   switch (action) {
     case "doctor": {
       const alive = await isAlive(config.session);
-      return jsonResult({ ok: true, backend: "camoufox-cli", version: "0.6.2-wiseflow.1", session: config.session, daemonRunning: alive });
+      return jsonResult({ ok: true, backend: "camoufox-cli", version: "0.6.2-wutonghui.1", session: config.session, daemonRunning: alive });
     }
 
     case "status": {

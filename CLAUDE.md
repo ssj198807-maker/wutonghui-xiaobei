@@ -6,7 +6,7 @@ Claude Code 被授权在本仓库中执行任何 git 命令（包括 push、bran
 
 ## Docker 部署规范
 
-- 用户态镜像、Compose service 和持久卷统一使用 **xiaobei** 命名；不得新增 `wiseflow-*` 镜像或卷名。
+- 用户态镜像、Compose service 和持久卷统一使用 **wutonghui-xiaobei** 命名；不得新增 `wutonghui-*` 镜像或卷名。
 - 运行态只持久化 `/root/.openclaw` 和 `/root/.camoufox-cli`。入口脚本必须从镜像 seed 初始化空卷，且不得覆盖已有用户状态。
 - Gateway/noVNC 默认只绑定 `127.0.0.1`，不得默认公开无密码 noVNC。
 

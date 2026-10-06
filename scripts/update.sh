@@ -1,5 +1,5 @@
 #!/bin/bash
-# update.sh - wiseflow 升级脚本（git clone 源码路线用户用）
+# update.sh - wutonghui 升级脚本（git clone 源码路线用户用）
 #
 # 与 scripts/install.sh 区别（两条互不混用的分发路线）：
 #   - install.sh = tarball 路线首装（已装机器重跑即更新；拉预构建 tarball → pnpm install --prod → daemon restart，全程无需用户预装 Node/git/pnpm）
@@ -13,9 +13,9 @@
 # 升级前请确保系统空闲（无 agent 会话正在处理任务）。
 #
 # 执行流程：
-#   1. 验证 wiseflow 项目目录合法性
+#   1. 验证 wutonghui 项目目录合法性
 #   2. 验证 / 重置 git remote（如未初始化或被改）
-#   3. git fetch + reset --hard 拉取最新 wiseflow 代码
+#   3. git fetch + reset --hard 拉取最新 wutonghui 代码
 #   4. 读取 openclaw.version，按锚定版本检出 openclaw 子目录
 #      - 若已是目标 commit，跳过耗时的 install
 #   5. apply-addons.sh（patches + skills + crew 模板，内含 setup-crew.sh）
@@ -24,8 +24,8 @@
 #   8. 微信 channel 插件同步 + meta 回正
 set -e
 
-OFB_REPO_DEFAULT="https://github.com/TeamWiseFlow/xiaobei.git"
-OFB_REPO_ATOMGIT="https://atomgit.com/wiseflow/xiaobei.git"
+OFB_REPO_DEFAULT="https://github.com/TeamWiseFlow/wutonghui-xiaobei.git"
+OFB_REPO_ATOMGIT="https://atomgit.com/wutonghui/wutonghui-xiaobei.git"
 # 默认 GitHub；--atomgit 切到 atomgit 国内镜像（git remote 可匿名 fetch/clone，实测可用）
 OFB_REPO="$OFB_REPO_DEFAULT"
 PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -78,13 +78,13 @@ done
 
 cd "$PROJECT_ROOT"
 
-echo "🔧 wiseflow — Install / Upgrade"
+echo "🔧 wutonghui — Install / Upgrade"
 echo "   Project root: $PROJECT_ROOT"
 echo ""
 
-# ─── 1. 验证当前目录是 wiseflow 项目 ──────────────────────────────────
+# ─── 1. 验证当前目录是 wutonghui 项目 ──────────────────────────────────
 if [ ! -f "$PROJECT_ROOT/scripts/apply-addons.sh" ] || [ ! -d "$OPENCLAW_DIR" ]; then
-  echo "❌ This does not look like a wiseflow project directory."
+  echo "❌ This does not look like a wutonghui project directory."
   echo "   Expected: scripts/apply-addons.sh and openclaw/ subdirectory"
   exit 1
 fi
@@ -256,9 +256,9 @@ else
     echo "  ✅ Remote 'origin' added: $OFB_REPO"
   elif [ "$CURRENT_REMOTE" != "$OFB_REPO" ]; then
     echo "  ℹ️  Current remote: $CURRENT_REMOTE"
-    echo "  ℹ️  Official wiseflow repo: $OFB_REPO"
+    echo "  ℹ️  Official wutonghui repo: $OFB_REPO"
     echo ""
-    echo "  Remote is not the official wiseflow repo. Continue anyway? [y/N]"
+    echo "  Remote is not the official wutonghui repo. Continue anyway? [y/N]"
     read -r reply
     case "$reply" in
       y|Y) echo "  Continuing with existing remote..." ;;
@@ -267,25 +267,25 @@ else
   fi
 fi
 
-# ─── 3. 拉取最新 wiseflow 代码 ────────────────────────────────────────
-echo "📥 Fetching latest wiseflow code..."
+# ─── 3. 拉取最新 wutonghui 代码 ────────────────────────────────────────
+echo "📥 Fetching latest wutonghui code..."
 if git fetch origin master; then
   COMMITS_BEHIND="$(git rev-list HEAD..origin/master --count 2>/dev/null || echo "?")"
   if [ "$COMMITS_BEHIND" = "0" ]; then
-    echo "  ✅ wiseflow code is already up to date."
+    echo "  ✅ wutonghui code is already up to date."
   elif [ "$COMMITS_BEHIND" = "?" ]; then
-    echo "  ⚠️  Unable to compare with origin/master, continuing with local wiseflow code."
+    echo "  ⚠️  Unable to compare with origin/master, continuing with local wutonghui code."
   else
     echo "  📊 $COMMITS_BEHIND new commit(s) available"
     if git reset --hard origin/master; then
-      echo "  ✅ wiseflow code updated"
+      echo "  ✅ wutonghui code updated"
     else
-      echo "  ⚠️  Failed to reset to origin/master, continuing with local wiseflow code."
+      echo "  ⚠️  Failed to reset to origin/master, continuing with local wutonghui code."
     fi
   fi
 else
-  echo "  ⚠️  Failed to fetch latest wiseflow code from origin/master."
-  echo "  ⚠️  Continuing with local wiseflow code."
+  echo "  ⚠️  Failed to fetch latest wutonghui code from origin/master."
+  echo "  ⚠️  Continuing with local wutonghui code."
 fi
 echo ""
 

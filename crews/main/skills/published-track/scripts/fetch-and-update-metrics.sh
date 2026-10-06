@@ -36,7 +36,7 @@ extract_content_id() {
     douyin)
       # 视频 https://www.douyin.com/video/1234567890 → 1234567890
       # 图文 https://www.douyin.com/note/7686383022777634058   → 7686383022777634058
-      # （2026-09-17 xiaobei 反馈：note 链接提取为空报 CANNOT_EXTRACT_CONTENT_ID。
+      # （2026-09-17 wutonghui-xiaobei 反馈：note 链接提取为空报 CANNOT_EXTRACT_CONTENT_ID。
       #  定界符用 #：用 | 的话 \| 被解析成字面管道而非 BRE alternation。）
       echo "$url" | sed -n 's#.*/\(video\|note\)/\([0-9]*\).*#\2#p'
       ;;

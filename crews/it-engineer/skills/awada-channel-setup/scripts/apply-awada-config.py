@@ -19,8 +19,8 @@ DEFAULT_RELAY_BASE_URL = "https://relay.openclaw-for-business.com"
 
 SAMPLE = Path(__file__).resolve().parent.parent / "openclaw-awada-sample.json"
 TARGET = Path(os.path.expanduser("~/.openclaw/openclaw.json"))
-WISEFLOW_ROOT = Path(os.path.expanduser(
-    os.environ.get("WISEFLOW_PROJECT_ROOT", "~/wiseflow-pro")
+WUTONGHUI_ROOT = Path(os.path.expanduser(
+    os.environ.get("WISEFLOW_PROJECT_ROOT", "~/wutonghui-pro")
 )).resolve()
 
 
@@ -64,7 +64,7 @@ def main() -> int:
     def render(obj):
         if isinstance(obj, str):
             return (obj
-                    .replace("{WISEFLOW_PROJECT_ROOT}", str(WISEFLOW_ROOT))
+                    .replace("{WISEFLOW_PROJECT_ROOT}", str(WUTONGHUI_ROOT))
                     .replace("{HOME}", os.path.expanduser("~")))
         if isinstance(obj, dict):
             return {k: render(v) for k, v in obj.items()}

@@ -98,7 +98,7 @@ channel 可选：
 - 用户搜索：https://www.douyin.com/search/{keyword}?type=user
 - 直播搜索：https://www.douyin.com/search/{keyword}?type=live
 
-多 keyword，中间用 %20 连接，如： https://www.douyin.com/search/wiseflow%20%E8%B4%9F%E9%9D%A2
+多 keyword，中间用 %20 连接，如： https://www.douyin.com/search/wutonghui%20%E8%B4%9F%E9%9D%A2
 
 type 缺省为综合搜索
 
@@ -128,7 +128,7 @@ https://www.xiaohongshu.com/search_result?keyword={keyword}&source=web_explore_f
 - 话题：https://www.zhihu.com/search?q={keyword}&type=topic
 - 视频：https://www.zhihu.com/search?q={keyword}&type=zvideo
 
-多 keyword，中间用 %20 连接，如： https://www.zhihu.com/search?type=zvideo&q=wiseflow%20%E4%BB%98%E8%B4%B9
+多 keyword，中间用 %20 连接，如： https://www.zhihu.com/search?type=zvideo&q=wutonghui%20%E4%BB%98%E8%B4%B9
 
 其中如下支持通过 url 构造filter 条件或者排序：
 
@@ -153,7 +153,7 @@ https://www.xiaohongshu.com/search_result?keyword={keyword}&source=web_explore_f
   - 半年内，url 后加：&time_interval=half_a_year
   - 一年内，url 后加：&time_interval=a_year
 
-以上都可以灵活组合：比如：https://www.zhihu.com/search?q=wiseflow%20%E4%BB%98%E8%B4%B9&sort=created_time&time_interval=a_month&type=content&vertical=article
+以上都可以灵活组合：比如：https://www.zhihu.com/search?q=wutonghui%20%E4%BB%98%E8%B4%B9&sort=created_time&time_interval=a_month&type=content&vertical=article
 
 ## twitter（X，推特）
 
@@ -163,9 +163,9 @@ https://www.xiaohongshu.com/search_result?keyword={keyword}&source=web_explore_f
 - Media：https://x.com/search?q={keyword}&f=media
 - Lists：https://x.com/search?q={keyword}&f=list
 
-多 keyword，中间用 %20 连接，如：https://x.com/search?q=wiseflow%20%E8%BD%AF%E4%BB%B6&src=typed_query&f=list
+多 keyword，中间用 %20 连接，如：https://x.com/search?q=wutonghui%20%E8%BD%AF%E4%BB%B6&src=typed_query&f=list
 
-均可叠加 Near You 选项，后面加 &lf=on， 如：https://x.com/search?q=wiseflow&f=live&lf=on
+均可叠加 Near You 选项，后面加 &lf=on， 如：https://x.com/search?q=wutonghui&f=live&lf=on
 
 ## facebook（FB，脸书）
 
@@ -190,7 +190,7 @@ https://www.xiaohongshu.com/search_result?keyword={keyword}&source=web_explore_f
 - Wikis: https://github.com/search?q={keyword}&type=wikis
 - topics: https://github.com/search?q={keyword}&type=topics
 
-多 keyword，中间用 + 连接，如：https://github.com/search?q=wiseflow+addon&type=topics
+多 keyword，中间用 + 连接，如：https://github.com/search?q=wutonghui+addon&type=topics
 
 ### Repositories 支持的搜素条件：
 
@@ -212,6 +212,6 @@ https://www.xiaohongshu.com/search_result?keyword={keyword}&source=web_explore_f
 
 repositories 和 user 搜索都支持添加 语言作为过滤，&l=HTML
 
-如：https://github.com/search?q=wiseflow+language%3AHTML&type=users&s=repositories&o=desc&l=HTML
+如：https://github.com/search?q=wutonghui+language%3AHTML&type=users&s=repositories&o=desc&l=HTML
 
 支持的语言过滤：HTML, CSS, JavaScript, Python, Ruby, Java, C++, PHP, Swift, Go, Kotlin, TypeScript, Rust, Scala, Haskell, Lua, Shell, Dockerfile, JSON, YAML, Markdown, SVG, 

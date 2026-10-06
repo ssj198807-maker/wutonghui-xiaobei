@@ -49,3 +49,8 @@ docs/mediacrawlerpro-catchup-2026-09-19.md
 Library/
 System/
 usr/
+
+# macOS 自动 symlink（tar 解压产物，firmlink）
+private/
+Users/
+.VolumeIcon.icns

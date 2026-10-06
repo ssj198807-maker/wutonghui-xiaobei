@@ -9,7 +9,7 @@ DB_FILE="./db/customer.db"
 
 PEER=""
 USER_ID_EXTERNAL=""
-GROUP_NAME="风暴眼（wiseflow情报小站）"
+GROUP_NAME="风暴眼（wutonghui情报小站）"
 FORCE=""
 
 while [ $# -gt 0 ]; do

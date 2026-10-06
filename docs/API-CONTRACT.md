@@ -1,4 +1,4 @@
-# wiseflow-relay 接口契约
+# wutonghui-relay 接口契约
 
 > 本文件是 relay 与 client 两仓的**唯一耦合面**。改接口必须先改本文件并通知 client 仓维护者。
 

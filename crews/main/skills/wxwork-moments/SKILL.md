@@ -1,7 +1,7 @@
 ---
 name: wxwork-moments
 description: Publish content (text + images/video/link) to WeChat Work (企业微信) customer
-  moments via wiseflow-relay. Credentials (corp_id + corp_secret) read from daemon.env
+  moments via wutonghui-relay. Credentials (corp_id + corp_secret) read from daemon.env
   and passed per-request; relay is stateless.
 metadata:
   openclaw:

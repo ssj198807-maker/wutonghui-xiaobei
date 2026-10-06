@@ -3,7 +3,7 @@
 # Exit 0 = all good; exit 1 = at least one item missing (details on stdout).
 #
 # 探依赖：ffmpeg / ffprobe / AWK_API_KEY（Phase 2 静帧）/ 视频平台 key（Stage 10 i2v 视频）
-# 不探 venv——仓根 requirements.txt 统一装，不留独立 venv（xiaobei 语境）
+# 不探 venv——仓根 requirements.txt 统一装，不留独立 venv（wutonghui-xiaobei 语境）
 
 set -u
 

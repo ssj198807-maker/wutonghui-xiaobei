@@ -739,7 +739,7 @@ fi
 
 # ─── 5. 写入 OFB_ENV.md（仅 it-engineer） ──────────────────────
 # 源码部署：路径随机器可变，记录成文件供 IT engineer AGENTS.md 读取。
-# Docker 部署：路径固定（/opt/xiaobei + /root/.openclaw），但仍然生成
+# Docker 部署：路径固定（/opt/wutonghui-xiaobei + /root/.openclaw），但仍然生成
 #   OFB_ENV.md——降低 agent 判断出错概率，让 it-engineer 读文件而非推断。
 # main agent 不持有此文件：环境变量运维归 IT engineer，main 需加变量时 spawn it-engineer。
 generate_ofb_env_md() {
@@ -761,7 +761,7 @@ generate_ofb_env_md() {
 
     if [ "$_is_docker" = "true" ]; then
       # ── Docker 部署：固定路径 ──
-      _PROJECT_ROOT="/opt/xiaobei"
+      _PROJECT_ROOT="/opt/wutonghui-xiaobei"
       _OPENCLAW_HOME="/root/.openclaw"
       _CONFIG_PATH="$_OPENCLAW_HOME/openclaw.json"
       _ENV_FILE_PATH="$_OPENCLAW_HOME/.env"
@@ -798,12 +798,12 @@ generate_ofb_env_md() {
     fi
 
     cat > "$workspace_dir/OFB_ENV.md" << ENVEOF
-# wiseflow 环境信息（由 setup-crew.sh 自动生成，勿手动编辑）
+# wutonghui 环境信息（由 setup-crew.sh 自动生成，勿手动编辑）
 
 - **部署环境**：$([ "$_is_docker" = "true" ] && echo "Docker 容器" || echo "源码部署（$(uname -s)）")
 - **程序目录**（引擎 + 模板 + 脚本 + 工具 + wrapper，升级只换这里）：$_PROJECT_ROOT
 - **运行数据目录**（openclaw.json + daemon.env + workspace-* + sessions，用户数据不动）：$_OPENCLAW_HOME
-- **wiseflow 项目路径**：$_PROJECT_ROOT
+- **wutonghui 项目路径**：$_PROJECT_ROOT
 - **openclaw 子目录**：$_PROJECT_ROOT/openclaw
 - **配置文件**：$_CONFIG_PATH
 
@@ -850,7 +850,7 @@ cd $_PROJECT_ROOT && ./scripts/setup-crew.sh
 # 重新应用 addons
 cd $_PROJECT_ROOT && ./scripts/apply-addons.sh
 
-# 升级 wiseflow 系统（须确认系统空闲）
+# 升级 wutonghui 系统（须确认系统空闲）
 cd $_PROJECT_ROOT && ./scripts/install.sh
 
 # 仅重装后台服务（不更新代码）
@@ -905,7 +905,7 @@ inject_docker_env_hint() {
 4. **配置热加载**：改 `.env` / `daemon.env` 后需 `docker restart` 生效（gateway 启动时加载）
 
 **容器内可用的运维命令**：
-- 看日志：`docker logs -f <容器名>` 或容器内 `tail -f /tmp/xiaobei-*.log`
+- 看日志：`docker logs -f <容器名>` 或容器内 `tail -f /tmp/wutonghui-xiaobei-*.log`
 - 进容器调试：`docker exec -it <容器名> bash`
 - 看 gateway 状态：`curl -sf http://localhost:18789/status`
 <!-- /WISEFLOW_DOCKER_ENV_HINT -->

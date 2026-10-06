@@ -1,11 +1,11 @@
-# config/ — wiseflow-client 运行态配置（Docker 专用辅助文件）
+# config/ — wutonghui-client 运行态配置（Docker 专用辅助文件）
 
 > **openclaw.json 已单源化**：Docker 与源码部署均从 `config-templates/openclaw.json` 派生
 > （Dockerfile 阶段 3 直接 COPY 该文件）。本目录不再放 `openclaw.json`，避免双份漂移。
 > 源码部署由 `setup-crew.sh §4` 在模板基础上合并 skills 过滤 / 路径规范化；
 > Docker 不跑 setup-crew.sh，直接用模板（content-producer 已在模板 agents.list 预注册）。
 
-build 期由 Dockerfile 阶段 3（wiseflow-layer）把 `config-templates/openclaw.json` 放到
+build 期由 Dockerfile 阶段 3（wutonghui-layer）把 `config-templates/openclaw.json` 放到
 `/root/.openclaw/openclaw.json`，`daemon.env.template` 由 entrypoint 渲染成
 `/root/.openclaw/daemon.env`，`workspace-skeleton/` 复制到各 crew workspace。
 

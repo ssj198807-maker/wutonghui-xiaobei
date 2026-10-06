@@ -1,5 +1,5 @@
 #!/bin/bash
-# wiseflow addon - overrides.sh
+# wutonghui addon - overrides.sh
 # 由 apply-addons.sh 调用，接收环境变量：ADDON_DIR, OPENCLAW_DIR
 #
 # 浏览器栈转向（camoufox-cli pivot，见 docs/browser-extension-replacement-research.md §12）后，

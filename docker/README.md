@@ -1,4 +1,4 @@
-# xiaobei Docker 部署（v5.6.3+）
+# wutonghui-xiaobei Docker 部署（v5.6.3+）
 
 > **开箱即用**：镜像内已装好 openclaw 引擎 + 全部 skills/crews + camoufox-cli + Firefox +
 > openclaw-weixin 插件 + Xvfb/fluxbox/x11vnc/websockify/noVNC 显示栈。
@@ -13,7 +13,7 @@
 ```bash
 # ─── 在仓库根执行 ───────────────────────────────────────────
 # 1. 本地构建镜像（openclaw 源码需先按 openclaw.version 锁定 commit 检出到仓根 openclaw/）
-docker build -f docker/Dockerfile -t xiaobei:local .
+docker build -f docker/Dockerfile -t wutonghui-xiaobei:local .
 
 # 2. 拷贝环境模板到 docker/.env
 cp docker/.env.example docker/.env
@@ -33,17 +33,17 @@ AWK_API_KEY=<key> docker compose up -d
 ```
 
 首启会打印微信扫码绑定二维码，用手机微信扫码确认登录即可。绑定态持久化在
-`xiaobei-openclaw` 卷，后续重启自动跳过扫码。
+`wutonghui-xiaobei-openclaw` 卷，后续重启自动跳过扫码。
 
-镜像 tag 默认是 `xiaobei:local`（`docker-compose.yml` 里
-`image: ${IMAGE:-xiaobei:local}`）。如需换 tag，build 时改 `-t`，并 `IMAGE=xxx` 覆盖启动：
+镜像 tag 默认是 `wutonghui-xiaobei:local`（`docker-compose.yml` 里
+`image: ${IMAGE:-wutonghui-xiaobei:local}`）。如需换 tag，build 时改 `-t`，并 `IMAGE=xxx` 覆盖启动：
 
 ```bash
 # 在仓库根
-docker build -f docker/Dockerfile -t my-xiaobei:v1 .
+docker build -f docker/Dockerfile -t my-wutonghui-xiaobei:v1 .
 
 # 在 docker/ 下
-IMAGE=my-xiaobei:v1 docker compose up -d
+IMAGE=my-wutonghui-xiaobei:v1 docker compose up -d
 ```
 
 > **注意**：`docker compose` 必须在 `docker/` 目录下执行。若想在别处跑，需用
@@ -58,7 +58,7 @@ IMAGE=my-xiaobei:v1 docker compose up -d
 | awada 插件 | 本地 TS 插件 + ws/zod 运行时依赖 |
 | skills | 公共 skills（`skills/`）+ crew 专属 skills（`crews/*/skills/`）+ python deps |
 | crews workspace | main / content-producer / it-engineer / sales-cs 四套 crew 预初始化 |
-| camoufox-cli | wiseflow fork（反指纹浏览器 CLI）+ Firefox 二进制（~557MB） |
+| camoufox-cli | wutonghui fork（反指纹浏览器 CLI）+ Firefox 二进制（~557MB） |
 | openclaw-weixin | 预装微信 channel 插件（首启扫码绑定） |
 | 显示栈 | Xvfb（虚拟显示）+ fluxbox（窗口管理）+ x11vnc + websockify + noVNC |
 
@@ -68,10 +68,10 @@ IMAGE=my-xiaobei:v1 docker compose up -d
 
 | Volume | 容器路径 | 内容 |
 |--------|---------|------|
-| `xiaobei-openclaw` | `/root/.openclaw` | openclaw.json、`.env`、workspace、会话、微信登录态 |
-| `xiaobei-camoufox` | `/root/.camoufox-cli` | 浏览器 profile、Cookie、指纹缓存 |
+| `wutonghui-xiaobei-openclaw` | `/root/.openclaw` | openclaw.json、`.env`、workspace、会话、微信登录态 |
+| `wutonghui-xiaobei-camoufox` | `/root/.camoufox-cli` | 浏览器 profile、Cookie、指纹缓存 |
 
-**首启行为**：空卷从镜像内 `/opt/xiaobei/runtime-seed/openclaw` 初始化。
+**首启行为**：空卷从镜像内 `/opt/wutonghui-xiaobei/runtime-seed/openclaw` 初始化。
 **升级行为**：已有卷**绝不覆盖**，登录态和用户配置保留。
 **备份**：两个卷含 API key 和平台登录态，备份时应限制文件权限。
 **清空**：`docker compose down -v` 删除卷，等同于清空该实例的配置与登录状态。
@@ -93,12 +93,12 @@ camoufox 有头模式跑在容器内 Xvfb 虚拟显示里。用户浏览器打�
 **微信客户端容器不在本公开仓暴露**（知识产权风险），由有权限的用户自行另起
 compose override 引入。`docker-compose.yml` 已为这种场景预留接入点：
 
-- `xiaobei` 容器挂载宿主 `/var/run/docker.sock`（只读），用于 `docker exec` 进微信容器
+- `wutonghui-xiaobei` 容器挂载宿主 `/var/run/docker.sock`（只读），用于 `docker exec` 进微信容器
 - 环境变量 `WX_BIZ_CONTAINER` / `WX_BIZ_USER_DIR` / `WX_BIZ_KEYS_FILE` 指向微信容器
   （默认值与微信容器约定，用户自行 override）
 
 如果只用到 `wx-mp-hunter` 的 `fetch` / `homepage` 子命令（不依赖微信容器），
-则无需引入微信容器，`xiaobei` 容器可独立运行。
+则无需引入微信容器，`wutonghui-xiaobei` 容器可独立运行。
 
 ## 安全边界
 
@@ -107,5 +107,5 @@ compose override 引入。`docker-compose.yml` 已为这种场景预留接入点
 - Gateway 和 noVNC 在 Compose 中只映射到 `127.0.0.1`。**不要直接把 6080 暴露到公网**。
 - 当前 Camoufox sandbox 需要 `SYS_ADMIN` capability；只运行受信任的官方镜像，并保持
   Docker daemon 权限最小化。
-- `/var/run/docker.sock` 只读挂载——xiaobei 容器能 `docker exec` 进微信容器读消息库，
+- `/var/run/docker.sock` 只读挂载——wutonghui-xiaobei 容器能 `docker exec` 进微信容器读消息库，
   但无法修改宿主 docker 状态。若需更强隔离，可改用 docker-socket-proxy。

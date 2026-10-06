@@ -88,7 +88,7 @@ published-track record \
   --content-type article \
   --source-folder "wx_mp/outputs/xxx" \
   --publish-url "https://mp.weixin.qq.com/s/xxx" \
-  --account xiaobei-main
+  --account wutonghui-xiaobei-main
 
 # 补登记历史作品（无 dna-meta.json → dna_id 留 NULL，不参与 DNA 评估）
 published-track record \

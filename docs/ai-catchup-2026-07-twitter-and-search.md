@@ -127,7 +127,7 @@
 
 **建议动作**：
 - 在 `skills/smart-search/SKILL.md` 加 "Per-Category Source Guides" 章节
-- 8 分类 + 分类下推荐源（基于 xiaobei 业务场景，不是 OpenCLI 全套）：
+- 8 分类 + 分类下推荐源（基于 wutonghui-xiaobei 业务场景，不是 OpenCLI 全套）：
   - **AI**：openai.com / anthropic.com / huggingface.co / paperswithcode.com
   - **info**：reuters.com / bbc.com / 36kr.com（国内）/ 新浪财经
   - **media**：youtube.com / bilibili.com / pexels-footage（已搬入）/ pixabay-footage（已搬入）
@@ -214,7 +214,7 @@ SKILL.md workflow / pitfalls / error handling 三段全部重写对齐新模型�
 
 ### 5.3 本轮架构约束重申（用户 2026-07-14 定调）
 
-- **OpenCLI**：Chrome Extension 架构，wiseflow 主推 camoufox-cli，**操作指导不一定适用，只借鉴方法 + 平台风控经验，不搬代码**。
+- **OpenCLI**：Chrome Extension 架构，wutonghui 主推 camoufox-cli，**操作指导不一定适用，只借鉴方法 + 平台风控经验，不搬代码**。
 - **AiToEarn**：全走官方接口或逆向接口方案，后续**只看这些接口有没有新增或变更**，不搬其 SaaS Relay 架构。
 
 ---
@@ -225,5 +225,5 @@ SKILL.md workflow / pitfalls / error handling 三段全部重写对齐新模型�
 - `skills/smart-search/SKILL.md`（本仓 smart-search）
 - `crews/main/skills/twitter-post/SKILL.md`（本仓 twitter-post）
 - `crews/main/skills/twitter-interact/SKILL.md`（本仓 twitter-interact，本轮重写）
-- `~/.claude/projects/-home-wukong-wiseflow/memory/02-upstream-sources.md`（上游来源表）
-- `~/.claude/projects/-home-wukong-wiseflow/memory/05-smart-search-engines.md`（smart-search 引擎策略）
+- `~/.claude/projects/-home-wukong-wutonghui/memory/02-upstream-sources.md`（上游来源表）
+- `~/.claude/projects/-home-wukong-wutonghui/memory/05-smart-search-engines.md`（smart-search 引擎策略）

@@ -303,7 +303,7 @@ def build_payload(args: argparse.Namespace, text: str) -> dict:
         audio_params["enable_subtitle"] = True
 
     payload: dict = {
-        "user": {"uid": f"wiseflow-awk-tts-{int(time.time())}"},
+        "user": {"uid": f"wutonghui-awk-tts-{int(time.time())}"},
         "req_params": {
             "text": text,
             "speaker": args.voice,

@@ -4,7 +4,7 @@
 
 - **统一 Stage 0→15 制作流程**：所有视频制作均从 Brief 进入通用阶段链，保留 GATE A 剧本验收、GATE B 素材验收及成片技术自检。移除 `intent-router`；`story-develop` 仅用于 Brief 缺失或不清晰时的需求整理。
 - **类型 workflow 指导剧本生产与自检**：`reversal-ad`、`narration-video`、`collage-broll` 分别定义 Brief→script 的写作规则、检查项和制作约定；`script-write` / `script-self-eval` 按 workflow 生成对应模板。未指定类型时走通用分场剧本。
-- **明确口播与旁白分工**：口播稿由小贝提供或向用户取得，content-producer 原样落稿、不代写；真人录音走时间戳与画面排布；制作解说的旁白由 content-producer 编写并提交 GATE A。DNA 指导选题与 Brief，不延伸接管分镜制作。
+- **明确口播与旁白分工**：口播稿由吴桐荟提供或向用户取得，content-producer 原样落稿、不代写；真人录音走时间戳与画面排布；制作解说的旁白由 content-producer 编写并提交 GATE A。DNA 指导选题与 Brief，不延伸接管分镜制作。
 - **拼贴 B-roll 流程对齐**：按隐喻清单生成静帧并交给 `collage-broll render`；被裁剪的分镜、素材规划、逐镜渲染和拼接阶段加入 workflow 守卫，避免误走通用分镜链。
 - **改片与交付约定补齐**：修改单明确问题位置、预期效果与保留项；按受影响片段定向重做，保留上一版并记录修改。AIGC 转场补充选帧、景别、风格与帧率衔接要求，素材清单增加规格说明。
 
@@ -55,7 +55,7 @@
 - **Windows 安装器补齐同一逻辑**：`install.ps1` / `install-atomgit.ps1` 的 `Install-WeixinPlugin` 仍是旧判断（匹配到插件名即 return），Windows 老用户重跑安装器永远停在旧版。新增 `Get-WeixinInstalledVersion`（主路径 `plugins list --json`，沿用 Capture-Streamed 的 EAP Continue 模式规避 PS 5.1 NativeCommandError；回落 npm/projects glob，与 bash 版逐分支对齐）；判定与 bash 版一致，失败提示同步带 `--force`。便携 pwsh 7.6.6 下 AST 抽真实函数 + 假 openclaw 跑 6 场景全过（裸装 / 同版跳过 / 2.4.6→2.4.8 升级 / JSON 损坏走 glob 回落 / 版本读不到重装 / stderr 噪音不污染主路径）。
 - **`update.sh` bundled tarball 路径补 `--force`**：`vendor/openclaw-plugins/*.tgz` 每次都装、没有幂等跳过，但不带 `--force` 时在已装实例上会失败，进而触发紧随的 `exit 1` 把整次 update 打断。在线路径（`npx openclaw-weixin-cli install`）未动——该 CLI 遇到固定版本 spec 会自行跳过升级，要修得改调用方式，按决定暂不处理。
 - **pnpm 版本守卫**：pnpm 10.x 的 install CLI 不认 `--fetch-retries`（`apply-addons.sh` 依赖同步直接 unknown argument 炸掉），而 `update.sh` 零预检、`install.sh` 的 `install_pnpm()` 只判断存在即跳过，报错完全不指向真因。`update.sh` 步骤 1.5 加大版本预检（读 `openclaw/package.json` 的 packageManager pin；版本探测在 `/` 下做，避开 pnpm ≥11 在带 pin 目录返回假版本）；`install.sh` 定义 `PNPM_VERSION`（此前从未定义，真走到安装分支会执行 `npm install -g pnpm@` 空版本）并加 major 守卫（低于要求版本则升级而非跳过）；仓根 `package.json` 的 packageManager 从 4 月遗留的 `10.30.2` 对齐 `11.2.2`。
-- **install.sh / install-atomgit.sh 删旧源码路线死代码**：tarball 路线 `main()` 从不调用系统依赖 bootstrap（install_node / install_git / install_pnpm）与 git clone（clone_wiseflow / checkout_openclaw_at_pin），是 tarball 定案前旧 curl-源码路线的遗留。`install.sh` 删 19 个零调用者函数（含 require_sudo / install_homebrew / node 版本解析链等传递死代码）+ `USE_LOCAL`/`--use-local`；`install-atomgit.sh` 删同款死 helper 与 `--use-local` no-op 分支；两脚本头注释对齐（`update.sh` 原写「拉新 tarball」，实为 git clone 源码升级路线）。README 删 `--use-local` 行（该 flag 由静默 no-op 变为明确 Unknown option）。ps1 未动（本就 pnpm 11 原生）。
+- **install.sh / install-atomgit.sh 删旧源码路线死代码**：tarball 路线 `main()` 从不调用系统依赖 bootstrap（install_node / install_git / install_pnpm）与 git clone（clone_wutonghui / checkout_openclaw_at_pin），是 tarball 定案前旧 curl-源码路线的遗留。`install.sh` 删 19 个零调用者函数（含 require_sudo / install_homebrew / node 版本解析链等传递死代码）+ `USE_LOCAL`/`--use-local`；`install-atomgit.sh` 删同款死 helper 与 `--use-local` no-op 分支；两脚本头注释对齐（`update.sh` 原写「拉新 tarball」，实为 git clone 源码升级路线）。README 删 `--use-local` 行（该 flag 由静默 no-op 变为明确 Unknown option）。ps1 未动（本就 pnpm 11 原生）。
 - **`setup-crew` 只为对外 crew 生成 ALLOWED_COMMANDS**：internal crew → `security:full`，`apply_exec_tiers` 本就不读该文件（权限模型在 exec-tiers.sh），4b/4b.5 加 crew-type 闸门（以 workspace SOUL.md 为准，与 4c 一致），避免对内 crew 生成死文件并误导成受白名单约束。SOUL.md 缺失时 `resolve_crew_type` 兜底 external 照常生成，保持 fail-closed。已存在的旧文件不删（可能含用户手工添加的私有条目，运行时无副作用）。
 
 ### expert-video 工具链补齐（消除主打形态被迫手写脚本的结构性缺口）
@@ -88,7 +88,7 @@
 
 ### 平台实操路径回写（视频号发布 / 小红书 / X）
 
-- **wechat-channels-publish 实测路径回写**（来源：小贝 2026-09-14 实战提案，eval 片段取自当日发布实录并通过 `node --check`）：snapshot 一律 `-s "wujie-app"`（整页 snapshot 撞 wujie 双 body 报 strict violation）；Step 3 视频上传改直连 `input[type=file]` 选择器（click 触发按钮路线拿不到 ref）；新增「设置封面」步骤（编辑入口 / 上传封面 / `accept*=image` 精确选择器防双 file input 冲突 / 裁剪确认）；描述框改 eval 四步（聚焦 → insertText → insertParagraph → innerText 校验，contenteditable 空串致 aria 无独立 ref）；短标题 fill + eval 读 `.value` 校验（aria 占位文本填后不消失，snapshot 复核不可信）。新增 4 个 pitfall + 错误处理表 3 行；content-production.md 发布清单补「设置封面」项。
+- **wechat-channels-publish 实测路径回写**（来源：吴桐荟 2026-09-14 实战提案，eval 片段取自当日发布实录并通过 `node --check`）：snapshot 一律 `-s "wujie-app"`（整页 snapshot 撞 wujie 双 body 报 strict violation）；Step 3 视频上传改直连 `input[type=file]` 选择器（click 触发按钮路线拿不到 ref）；新增「设置封面」步骤（编辑入口 / 上传封面 / `accept*=image` 精确选择器防双 file input 冲突 / 裁剪确认）；描述框改 eval 四步（聚焦 → insertText → insertParagraph → innerText 校验，contenteditable 空串致 aria 无独立 ref）；短标题 fill + eval 读 `.value` 校验（aria 占位文本填后不消失，snapshot 复核不可信）。新增 4 个 pitfall + 错误处理表 3 行；content-production.md 发布清单补「设置封面」项。
 - **`publish_xhs.py` 路径解析修复**：`_shared` 上溯按 D8 拆分前布局写死 `parents[3]`，拆分后（`skills/expert-xhs/tools/xhs-publish/scripts/`）只到 `tools/`，`relay_sign` import 落空。改 `parents[4]` 精确解析到 `skills/_shared`。2026-09-14 小红书实际发布验证通过。
 - **twitter-post CJK 输入安全闸门**：CJK 正文禁用 `type`（逐字符按键流与 X Draft.js 异步处理竞态，实测中文丢字 + 乱序），改 eval + `execCommand insertText` 整段插入；新增发布前 MATCH 校验闸门与发布后 profile 终验；「Something went wrong」先过闸门判因（MISMATCH 重插 / MATCH 瞬时错误重试），替换原「优先精简正文」的误判。含草稿回填重复、占位符假警报、emoji 渲染为 img 三个坑。expert-bd comment-engagement 复用同套规则。
 - **微信视频号 / 公众号登录统一无头截 QR**：同模式无头截二维码发用户扫码，渲染失败才 `--headed` 兜底；`docs/platform-login-and-browser-spec.md` 两处旧说法连带修正。
@@ -113,7 +113,7 @@
 - **技能收纳规则**：只被一个领域使用的技能整体迁入对应专家包 `tools/`，从路由面消失；跨领域复用的保持顶层。收纳后技能总数不增反降，路由更准。技术依据：workspace 扫描器发现 `SKILL.md` 后停止深入，包内 `tools/*/SKILL.md` 不会被注册为独立技能。
 - **薄 `AGENTS.md` 职责边界**：只保留通用准则（品牌红线、素材治理）、专家包路由表（任务特征 → 专家包名）、兜底规则。各平台具体流程全部下沉到对应专家包。
 - **专家包内六大 workflow**：`style-dna`（DNA 创建与更新）、`content-production`（内容生产）、`account-setup`（起号与定位）、`account-benchmark`（对标比较）、`editing`（改稿与调整）、`review`（数据复盘）。workflow 每一步必须能落到工具或明确标注为 agent 推理任务，严禁"专家进行 XX"空话。
-- **首个改造对象**：`crews/main`（小贝），已完成 `expert-wx-mp` 专家包。
+- **首个改造对象**：`crews/main`（吴桐荟），已完成 `expert-wx-mp` 专家包。
 
 ### DNA（内容风格 DNA）
 
@@ -132,22 +132,22 @@
 
 ### camoufox-cli fork 跟随上游 0.7.3 + 浏览器二进制升 FF152
 
-> 本轮把 wiseflow fork 的 camoufox-cli 从 `0.6.2-wiseflow.1` 升到 `0.7.3-wiseflow.1`，同步上游 0.7.x 的安装链路修复，浏览器二进制从 FF135 那一代升到 `v152.0.4-beta.28`（Firefox 152 基线，2026-07-19）。FF152 修了 "synthetic mouse input stalling under heavy load"（地址栏换 IP 死机的根因之一）、"humanized mouse trajectory dropped in FF146 migration"、juggler hang 等多个稳定性问题。
+> 本轮把 wutonghui fork 的 camoufox-cli 从 `0.6.2-wutonghui.1` 升到 `0.7.3-wutonghui.1`，同步上游 0.7.x 的安装链路修复，浏览器二进制从 FF135 那一代升到 `v152.0.4-beta.28`（Firefox 152 基线，2026-07-19）。FF152 修了 "synthetic mouse input stalling under heavy load"（地址栏换 IP 死机的根因之一）、"humanized mouse trajectory dropped in FF146 migration"、juggler hang 等多个稳定性问题。
 
 - **`patches/camoufox-cli/src/install.ts` 同步上游 0.7.3 三块缺失修复**：
   - `stableTags()` 函数 + `assetsViaWeb()` 重构（上游 #17）——scrape path 过滤 prerelease tag，不再误拉 beta 版浏览器。
   - `browserPresent()` + install 后 `launchPath()` 兜底（上游 #17/#19）——"已安装"不只看 version.json，还要检查二进制在磁盘上；broken install 立即报错。
   - `launchPath` 加入 import，支持上面两处。
 - **`patches/camoufox-cli/package.json` 升级**：
-  - `version`: `0.6.2-wiseflow.1` → `0.7.3-wiseflow.1`
+  - `version`: `0.6.2-wutonghui.1` → `0.7.3-wutonghui.1`
   - `camoufox-js`: `^0.11.1` → `0.11.2`（pin 死，跟上游 0.7.3 对齐，避免意外升 0.12）
   - `playwright-core`: 保持 `1.52.0`（camoufox juggler 兼容性需要）
-  - `wiseflowForkBaseline`: `0.6.2` → `0.7.3`
+  - `wutonghuiForkBaseline`: `0.6.2` → `0.7.3`
 - **浏览器二进制 `v152.0.4-beta.28`（FF152 基线）**：`camoufox-js@0.11.2` 的 `CamoufoxFetcher` 指向 `daijro/camoufox` 仓库，`fetchLatest()` 跳过 prerelease，拉第一个 stable release。比 fork 之前用的 FF135 那一代新 17 个 Firefox 大版本。
 - **`scripts/update.sh` 加入 camoufox-cli fork rebuild（第 6.5 步）**：
   - 老用户跑 `update.sh` 时，在 `apply-addons.sh` 之后、`pnpm build` 之前，自动 `bash patches/camoufox-cli/build.sh`（rebuild dist + npm install -g 覆盖旧版）+ `camoufox-cli install`（用新 fork 拉新浏览器二进制）。
   - 修复之前老用户升级后全局 `camoufox-cli` 还是旧版、浏览器二进制不更新的缺口。
-- **未引入多 tab 架构**：上游 0.7.3 的 `browser.ts` 引入 `TabState` + `tabs` Map + ref-counted close（多 agent 共享浏览器指纹），跟 fork 的单 page + fail-first 队列架构冲突。wiseflow 当前"一个 session 一个 agent"场景不需要多 tab，保留 fork 现状。
+- **未引入多 tab 架构**：上游 0.7.3 的 `browser.ts` 引入 `TabState` + `tabs` Map + ref-counted close（多 agent 共享浏览器指纹），跟 fork 的单 page + fail-first 队列架构冲突。wutonghui 当前"一个 session 一个 agent"场景不需要多 tab，保留 fork 现状。
 - **保留的 fork 独有功能**：`shortenSession()`（支持 cron 长 session 名）、`recoverOrphanBrowser()`/`killDaemon()`/`termThenKill()`（孤儿浏览器进程树回收）、`--viewport` 参数（weibo/xianyu 二维码登录用）、fail-first 队列、`upload`/`identity` 三件套。
 
 ---
@@ -181,7 +181,7 @@
 
 ### 数据闭环彻底打通，为自我进化奠基
 
-- **`content-calibrator` 打分+预测机制完善**：内容产出 → 发布 → 数据回流 → 下一轮策略调优的闭环不再有断点。calibrator 拿 published-track 回流的实际数据（阅读/点赞/转发/转化）对照预测打分，自动校准后续选题与打法的权重，为小贝自主迭代提供燃料。
+- **`content-calibrator` 打分+预测机制完善**：内容产出 → 发布 → 数据回流 → 下一轮策略调优的闭环不再有断点。calibrator 拿 published-track 回流的实际数据（阅读/点赞/转发/转化）对照预测打分，自动校准后续选题与打法的权重，为吴桐荟自主迭代提供燃料。
 - **`published-track` 数据复盘机制完善**：新增微信视频号取数支持，现在主力四平台（微信视频号、微信公众号、小红书、抖音）全系支持内容自动生产、自动发布、自动取数、自动复盘；发布结果数据回流进 calibrator，闭环生效。
 
 ### wx-mp-hunter 接口重写
@@ -250,7 +250,7 @@
 
 **§1 fork camoufox-cli**（commit `24c1bf1`）：
 
-- vendored 进 `patches/camoufox-cli/`（flat layout，基线上游 `Bin-Huang/camoufox-cli@0.6.2`），不另起 repo、不 npm 发布。`build.sh` 全局安装（`npm install -g .` link，bin → `dist/cli.js`），全局版本 `0.6.2-wiseflow.1`。
+- vendored 进 `patches/camoufox-cli/`（flat layout，基线上游 `Bin-Huang/camoufox-cli@0.6.2`），不另起 repo、不 npm 发布。`build.sh` 全局安装（`npm install -g .` link，bin → `dist/cli.js`），全局版本 `0.6.2-wutonghui.1`。
 - **三个新功能**（spec §1.1 必改）：
   - `upload @ref|selector <file> [more files...]` — Playwright `setInputFiles`，variadic，缺文件 fail-fast。发布类技能依赖。
   - daemon **fail-first 队列** — 同 session 并发命令直接 fail 返回 `session <name> 正忙，请等待当前操作完成后再试`，`close` bypass（recovery）。不排队不等待，agent 读到 fail 文本知道发生了什么。
@@ -285,7 +285,7 @@
 - camoufox-cli `cookies import` 合法用途仅限同指纹 profile 的 cookie 备份/恢复 + 跨设备迁移同一指纹（profile 整体搬，不是只搬 cookie）。
 - HEARTBEAT.md 约束 4 已落地「凌晨心跳跳过 + 等白天」策略，本文档补白天恢复流程。
 
-**§9 README.md / CHANGELOG.md 更新**：本条目 + README `**v5.6.0 更新**` 浏览器架构重新设计段 + `## 🔧 比原版更强、更适合国内网络环境的浏览器方案` patch 表更新 + `## 🤝 xiaobei 基于如下优秀的开源项目` 去掉 Patchright 加 camoufox（🦊 https://github.com/daijro/camoufox）。
+**§9 README.md / CHANGELOG.md 更新**：本条目 + README `**v5.6.0 更新**` 浏览器架构重新设计段 + `## 🔧 比原版更强、更适合国内网络环境的浏览器方案` patch 表更新 + `## 🤝 wutonghui-xiaobei 基于如下优秀的开源项目` 去掉 Patchright 加 camoufox（🦊 https://github.com/daijro/camoufox）。
 
 **§3-§6 并行中**（另一 agent）：browser-guide/smart-search/web-form-fill 三技能适配 + login-manager 纯指导化 + 9+ 平台 skill 改造 + wx-mp-hunter 收编。
 
@@ -293,8 +293,8 @@
 
 ### 产品拆分（client 仓）
 
-- **client 仓独立成仓**：从 Pro 仓 `product-split/client` 分支切出独立仓 `wiseflow`（远程 `git@github.com:bigbrother666sh/wiseflow.git`），发布仓 `TeamWiseFlow/xiaobei.git`。
-- **relay 仓独立**：auth / sign / publish-relay / video-relay / tx-relay / awada-server 等服务搬到独立 PM2 仓 `wiseflow-relay`（`git-server:repos/wiseflow-relay.git`）。client 不持任何平台凭据，所有 relay 调用带 `X-OFB-Key` header。
+- **client 仓独立成仓**：从 Pro 仓 `product-split/client` 分支切出独立仓 `wutonghui`（远程 `git@github.com:bigbrother666sh/wutonghui.git`），发布仓 `TeamWiseFlow/wutonghui-xiaobei.git`。
+- **relay 仓独立**：auth / sign / publish-relay / video-relay / tx-relay / awada-server 等服务搬到独立 PM2 仓 `wutonghui-relay`（`git-server:repos/wutonghui-relay.git`）。client 不持任何平台凭据，所有 relay 调用带 `X-OFB-Key` header。
 - **openclaw 版本锁定**：本仓 `openclaw.version` 锁 `v2026.6.10 / aa69b12d`，CI/release 按此 clone + checkout。
 - **patches 精简**：001（relax exec allowlist）+ 004（chrome port grace retry）已删，上游 6.10 已吸收或风险降级；保留 002/003/005/006。
 
@@ -311,7 +311,7 @@
 - **login-manager 重写**：从 CDP WebSocket 抽 cookie 路径 → camoufox-cli cookies export。保留中央存储 `~/.openclaw/logins/{platform}.json`；新增 5 个子命令（`qr-headless` / `qr-confirm` / `cookie-export` / `cookie-import` / `session-cleanup`），加 `wx-mp` 平台（Phase 4.6）。25 单元测试全过。
 - **browser-guide 改写**：加 §0 camoufox-cli 主推章节（5 小节），§1-6 标 fallback。
 - **浏览器类 skill 收敛**：viral-chaser / content-calibrator / xhs-content-ops / xhs-interact 4 个 skill SKILL.md 改用 camoufox-cli 主推路径（修过期引用 + xhs-interact 全文重写 161+ 行）。
-- **指纹模板 bake**：Dockerfile `wiseflow-layer` 阶段加 camoufox-cli 指纹模板 bake，产物 `/root/.openclaw/logins/_template/camoufox-cli.json`。
+- **指纹模板 bake**：Dockerfile `wutonghui-layer` 阶段加 camoufox-cli 指纹模板 bake，产物 `/root/.openclaw/logins/_template/camoufox-cli.json`。
 - **D18 约束**：不 fork camoufox-cli / 不 bake chromium / 每 agent 一 session。
 - **设计骨架**：`docs/phase-4.5-design.md`（4 子任务地图 + 接口契约 + D18 约束清单）。
 - **spike 报告**：`docs/camoufox-spike-2026-07.md`（指纹复用 + cookies export 验证通过）。
@@ -367,7 +367,7 @@
 
 - `config-templates/openclaw.json` 主力模型由 DeepSeek V4 Pro 切换为 **GLM-5.2**（经火山引擎方舟 Coding Plan 接入，`awk/glm-latest`），fallback 为 siliconflow provider
 - `install.sh` 交互式收集的 key 由 `DEEPSEEK_API_KEY` 改为 `AWK_API_KEY`
-- 大模型推荐主推**火山方舟 Coding Plan**：支持 GLM-5.2、Kimi-K2.7、MiniMax-M3、DeepSeek-V4 系列、Doubao-Seed-2.0 系列等模型，工具不限；通过 xiaobei 邀请链接订阅叠加 9.5 折，首月尝鲜低至 9.4 元。邀请链接 https://volcengine.com/L/dx-wt80li-I/ ，邀请码 `5Y5A6L86`
+- 大模型推荐主推**火山方舟 Coding Plan**：支持 GLM-5.2、Kimi-K2.7、MiniMax-M3、DeepSeek-V4 系列、Doubao-Seed-2.0 系列等模型，工具不限；通过 wutonghui-xiaobei 邀请链接订阅叠加 9.5 折，首月尝鲜低至 9.4 元。邀请链接 https://volcengine.com/L/dx-wt80li-I/ ，邀请码 `5Y5A6L86`
 - siliconflow、aihubmix 推荐不变（siliconflow 仍需申请，作为视觉/替补模型）
 
 > 想使用 5.5.2 的视频生成能力，需额外开通火山方舟 doubao-seedance-2.0 系列或阿里云百炼 happyhorse-1.1 系列模型，并将对应 key（`AWK_GEN_KEY` 或 `MODELSTUDIO_API_KEY`）配置到 `daemon.env`。
@@ -375,11 +375,11 @@
 ### openclaw 上游同步至 v2026.6.10
 
 - 从 v2026.6.6 升级到 v2026.6.10
-- **删除 patch 001**（relax exec allowlist shell syntax）：上游 exec 审批重构为 risk-based（`command-explainer` + `exec-authorization-plan`），`&&`/`||`/`;` 复合命令已原生逐段匹配 allowlist；`$()`/反引号/重定向上游仍拒但 wiseflow 已改走 `.sh` 脚本。原目标代码 `splitShellPipeline` 已删，无法 re-port
+- **删除 patch 001**（relax exec allowlist shell syntax）：上游 exec 审批重构为 risk-based（`command-explainer` + `exec-authorization-plan`），`&&`/`||`/`;` 复合命令已原生逐段匹配 allowlist；`$()`/反引号/重定向上游仍拒但 wutonghui 已改走 `.sh` 脚本。原目标代码 `splitShellPipeline` 已删，无法 re-port
 - **删除 patch 004**（chrome port grace retry）：上游新增 `ensureManagedChromePortAvailable` + `recoverOwnedStaleManagedChromeCdpListener`，命中 EADDRINUSE 时主动杀掉占用端口的陈旧 Chrome 进程并清 singleton lock 再重探，比 3×500ms 轮询更强
 - 保留 patch 002/003/005/006（验证 apply 通过，上游无等价改动）
 
-### 上游关键变更摘要（与 xiaobei 相关）
+### 上游关键变更摘要（与 wutonghui-xiaobei 相关）
 
 - **GLM-5.2（6.10）**：暴露 reasoning levels、GLM overload failover、Zai 合成模型回退 manifest baseUrl
 - **心跳（6.9）**：修复 5.20 及所有 5.x 上心跳 scheduler 不触发的回归（#88970）
@@ -544,9 +544,9 @@
 
 ### 架构调整
 
-- **patches 与 addon 分离**：将代码补丁（`patches/*.patch`）、插件（`patches/suppress-stale-reply`）和依赖覆盖（`patches/overrides.sh`）从 `addons/officials/` 迁移至项目根目录 `patches/`，作为 xiaobei 的共性基础能力，对所有 addon 生效。addon 不再支持 patches 层，仅提供额外全局技能和 Crew 模板。
+- **patches 与 addon 分离**：将代码补丁（`patches/*.patch`）、插件（`patches/suppress-stale-reply`）和依赖覆盖（`patches/overrides.sh`）从 `addons/officials/` 迁移至项目根目录 `patches/`，作为 wutonghui-xiaobei 的共性基础能力，对所有 addon 生效。addon 不再支持 patches 层，仅提供额外全局技能和 Crew 模板。
 
-- **默认全局技能重新划分**：`smart-search`、`browser-guide` 从 addon 专属技能迁移至 `skills/`（项目根目录），成为 xiaobei 所有 crew 默认可用的内置技能，无需依赖 official addon 即可生效。
+- **默认全局技能重新划分**：`smart-search`、`browser-guide` 从 addon 专属技能迁移至 `skills/`（项目根目录），成为 wutonghui-xiaobei 所有 crew 默认可用的内置技能，无需依赖 official addon 即可生效。
 
 - **`apply-addons.sh` 重构**：先应用 `patches/` 下的基础补丁和覆盖，再安装默认全局技能（`skills/`），最后逐 addon 安装额外技能和 Crew 模板。addon 加载流程简化为两层（skills → crew），移除原有的 overrides 和 patches 层。
 
@@ -590,7 +590,7 @@
 
 # v5.2
 
-- combine ofb and wiseflow
+- combine ofb and wutonghui
 - publish sales-db and self-media operator
 
 # v5.0
@@ -622,9 +622,9 @@ upgrage workflow to Agent!
 
 # v4.30
 
-- 升级为与 pro 版本一样的架构，同时具有一样的 api，可无缝共享 [wiseflow+](https://github.com/TeamWiseFlow/wiseflow-plus) 生态！
+- 升级为与 pro 版本一样的架构，同时具有一样的 api，可无缝共享 [wutonghui+](https://github.com/TeamWiseFlow/wutonghui-plus) 生态！
 
-  Upgraded to the same architecture as the pro version, with the same api, seamlessly sharing the [wiseflow+](https://github.com/TeamWiseFlow/wiseflow-plus) ecosystem!
+  Upgraded to the same architecture as the pro version, with the same api, seamlessly sharing the [wutonghui+](https://github.com/TeamWiseFlow/wutonghui-plus) ecosystem!
 
 # v4.2
 

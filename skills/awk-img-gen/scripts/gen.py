@@ -259,7 +259,7 @@ def extract_image_urls(resp: dict) -> list[str]:
 
 def download_image(url: str, dest_path: Path) -> None:
     """下载图片到本地。链接 24h 内有效（按百炼文档）。"""
-    req = urllib.request.Request(url, headers={"User-Agent": "wiseflow-awk-img-gen/3.0"})
+    req = urllib.request.Request(url, headers={"User-Agent": "wutonghui-awk-img-gen/3.0"})
     with urllib.request.urlopen(req, timeout=120) as resp:
         dest_path.write_bytes(resp.read())
 
@@ -298,7 +298,7 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=None, help="随机种子 [0, 2147483647]")
     parser.add_argument(
         "--watermark", choices=["true", "false"], default="false",
-        help="是否加水印（百炼默认 false；xiaobei 保持 false 避免后续 image 工具处理）",
+        help="是否加水印（百炼默认 false；wutonghui-xiaobei 保持 false 避免后续 image 工具处理）",
     )
     parser.add_argument(
         "--prompt-extend", action="store_true", dest="prompt_extend",

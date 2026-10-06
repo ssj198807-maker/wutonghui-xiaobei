@@ -34,7 +34,7 @@ https://github.com/search?q={keyword}&type={type}
 ### 示例
 
 ```
-https://github.com/search?q=wiseflow+addon&type=repositories&s=stars&o=desc&l=Python
+https://github.com/search?q=wutonghui+addon&type=repositories&s=stars&o=desc&l=Python
 ```
 
 ## Pitfalls

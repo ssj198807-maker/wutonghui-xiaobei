@@ -1,8 +1,8 @@
-# camoufox-cli — wiseflow fork
+# camoufox-cli — wutonghui fork
 
-Fork of [`Bin-Huang/camoufox-cli`](https://github.com/Bin-Huang/camoufox-cli) @ **0.6.2**, vendored into the wiseflow repo at `patches/camoufox-cli/`. Not published to npm; built and globally installed from this tree by `build.sh`.
+Fork of [`Bin-Huang/camoufox-cli`](https://github.com/Bin-Huang/camoufox-cli) @ **0.6.2**, vendored into the wutonghui repo at `patches/camoufox-cli/`. Not published to npm; built and globally installed from this tree by `build.sh`.
 
-This fork is the **线 1** browser backend of the wiseflow browser-stack pivot — see [`docs/browser-stack-replacement-spec-2026-07.md`](../../docs/browser-stack-replacement-spec-2026-07.md) §1 and [`docs/browser-extension-replacement-research.md`](../../docs/browser-extension-replacement-research.md) §12.
+This fork is the **线 1** browser backend of the wutonghui browser-stack pivot — see [`docs/browser-stack-replacement-spec-2026-07.md`](../../docs/browser-stack-replacement-spec-2026-07.md) §1 and [`docs/browser-extension-replacement-research.md`](../../docs/browser-extension-replacement-research.md) §12.
 
 ## Changes vs upstream 0.6.2
 

@@ -69,7 +69,7 @@ for arg in "$@"; do
 
 示例:
   record.sh --platform wx_channel --title "完整视频描述... #话题" --content-type video \
-    --source-folder wx_channel/outputs/my-video/ --account xiaobei
+    --source-folder wx_channel/outputs/my-video/ --account wutonghui-xiaobei
   record.sh --platform xhs --title "标题" --content-type post --source-folder xhs/outputs/abc/ \
     --publish-url "https://www.xiaohongshu.com/..."
 

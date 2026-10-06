@@ -1,0 +1,35 @@
+# NOTICE
+
+## 项目来源
+
+本仓库（`ssj198807-maker/wutonghui-xiaobei`）基于
+[TeamWiseFlow/xiaobei](https://github.com/TeamWiseFlow/xiaobei)（v5.7.2）
+的 fork，并进行了品牌私有化：
+
+- 项目名：`xiaobei` → `wutonghui-xiaobei`
+- 产品名：`小贝` → `吴桐荟`
+- 产品系列：`Wiseflow` → `WutongHui`
+- 协议：上游 AGPL-3.0-only → 本项目 MIT
+
+## 上游致谢
+
+- **原作者**：[bigbrother666sh](https://github.com/bigbrother666sh)（Wiseflow 作者）
+- **底层引擎**：[OpenClaw](https://github.com/openclaw/openclaw)
+- **AI 模型**：阿里云百炼 Token Plan（[介绍](https://www.aliyun.com/benefit/ai/aistar)）
+
+## 协议说明
+
+- **吴桐荟私有化代码**：MIT License（见 [LICENSE](./LICENSE)）
+- **OpenClaw 上游代码**：保留各自原始协议
+- **xiaobei 上游功能**：保留 AGPL-3.0 仅参考；本 fork 已品牌私有化
+
+## 私有化动机
+
+吴桐荟运营平台（WutongHui Ops Platform）是面向 OPC/中小微企业的本地化经营平台。
+基于 xiaobei 的多 Agent ChatOps 架构 + 18 类信源情报 + 微信生态接入能力，
+改造为适合国内 SMB 市场的"桌面优先、本地优先、可分享"版本。
+
+## 联系
+
+- 主页：[wutonghui-ops-platform（待发布）]
+- 邮箱：dev@wutonghui.local

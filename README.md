@@ -1,6 +1,6 @@
-# 小贝（xiaobei）
+# 吴桐荟（wutonghui-xiaobei）
 
-小贝（xiaobei）是为OPC/中小微企业量身打造的自媒体获客智能体，底层架构基于 [openclaw](https://github.com/openclaw/openclaw)，目前它能帮你：
+吴桐荟（wutonghui-xiaobei）是为OPC/中小微企业量身打造的自媒体获客智能体，底层架构基于 [openclaw](https://github.com/openclaw/openclaw)，目前它能帮你：
 
 - 微信公众号文章写作、排版与推送
 - 小红书/小绿书图文创作与发布
@@ -26,7 +26,12 @@
 
 <img width="960" src="assets/feature2.jpg" />
 
-xiaobei 由Wiseflow (原AI首席情报官）作者 bigbrother666sh 开发。
+wutonghui-xiaobei 由WutongHui (原AI首席情报官）作者 bigbrother666sh 开发。
+
+> **📦 Fork 来源**：本项目 fork 自 [TeamWiseFlow/xiaobei](https://github.com/TeamWiseFlow/xiaobei)，
+> 保留 AGPL-3.0 上游协议，二次开发部分采用 MIT 协议。
+> 原项目作者：[bigbrother666sh](https://github.com/bigbrother666sh)。
+> 底层 OpenClaw 引擎：[openclaw/openclaw](https://github.com/openclaw/openclaw)。
 
 官网：[openclaw-for-business.com](https://openclaw-for-business.com/)
 
@@ -36,8 +41,8 @@ xiaobei 由Wiseflow (原AI首席情报官）作者 bigbrother666sh 开发。
 
 - 小红书、抖音、视频号 DNA系统升级到2.0架构，Let's do this like an expert！
 - content producer 升级为专家系统，现在除了AIGC大片外，还可以复刻众多短视频平台流行的“套路”，更易获得平台推荐流量：
-  > 效果展示，xiaobei的视频号：https://openclaw-for-business.com/xiaobei-wxchannel.jpg
-- xiaobei 可直接指挥content producer，用户可选择将brief出具、节点验收等委托xiaobei
+  > 效果展示，wutonghui-xiaobei 的视频号：https://openclaw-for-business.com/wutonghui-xiaobei-wxchannel.jpg
+- wutonghui-xiaobei 可直接指挥content producer，用户可选择将brief出具、节点验收等委托 wutonghui-xiaobei
 - 新增抖音平台图文音乐内容发布能力，支持多图上传、选择推荐配乐与发布链接回收。
 - AIGC 端点支持阿里云百炼 Agent Plan：现在无需去多个平台开通不同账号，最简只用初始安装时的百炼账号就可获得全部能力。
 - 修复一键安装脚本openclaw-weixin不会自动升级的问题
@@ -66,9 +71,9 @@ xiaobei 由Wiseflow (原AI首席情报官）作者 bigbrother666sh 开发。
 
 ```bash
 # GitHub 线路（适合能正常访问 GitHub 的网络环境）
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/TeamWiseFlow/xiaobei/master/scripts/install.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/ssj198807-maker/wutonghui-xiaobei/master/scripts/install.sh)"
 # 国内 atomgit 线路（tarball 走 atomgit.com → GitCode CDN，全程国内直连，脚本也从 raw.atomgit.com 拉取）
-bash -c "$(curl -fsSL https://raw.atomgit.com/wiseflow/xiaobei/raw/master/scripts/install-atomgit.sh)"
+bash -c "$(curl -fsSL https://raw.atomgit.com/wutonghui/wutonghui-xiaobei/raw/master/scripts/install-atomgit.sh)"
 ```
 
 **Windows（PowerShell）：**
@@ -78,46 +83,46 @@ bash -c "$(curl -fsSL https://raw.atomgit.com/wiseflow/xiaobei/raw/master/script
 
 ```powershell
 # GitHub 线路（适合能正常访问 GitHub 的网络环境）
-irm https://raw.githubusercontent.com/TeamWiseFlow/xiaobei/master/scripts/install.ps1 | iex
+irm https://raw.githubusercontent.com/ssj198807-maker/wutonghui-xiaobei/master/scripts/install.ps1 | iex
 # 国内 atomgit 线路（tarball 走 atomgit.com → GitCode CDN，全程国内直连，脚本也从 raw.atomgit.com 拉取）
-irm https://raw.atomgit.com/wiseflow/xiaobei/raw/master/scripts/install-atomgit.ps1 | iex
+irm https://raw.atomgit.com/wutonghui/wutonghui-xiaobei/raw/master/scripts/install-atomgit.ps1 | iex
 ```
 
 > 按网络环境选一条命令即可：能正常访问 GitHub 走 GitHub 线路（脚本 `install.sh` / `install.ps1`）；国内网络走 atomgit 线路（脚本 `install-atomgit.sh` / `install-atomgit.ps1`，全程不经 GitHub）。两条线路安装产物完全一致，只是下载源不同。
 
-> install 脚本默认拉最新 release tag + 下载 tarball。指定版本：`export XIAOBEI_TAG=v5.6.3`（PowerShell：`$env:XIAOBEI_TAG="v5.6.3"`）。
+> install 脚本默认拉最新 release tag + 下载 tarball。指定版本：`export WUTONGHUI_TAG=v5.6.3`（PowerShell：`$env:WUTONGHUI_TAG="v5.6.3"`）。
 
 > 💡 **下载中断 / 安装失败？多试几次就好。** tarball 体积较大（~140MB），首装还要下 Firefox 反指纹浏览器（~557MB），网络偶发中断属正常。脚本幂等，重跑会续上已下的部分。
 
-> ⚠️ **Windows 必须装 bash**（Git Bash 或 WSL）。install.ps1 / install-atomgit.ps1 用 `tar`（Win10 1803+ 自带）解压 tarball，但 `setup-crew.sh` 是 bash 脚本，部署 crew workspace 离不开 bash。无 bash 时脚本会跳过 crew 模板部署并提示手动补跑——此时小贝团队起不来。装 Git Bash：https://git-scm.com （安装时勾选 "Add to PATH"）。
+> ⚠️ **Windows 必须装 bash**（Git Bash 或 WSL）。install.ps1 / install-atomgit.ps1 用 `tar`（Win10 1803+ 自带）解压 tarball，但 `setup-crew.sh` 是 bash 脚本，部署 crew workspace 离不开 bash。无 bash 时脚本会跳过 crew 模板部署并提示手动补跑——此时吴桐荟团队起不来。装 Git Bash：https://git-scm.com （安装时勾选 "Add to PATH"）。
 
 > 完整步骤：先装 Git Bash（安装时勾选 "Add to PATH"，让 bash 进 PowerShell 的 PATH）→ 再在 PowerShell 跑上面那条 `irm | iex`。
 
 > 💡 **Windows 建议打开「开发者模式」**（设置 → 隐私和安全 → 开发者选项 → 开启开发人员模式，Win10 1703+ 支持）。安装脚本会创建两条软链：仓内 `skills/` → `~/.openclaw/skills`、各 crew 的 `skills/` → `~/.openclaw/workspace-<crew>/skills/`，让 openclaw 的 skill loader 拾取技能、且仓内改完即生效无需重跑安装。软链在 Windows 上需要开发者模式（或管理员 PowerShell）；两者都没打开时脚本会自动回退为拷贝——功能正常但技能不会随仓更新自动同步，重跑安装才会刷新。
 
-装好后脚本最后会自动出微信绑定二维码——用手机微信扫一下、点确认，小贝就能用了。已绑过的机器自动跳过这一步。
+装好后脚本最后会自动出微信绑定二维码——用手机微信扫一下、点确认，吴桐荟就能用了。已绑过的机器自动跳过这一步。
 
-> **目录职责**：`~/xiaobei/` = 程序（引擎 + 模板 + 脚本 + 工具 + wrapper）；`~/.openclaw/` = 运行数据（openclaw.json + daemon.env + workspaces + logs）。两者分开，升级只换 `~/xiaobei/`，用户数据不动。可用 `XIAOBEI_HOME` / `OPENCLAW_HOME` env 覆盖。
+> **目录职责**：`~/wutonghui-xiaobei/` = 程序（引擎 + 模板 + 脚本 + 工具 + wrapper）；`~/.openclaw/` = 运行数据（openclaw.json + daemon.env + workspaces + logs）。两者分开，升级只换 `~/wutonghui-xiaobei/`，用户数据不动。可用 `WUTONGHUI_HOME` / `OPENCLAW_HOME` env 覆盖。
 
 > **系统要求**：推荐 Ubuntu 22.04；支持 WSL2 / macOS（arm64 + x64）；Windows 10 1803+（x64，需 Git Bash 或 WSL）。WSL2 下脚本自动注入 GUI 显示变量。
 
 > 🖥️ **部署机器建议**：推荐用一台 **7×24 小时常开**的电脑部署，上面**不要放置个人隐私 / 机密文件**。若你希望在日常办公电脑上安装、且只在用时启动——可以期待我们即将推出的**官方 Docker 镜像**，具体可扫下方二维码咨询掌柜👇。
 
-> **调试模式**（前台单次启动，适合测试，不走 launchd/systemd 服务）：`~/xiaobei/bin/openclaw gateway run`
+> **调试模式**（前台单次启动，适合测试，不走 launchd/systemd 服务）：`~/wutonghui-xiaobei/bin/openclaw gateway run`
 
 > 排障见 [`docs/install-troubleshooting.md`](docs/install-troubleshooting.md)
 
 ### 微信换绑 / 增加绑定
 
-装好后想**换一个微信号**（换绑）或**再加一个号**，都用 `channels login` 重新出二维码。`openclaw` 不在 PATH，下面命令用全路径 `~/xiaobei/bin/openclaw`（把 `~/xiaobei/bin` 加进 PATH 后可直接敲 `openclaw`）。
+装好后想**换一个微信号**（换绑）或**再加一个号**，都用 `channels login` 重新出二维码。`openclaw` 不在 PATH，下面命令用全路径 `~/wutonghui-xiaobei/bin/openclaw`（把 `~/wutonghui-xiaobei/bin` 加进 PATH 后可直接敲 `openclaw`）。
 
 **换绑（替换成新号）**：先停 gateway、清掉旧账号数据，再重新 login 出码：
 
 ```bash
-~/xiaobei/bin/openclaw gateway stop
+~/wutonghui-xiaobei/bin/openclaw gateway stop
 rm -rf ~/.openclaw/openclaw-weixin/
-~/xiaobei/bin/openclaw gateway start
-~/xiaobei/bin/openclaw channels login --channel openclaw-weixin
+~/wutonghui-xiaobei/bin/openclaw gateway start
+~/wutonghui-xiaobei/bin/openclaw channels login --channel openclaw-weixin
 ```
 
 > `channels login` 出码后 8 分钟内有效，扫码慢会自动刷新，用新微信扫一下、点确认即完成。
@@ -125,24 +130,24 @@ rm -rf ~/.openclaw/openclaw-weixin/
 **增加绑定（保留旧号、再加一个）**：直接再跑一次 login，用另一个微信扫：
 
 ```bash
-~/xiaobei/bin/openclaw channels login --channel openclaw-weixin
+~/wutonghui-xiaobei/bin/openclaw channels login --channel openclaw-weixin
 ```
 
 > ⚠️ 多账号时，若两个号都能匹配同一个收件人，发消息会报 `ambiguous — N accounts matched`。所以**换号场景建议用上面的"换绑"流程清掉旧号**，避免歧义；只在确实要多号并存时用"增加绑定"。
 
 ### 升级
 
-**已装用户重跑 install 脚本即升级**：脚本检测到 `~/.openclaw/openclaw.json` 已存在时自动走更新路线——只刷新程序目录 `~/xiaobei/`（拉新 tarball + `pnpm install --prod` 重建依赖 + 幂等刷 camoufox/weixin/awada）+ restart gateway，**不碰运行数据**（openclaw.json / workspace / daemon.env 已有 key 全保留）。要强覆盖运行数据加 `--force`（会备份旧 openclaw.json）。
+**已装用户重跑 install 脚本即升级**：脚本检测到 `~/.openclaw/openclaw.json` 已存在时自动走更新路线——只刷新程序目录 `~/wutonghui-xiaobei/`（拉新 tarball + `pnpm install --prod` 重建依赖 + 幂等刷 camoufox/weixin/awada）+ restart gateway，**不碰运行数据**（openclaw.json / workspace / daemon.env 已有 key 全保留）。要强覆盖运行数据加 `--force`（会备份旧 openclaw.json）。
 
 ```bash
 # macOS / Linux（GitHub 线路）
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/TeamWiseFlow/xiaobei/master/scripts/install.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/ssj198807-maker/wutonghui-xiaobei/master/scripts/install.sh)"
 # macOS / Linux（atomgit 线路，国内）
-bash -c "$(curl -fsSL https://raw.atomgit.com/wiseflow/xiaobei/raw/master/scripts/install-atomgit.sh)"
+bash -c "$(curl -fsSL https://raw.atomgit.com/wutonghui/wutonghui-xiaobei/raw/master/scripts/install-atomgit.sh)"
 # Windows (PowerShell，GitHub 线路)
-irm https://raw.githubusercontent.com/TeamWiseFlow/xiaobei/master/scripts/install.ps1 | iex
+irm https://raw.githubusercontent.com/ssj198807-maker/wutonghui-xiaobei/master/scripts/install.ps1 | iex
 # Windows (PowerShell，atomgit 线路，国内)
-irm https://raw.atomgit.com/wiseflow/xiaobei/raw/master/scripts/install-atomgit.ps1 | iex
+irm https://raw.atomgit.com/wutonghui/wutonghui-xiaobei/raw/master/scripts/install-atomgit.ps1 | iex
 ```
 
 > 已手动 `git clone` 仓做开发的用户仍可用 `scripts/update.sh` 走 fetch + rebuild 路线（不重装依赖、不卸 daemon）。普通用户用上面的 install 脚本即可。
@@ -157,11 +162,11 @@ irm https://raw.atomgit.com/wiseflow/xiaobei/raw/master/scripts/install-atomgit.
 | 带宽 | 10 Mbps | — |
 
 - **网络**：建议使用正常住宅 IP，数据中心 IP 部分平台可能识别限制。
-- 但部分发布能力又需要固定IP（平台限制，非软件能力问题），针对这个矛盾 Wiseflow team 已推出中转服务，具体可以添加下方掌柜二维码详询👇
+- 但部分发布能力又需要固定IP（平台限制，非软件能力问题），针对这个矛盾 WutongHui team 已推出中转服务，具体可以添加下方掌柜二维码详询👇
 
 > **💡 模型费用说明**
 >
-> xiaobei 底层基于 openclaw，建议先准备好大模型 API：
+> wutonghui-xiaobei 底层基于 openclaw，建议先准备好大模型 API：
 >
 > - **主力模型（强烈推荐）**：[阿里云百炼「Token Plan」套餐](https://www.aliyun.com/benefit/ai/aistar?clubBiz=subTask..12766005..10274..) — 一个套餐已经可以覆盖xiaobei系统所需的所有大模型（思考与对话、图像生成、TTS 语音合成、ASR 语音识别和视频生成)。
 >
@@ -178,17 +183,17 @@ irm https://raw.atomgit.com/wiseflow/xiaobei/raw/master/scripts/install-atomgit.
 > | 火山引擎方舟 | `AWK_GEN_KEY` | `doubao-seedance-2-0-fast-260128` / `doubao-seedance-2-0-260128` / `doubao-seedance-2-0-mini-260615` |
 > | minimax海螺 | `MINIMAX_API_KEY` | `minimax-H3` |
 >
-> 只配置百炼 `AWK_API_KEY` 时自动走 Agent Plan；若已有其他视频凭据，自动选择顺序为 MiniMax → 火山 → 百炼业务空间 → 百炼 Agent Plan。均未配置时，小贝改用 pexels/pixabay 素材模式（仍需注册获取对应的免费 Key）。`AWK_GEN_KEY` 是火山视频生成凭据，与百炼 `AWK_API_KEY` 不可混用。需要调整配置时，可以让小贝调用内置 IT Engineer 协助。
+> 只配置百炼 `AWK_API_KEY` 时自动走 Agent Plan；若已有其他视频凭据，自动选择顺序为 MiniMax → 火山 → 百炼业务空间 → 百炼 Agent Plan。均未配置时，吴桐荟改用 pexels/pixabay 素材模式（仍需注册获取对应的免费 Key）。`AWK_GEN_KEY` 是火山视频生成凭据，与百炼 `AWK_API_KEY` 不可混用。需要调整配置时，可以让吴桐荟调用内置 IT Engineer 协助。
 
 > **🧠 进阶：记忆增强与 dream（可选）**
 >
-> 默认配置下，小贝的记忆走 FTS 全文检索，已经够用且零额外配置。如果你记忆体量很大、想要更好的语义召回，可以接入一个 embedding 模型；也可以选择打开凌晨"做梦"机制让小贝在夜间整理记忆。
+> 默认配置下，吴桐荟的记忆走 FTS 全文检索，已经够用且零额外配置。如果你记忆体量很大、想要更好的语义召回，可以接入一个 embedding 模型；也可以选择打开凌晨"做梦"机制让吴桐荟在夜间整理记忆。
 >
-> 任何 OpenAI 接口格式的 embedding 服务都可以接（如阿里云百炼的 `text-embedding-v3/v4` 系列）。配置方法：把 `agents.defaults.memorySearch.provider` 从 `"none"` 改为 `"openai-compatible"`，并补上 `remote.baseUrl` / `remote.apiKey` / `model`；想开做梦就把 `plugins.entries.memory-core.config.dreaming.enabled` 改回 `true`。改完重启 gateway 生效。可以让小贝帮你完成配置。
+> 任何 OpenAI 接口格式的 embedding 服务都可以接（如阿里云百炼的 `text-embedding-v3/v4` 系列）。配置方法：把 `agents.defaults.memorySearch.provider` 从 `"none"` 改为 `"openai-compatible"`，并补上 `remote.baseUrl` / `remote.apiKey` / `model`；想开做梦就把 `plugins.entries.memory-core.config.dreaming.enabled` 改回 `true`。改完重启 gateway 生效。可以让吴桐荟帮你完成配置。
 
 ### 配置繁琐，不想操心？
 
-🎉 wiseflow团队现提供 **远程安装** 与 **远程技术支持** 增值服务，同时继续提供**VIP Club**（售价 **168 元/年**）服务，陪伴你从"小白"到"大神"！
+🎉 wutonghui团队现提供 **远程安装** 与 **远程技术支持** 增值服务，同时继续提供**VIP Club**（售价 **168 元/年**）服务，陪伴你从"小白"到"大神"！
 
 VIP Club（售价 **168 元/年**），权益包括：
 
@@ -199,11 +204,11 @@ VIP Club（售价 **168 元/年**），权益包括：
 - 会员可申请成为服务合作商
 - 会员可申请定制开发服务
 
-*⚠️ 如存在不当使用官方中转服务、在社群发表不当言论等行为，Wiseflow 团队有权提前终止会员资格且不予退款，详见会员协议。*
+*⚠️ 如存在不当使用官方中转服务、在社群发表不当言论等行为，WutongHui 团队有权提前终止会员资格且不予退款，详见会员协议。*
 
 另开放 **服务代理商** 合作，共享AI时代红利！详见：https://openclaw-for-business.com/pricing 
 
-也欢迎添加"掌柜的"企业微信（由 xiaobei sales-cs 驱动）咨询了解：
+也欢迎添加"掌柜的"企业微信（由 wutonghui-xiaobei sales-cs 驱动）咨询了解：
 
 <img width="360" height="360" alt="xiaobei掌柜" src="https://github.com/user-attachments/assets/b013b3fd-546e-4176-b418-57bee419e761" />
 
@@ -211,13 +216,13 @@ VIP Club（售价 **168 元/年**），权益包括：
 
 ---
 
-## 你的小贝其实不是一个人，而是一支团队
+## 你的吴桐荟其实不是一个人，而是一支团队
 
-小贝的背后其实是一支 AI 团队，他们有的为小贝提供运维支撑，有的扩增小贝的能力：
+吴桐荟的背后其实是一支 AI 团队，他们有的为吴桐荟提供运维支撑，有的扩增吴桐荟的能力：
 
 ### AI 团队的自主协作
 
-小贝团队成员之间可以自主完成协作，而无需用户介入，这也是为什么您只需要一个微信入口就可以完整使用所有功能的原因，这意味着：
+吴桐荟团队成员之间可以自主完成协作，而无需用户介入，这也是为什么您只需要一个微信入口就可以完整使用所有功能的原因，这意味着：
 
 Crew 遇到自己不能解决的问题：
   ```text
@@ -229,17 +234,17 @@ Crew 遇到自己不能解决的问题：
 
 工作流程：
 
-  假设小贝正在处理内容发布任务，突然遇到 API 调用失败：
+  假设吴桐荟正在处理内容发布任务，突然遇到 API 调用失败：
   ```text
-  [xiaobei] 正在发布文章到微信公众号...
-  [xiaobei] 发现错误：access_token expired
-  [xiaobei] 判断：这是技术问题，调用 IT Engineer
+  [wutonghui-xiaobei] 正在发布文章到微信公众号...
+  [wutonghui-xiaobei] 发现错误：access_token expired
+  [wutonghui-xiaobei] 判断：这是技术问题，调用 IT Engineer
     └── [it-engineer] 收到协助请求：access_token 过期
     └── [it-engineer] 分析原因：token 刷新机制异常
     └── [it-engineer] 执行修复：重新配置 token 刷新
     └── [it-engineer] 返回结果：问题已解决
-  [xiaobei] 收到解决方案，继续发布文章
-  [xiaobei] 任务完成
+  [wutonghui-xiaobei] 收到解决方案，继续发布文章
+  [wutonghui-xiaobei] 任务完成
   ```
   用户视角：整个过程用户无感知，Agent 自主完成了问题排查和修复。
 
@@ -247,9 +252,9 @@ Crew 遇到自己不能解决的问题：
 
 ## 专业的AI客服无需其他的系统
 
-小贝团队中已包含强大的 AI 客服（sales-cs），您无需再额外购买或部署其他系统。只需要对小贝说："我需要招募一名客服"即可。
+吴桐荟团队中已包含强大的 AI 客服（sales-cs），您无需再额外购买或部署其他系统。只需要对吴桐荟说："我需要招募一名客服"即可。
 
-小贝团队中的 sales-cs 不仅可以按照预设知识库进行精准回答，同时也具有极高的情商，懂得在回答客户问题的过程中步步为营的推进成交。对客户的诘难式提问，也能妥当应对。
+吴桐荟团队中的 sales-cs 不仅可以按照预设知识库进行精准回答，同时也具有极高的情商，懂得在回答客户问题的过程中步步为营的推进成交。对客户的诘难式提问，也能妥当应对。
 
 <img width="960" src="assets/nb1.jpg" />
 
@@ -266,7 +271,7 @@ v5.6.0 中我们几乎重构了 OpenClaw 原版的浏览器自动化方案（详
 | `patches/camoufox-cli/` | **forked camoufox-cli**（vendor 自上游 `camoufox-cli@0.6.2`）+ 三个新功能：`upload` 命令（Playwright `setInputFiles`，发布类技能依赖）/ daemon fail-first 队列（同 session 并发直接 fail，不排队不等待）/ `identity export`（导出 UA + 指纹摘要，对应 `cookies export`）。`build.sh` 全局安装替换 `$PATH` 上的上游版 |
 | `patches/browser-camoufox-pivot/` | **001 monolith 拆成 35 个单文件 patch**（`patches/` 子目录，按文件名 sort 顺序应用，降低上游漂移失效面）+ adapter + 测试 ship 在 `files/`。删 sandbox 整条路 + 删 host `local-managed` 分支 + 新增 `target=camoufox` 旁路（默认） |
 | `patches/overrides.sh` | **去掉 patchright-core 注入**（playwright-core 保留给 remote-cdp 用）；保留 web_search disable |
-| `002-disable-web-search-env-var` | **留**：openclaw 内置 web search 大部分需要申请 api key 甚至海外网络，小贝自带完全免费、零部署的 Smart Search 解决方案 | `OPENCLAW_DISABLE_WEB_SEARCH=1` |
+| `002-disable-web-search-env-var` | **留**：openclaw 内置 web search 大部分需要申请 api key 甚至海外网络，吴桐荟自带完全免费、零部署的 Smart Search 解决方案 | `OPENCLAW_DISABLE_WEB_SEARCH=1` |
 | `007-prefer-camoufox-cli` | **留**（改名）：在 browser 工具描述中提示优先用 camoufox-cli 做浏览器自动化，原 browser 工具仅作兜底 | 无 |
 
 **基于这套浏览器栈，我们沉淀了一批浏览器自动化技能**——这些技能源自我们自 AI 首席情报官项目以来长期积累的浏览器自动化技术经验，覆盖登录、填报、发布、互动、抓取等完整工作流：
@@ -284,16 +289,16 @@ v5.6.0 中我们几乎重构了 OpenClaw 原版的浏览器自动化方案（详
 ## 目录结构
 
 ```
-wiseflow/
+wutonghui/
 ├── openclaw/              # 上游仓库（git clone，禁止直接修改）
 ├── crews/                 # Crew 模板（D8 扁平化，权限由 crew-type + ALLOWED_COMMANDS 决定）
 │   ├── _template/         # 空白脚手架（创建新模板的起点）
-│   ├── main/              # [default] 小贝——新媒体运营 / 创业伴侣，绑 openclaw-weixin
+│   ├── main/              # [default] 吴桐荟——新媒体运营 / 创业伴侣，绑 openclaw-weixin
 │   ├── it-engineer/       # [built-in] IT 工程师——幕后运维 + 排障 sub-agent
 │   ├── content-producer/  # 内容制作者——视频/视觉生产线
 │   └── sales-cs/          # 销售型客服——绑 awada，默认禁用，按需招募
 ├── skills/                # 公共技能（≥2 crew 共用，smart-search / browser-guide / login-manager 等）
-├── patches/               # wiseflow 基础补丁
+├── patches/               # wutonghui 基础补丁
 │   ├── *.patch            # git 补丁（按序号顺序应用到 openclaw/）
 │   └── overrides.sh       # pnpm 依赖覆盖（如替换 playwright → patchright）
 ├── config-templates/      # 配置模板（开箱即用的最佳实践）
@@ -312,9 +317,9 @@ wiseflow/
 └── docs/                  # 项目文档
 ```
 
-运行时数据在 `~/.openclaw/`（openclaw.json、daemon.env、workspaces、sessions、camoufox profile 全在此）；程序在 `~/xiaobei/`（install.sh 解压的预构建 tarball：`openclaw/` 引擎 + `crews/` + `skills/` + `scripts/` + `tools/` portable Node/pnpm + `camoufox-cli/` fork + `bin/openclaw` wrapper）。两者职责分开：升级只换 `~/xiaobei/`，`~/.openclaw/` 用户数据不动。可用 `XIAOBEI_HOME` / `OPENCLAW_HOME` env 覆盖位置。
+运行时数据在 `~/.openclaw/`（openclaw.json、daemon.env、workspaces、sessions、camoufox profile 全在此）；程序在 `~/wutonghui-xiaobei/`（install.sh 解压的预构建 tarball：`openclaw/` 引擎 + `crews/` + `skills/` + `scripts/` + `tools/` portable Node/pnpm + `camoufox-cli/` fork + `bin/openclaw` wrapper）。两者职责分开：升级只换 `~/wutonghui-xiaobei/`，`~/.openclaw/` 用户数据不动。可用 `WUTONGHUI_HOME` / `OPENCLAW_HOME` env 覆盖位置。
 
-🌹 即日起为 xiaobei 开源版本贡献 PR（代码、文档、成功案例分享均欢迎），一经采纳，贡献者将获赠 **VIP Club 一年会员**！
+🌹 即日起为 wutonghui-xiaobei 开源版本贡献 PR（代码、文档、成功案例分享均欢迎），一经采纳，贡献者将获赠 **VIP Club 一年会员**！
 
 ## 🛡️ 许可协议
 
@@ -322,11 +327,11 @@ wiseflow/
 
 ## 📬 联系方式
 
-有任何问题或建议，欢迎通过 [issue](https://github.com/TeamWiseFlow/xiaobei/issues) 留言。
+有任何问题或建议，欢迎通过 [issue](https://github.com/ssj198807-maker/wutonghui-xiaobei/issues) 留言。
 
 商务合作（**开放定制开发与 OEM 合作，诚招代理**）请联系"掌柜的"👆，或访问官网：[openclaw-for-business.com](https://openclaw-for-business.com/pricing)。
 
-## 🤝 xiaobei 基于如下优秀的开源项目：
+## 🤝 wutonghui-xiaobei 基于如下优秀的开源项目：
 
 - openclaw(Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞) https://github.com/openclaw/openclaw
 - camoufox(🦊 Anti-detect browser, Firefox fork — forked camoufox-cli 作为线 1 浏览器主力，vendor 进 `patches/camoufox-cli/`) https://github.com/daijro/camoufox
@@ -335,7 +340,7 @@ wiseflow/
 - opencli（A CLI for social media & web platforms — smart-search skill 借鉴了其搜索 URL 模式与平台适配方案） https://github.com/jackwener/opencli
 - AiToEarn（多平台自媒体发布工具 — `published-track` 的 18 平台文本/媒体限制规则表与内容校验、twitter 互动操作模式借鉴自此） https://github.com/yikart/AiToEarn
 - 文颜(Markdown文章排版美化工具，支持微信公众号、今日头条、知乎等平台。) https://github.com/caol64/wenyan
-- Everything Claude Code（Claude Code 全局 skill / rule / agent 集合，wiseflow 的 complex-task 等编排 skill 借鉴了其 blueprint 和 gan-style-harness 的设计思路） https://github.com/affaan-m/everything-claude-code
+- Everything Claude Code（Claude Code 全局 skill / rule / agent 集合，wutonghui 的 complex-task 等编排 skill 借鉴了其 blueprint 和 gan-style-harness 的设计思路） https://github.com/affaan-m/everything-claude-code
 - awesome-design-md（A curated collection of design systems in markdown format — Designer 内置设计系统库参考了此项目的设计系统结构） https://github.com/VoltAgent/awesome-design-md
 - cheat-on-content（自媒体打分算法借鉴、取数方案借鉴） https://github.com/XBuilderLAB/cheat-on-content
 - AutoClip（AI 视频智能切片系统 — `talking-head-cut` 技能的高光剪辑算法与工作流借鉴自此；`video-producer` 的 Stage 13b motion-audit 镜头抽帧打分思路亦借鉴其高光判定） https://github.com/zhouxiaoka/autoclip
@@ -351,12 +356,12 @@ wiseflow/
 如果您在相关工作中参考或引用了本项目的部分或全部，请注明如下信息：
 
 ```
-Author：Wiseflow Team
-https://github.com/TeamWiseFlow/xiaobei
+Author：WutongHui Team
+https://github.com/ssj198807-maker/wutonghui-xiaobei
 ```
 
-![star](https://atomgit.com/wiseflow/xiaobei/star/badge.svg) 国内托管地址：[https://atomgit.com/wiseflow/xiaobei](https://atomgit.com/wiseflow/xiaobei)
+![star](https://atomgit.com/wutonghui/wutonghui-xiaobei/star/badge.svg) 国内托管地址：[https://atomgit.com/wutonghui/wutonghui-xiaobei](https://atomgit.com/wutonghui/wutonghui-xiaobei)
 
 ## 友情链接
 
-[<img src="assets/atomgit.png" alt="atomgit" height="60">](https://gitcode.com/atomgit_atomcode)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<img src="https://github.com/TeamWiseFlow/xiaobei/raw/4.x/docs/logos/SiliconFlow.png" alt="siliconflow" height="40">](https://cloud.siliconflow.cn/i/WNLYbBpi)
+[<img src="assets/atomgit.png" alt="atomgit" height="60">](https://gitcode.com/atomgit_atomcode)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<img src="https://github.com/ssj198807-maker/wutonghui-xiaobei/raw/4.x/docs/logos/SiliconFlow.png" alt="siliconflow" height="40">](https://cloud.siliconflow.cn/i/WNLYbBpi)

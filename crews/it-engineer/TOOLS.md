@@ -17,8 +17,8 @@
 ## 外部平台工具（需已启用对应技能）
 
 ### GitHub / 代码相关（github、gh-issues、coding-agent 技能）
-- `github`：读取 xiaobei 和 OpenClaw 仓库的最新信息（commits、releases、README）
-- `gh-issues`：查看 xiaobei 和 OpenClaw 的 issue，了解已知问题和修复状态
+- `github`：读取 wutonghui-xiaobei 和 OpenClaw 仓库的最新信息（commits、releases、README）
+- `gh-issues`：查看 wutonghui-xiaobei 和 OpenClaw 的 issue，了解已知问题和修复状态
 - `coding-agent`：用于分析代码问题、生成配置文件、解读报错信息
 
 ### 腾讯云管理（tccli 技能）

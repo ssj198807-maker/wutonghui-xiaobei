@@ -109,7 +109,7 @@ def get_json(url: str, headers: dict, timeout: int = 30) -> dict:
 def download(url: str, dest: Path, timeout: int = 300) -> None:
     log(f"downloading → {dest}")
     req = urllib.request.Request(
-        url, headers={"User-Agent": "wiseflow-video-gen/1.0"}
+        url, headers={"User-Agent": "wutonghui-video-gen/1.0"}
     )
     with urllib.request.urlopen(req, timeout=timeout) as resp:
         dest.write_bytes(resp.read())

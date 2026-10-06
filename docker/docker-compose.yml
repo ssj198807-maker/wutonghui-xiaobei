@@ -1,23 +1,23 @@
-name: xiaobei
+name: wutonghui-xiaobei
 
-# 生产 compose 文件。镜像由用户本地 build（docker build -f docker/Dockerfile -t xiaobei:local .）；
-# 默认用 xiaobei:local，可用 IMAGE=xxx 覆盖。
+# 生产 compose 文件。镜像由用户本地 build（docker build -f docker/Dockerfile -t wutonghui-xiaobei:local .）；
+# 默认用 wutonghui-xiaobei:local，可用 IMAGE=xxx 覆盖。
 #
 # 必填配置：拷 .env.example 到 .env，填 AWK_API_KEY。Docker Compose 自动从本目录
 # 加载 .env，所以 `docker compose up|down|logs` 不必每次前缀 env vars。
 #
 # 网络拓扑：
-#   xiaobei 容器（wiseflow，跑 openclaw gateway + crews + camoufox）
-#   xiaobei 容器挂宿主 docker.sock（只读）：wx-mp-hunter posts-list 用 docker exec
+#   wutonghui-xiaobei 容器（wutonghui，跑 openclaw gateway + crews + camoufox）
+#   wutonghui-xiaobei 容器挂宿主 docker.sock（只读）：wx-mp-hunter posts-list 用 docker exec
 #   进微信客户端容器读消息库（微信容器由有权限用户自行另起 compose override 引入，
 #   不在本公开仓暴露）
 #
 # 端口映射（默认只绑 127.0.0.1，远程访问走 SSH 隧道）：
-#   xiaobei 容器 18789 → gateway API
-#   xiaobei 容器 6080  → noVNC web（浏览器开 http://localhost:6080/vnc.html 操作 camoufox 过验证）
+#   wutonghui-xiaobei 容器 18789 → gateway API
+#   wutonghui-xiaobei 容器 6080  → noVNC web（浏览器开 http://localhost:6080/vnc.html 操作 camoufox 过验证）
 services:
-  xiaobei:
-    image: ${IMAGE:-xiaobei:local}
+  wutonghui-xiaobei:
+    image: ${IMAGE:-wutonghui-xiaobei:local}
     restart: unless-stopped
     environment:
       # 唯一必填用户设置。其他 skill 凭据由运行中的 agent 在持久化 .env 里后配。
@@ -47,16 +47,16 @@ services:
     volumes:
       # 两个数据目录外挂——首启从镜像内 runtime-seed 初始化空卷，已有卷绝不覆盖。
       # 两个目录含 API key 和平台登录态，权限 0700。
-      - xiaobei-openclaw:/root/.openclaw
+      - wutonghui-xiaobei-openclaw:/root/.openclaw
       # camoufox profile + cookie + 登录态持久化（浏览器二进制 654MB 打进镜像层，不挂卷）
-      - xiaobei-camoufox-profiles:/root/.camoufox-cli/profiles
+      - wutonghui-xiaobei-camoufox-profiles:/root/.camoufox-cli/profiles
       # 挂宿主 docker.sock：wx-mp-hunter posts-list 用 docker exec 进微信容器读消息库
-      # （需求 4：xiaobei 容器需能访问宿主 docker daemon 才能 docker exec）
+      # （需求 4：wutonghui-xiaobei 容器需能访问宿主 docker daemon 才能 docker exec）
       - /var/run/docker.sock:/var/run/docker.sock:ro
       # 临时：用本地修改的 entrypoint 覆盖镜像内版本（占位符不覆盖 .env 真值）
-      - ./docker-entrypoint.sh:/usr/local/bin/xiaobei-entrypoint:ro
+      - ./docker-entrypoint.sh:/usr/local/bin/wutonghui-xiaobei-entrypoint:ro
     networks:
-      - xiaobei-net
+      - wutonghui-xiaobei-net
     # camoufox Firefox + 微信容器配合需要共享内存
     shm_size: '512m'
     tmpfs:
@@ -69,9 +69,9 @@ services:
       start_period: 60s
 
 networks:
-  xiaobei-net:
+  wutonghui-xiaobei-net:
     driver: bridge
 
 volumes:
-  xiaobei-openclaw:
-  xiaobei-camoufox-profiles:
+  wutonghui-xiaobei-openclaw:
+  wutonghui-xiaobei-camoufox-profiles:

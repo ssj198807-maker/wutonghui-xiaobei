@@ -147,7 +147,7 @@ async function fetchDouyin(awemeId: string): Promise<RetroResult> {
   }
 
   // 视频详情（aweme/detail 接口）——只取数，不碰评论
-  // （参考 wiseflow4-pro douyin aweme_processor.__call__ → get_video_by_id →
+  // （参考 wutonghui4-pro douyin aweme_processor.__call__ → get_video_by_id →
   //  update_douyin_aweme：读 statistics 的 digg_count/collect_count/comment_count/share_count。）
   // 图文(note)作品的 mid 同样走此端点。play_count 公开侧恒为 0（播放量仅创作者可见），
   // 下方创作侧 lane 是播放量的唯一来源。
@@ -238,7 +238,7 @@ async function fetchBilibili(bvid: string): Promise<RetroResult> {
   }
 
   // 视频详情（公开 API，无需 cookie）——只取数，不碰评论
-  // （参考 wiseflow4-pro bilibili video_processor.get_video_detail：读 View.stat 的
+  // （参考 wutonghui4-pro bilibili video_processor.get_video_detail：读 View.stat 的
   //  like/view/danmaku/reply/coin/favorite/share。此处用更轻的 /view 公开端点，字段同。）
   console.error("  → 调 B站 API 获取视频详情...")
   try {
@@ -285,7 +285,7 @@ async function fetchKuaishou(photoId: string): Promise<RetroResult> {
     comments: [],
   }
 
-  // 视频详情（GraphQL）——只取数，不碰评论（参考 wiseflow4-pro kuaishou video_processor.get_video_detail）
+  // 视频详情（GraphQL）——只取数，不碰评论（参考 wutonghui4-pro kuaishou video_processor.get_video_detail）
   // likeCount 是展示数，realLikeCount 才是真实点赞数（参考 update_kuaishou_video 读 realLikeCount）。
   console.error("  → 调快手 GraphQL 获取视频详情...")
   try {

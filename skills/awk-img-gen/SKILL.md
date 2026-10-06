@@ -59,7 +59,7 @@ awk-img-gen --prompt "blend" \
 | `--model` | auto | Model ID；缺省按模式走候选链自动 fallback，显式指定时不 fallback |
 | `--image-size` | `2048x2048` | `WxH`（总像素 512²~2048²，宽高比 1:8~8:1）或 `auto`；编辑模式缺省跟随输入图 |
 | `--seed` | — | 随机种子 [0, 2147483647]，需要可复现时设固定值 |
-| `--watermark` | `false` | 是否加水印（xiaobei 默认不加，避免后续 image 工具处理） |
+| `--watermark` | `false` | 是否加水印（wutonghui-xiaobei 默认不加，避免后续 image 工具处理） |
 | `--prompt-extend` | off | 允许百炼自动扩写 prompt（API 默认开；本脚本默认**关**，保证封面文字/布局指令精确；氛围图想要更丰富细节时可开） |
 | `--image` | — | 参考图 1（启用编辑模式） |
 | `--image2` / `--image3` | — | 参考图 2 / 3（多图融合） |

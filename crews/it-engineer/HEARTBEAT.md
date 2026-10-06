@@ -3,7 +3,7 @@
 ## Health Check
 - Status: operational
 - Last updated: (auto-maintained)
-- Watching: xiaobei system（部署方式见下「环境判定」）
+- Watching: wutonghui-xiaobei system（部署方式见下「环境判定」）
 
 ## 环境判定（每次心跳先做一次）
 

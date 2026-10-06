@@ -1,7 +1,7 @@
-# wiseflow-client 全仓 Python 依赖（统一声明）
+# wutonghui-client 全仓 Python 依赖（统一声明）
 #
 # 由 scripts/apply-addons.sh 扫描合并后 pip install（源码部署），
-# 或由 Dockerfile wiseflow-layer 阶段直接 pip install（Docker 部署）。
+# 或由 Dockerfile wutonghui-layer 阶段直接 pip install（Docker 部署）。
 # 不在此声明 skill 专属的冷门/重型依赖（如 manim，由 SKILL.md requires.bins 声明，按需系统安装）。
 #
 # 第三方包清单（被 skills/ crews/ 下脚本 import）：

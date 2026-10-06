@@ -206,7 +206,7 @@ export class DaemonServer {
     // This is the idle-self-exit twin of the killDaemon fix (commit 0773afb): same
     // context.close() hang race, but the idle-watchdog shutdown path was missed
     // (2026-07-27 死机: 12:36 heartbeat 的 3 个 camoufox-bin idle 自退时卡死没退，
-    // 40 分钟内存不回落，叠加 13:17 小贝 xhs 任务撑爆). 8s matches killDaemon's
+    // 40 分钟内存不回落，叠加 13:17 吴桐荟 xhs 任务撑爆). 8s matches killDaemon's
     // budget (Firefox close routinely takes 2-5s). On timeout, SIGKILL the whole
     // process group so camoufox-bin is reaped.
     let timedOut = false;

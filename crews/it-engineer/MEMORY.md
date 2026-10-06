@@ -40,7 +40,7 @@
 
 ### camoufox-cli 排故
 
-- **指纹模板 bake**（Docker 镜像内）：`/root/.openclaw/logins/_template/camoufox-cli.json`，由 `Dockerfile wiseflow-layer` 阶段跑 `camoufox-cli --session _template --persistent --headless open about:blank` 生成。
+- **指纹模板 bake**（Docker 镜像内）：`/root/.openclaw/logins/_template/camoufox-cli.json`，由 `Dockerfile wutonghui-layer` 阶段跑 `camoufox-cli --session _template --persistent --headless open about:blank` 生成。
 - **运行时模板复用**：每个 agent session 启动前 `cp /root/.openclaw/logins/_template/camoufox-cli.json ~/.camoufox-cli/profiles/<session>/`。
 - **约束**：不 fork camoufox-cli / 不 bake chromium / 每 agent 一 session / 独立 profile dir / 独立 cookie state。
 - **常见问题**：
@@ -169,7 +169,7 @@ sqlite3 ~/.openclaw/state/openclaw.sqlite "SELECT job_id, seq, datetime(ts/1000,
 
 #### awada 插件依赖（ws + zod）
 
-- **Docker 部署**：Dockerfile wiseflow-layer 阶段 `COPY awada/ + npm install --omit=dev`，ws+zod 烘进 `/opt/openclaw/awada/node_modules`。
+- **Docker 部署**：Dockerfile wutonghui-layer 阶段 `COPY awada/ + npm install --omit=dev`，ws+zod 烘进 `/opt/openclaw/awada/node_modules`。
 - **源码部署**：`apply-addons.sh` 自动 `cd awada && npm install --omit=dev`（哈希守卫 `.awada-pkg-hash`，幂等）。
 - **关键点**：awada 插件运行时从自身 `awada/node_modules` 解析 ws/zod，**不**走 `~/.openclaw/node_modules`（不在向上解析链），故必须装在 awada 局部，不能靠统一依赖扫描。
 - **Phase 4 已完成**（2026-07-07）：awada 改 HTTP/WS transport 调 relay 网关，ioredis 已从 deps 移除，预装步骤改装 ws+zod。proactive-send skill 同步迁 HTTP 网关，不再依赖 ioredis。
@@ -187,7 +187,7 @@ sqlite3 ~/.openclaw/state/openclaw.sqlite "SELECT job_id, seq, datetime(ts/1000,
 
 ### 某个 agent 全报 "Something went wrong"处置方案
 
-1. **看 gateway-error.log**(`/home/wukong/wiseflow-pro/logs/gateway-error.log`),找 `embedded run agent end: isError=true` + 紧跟的 `error=LLM request failed` 行。
+1. **看 gateway-error.log**(`/home/wukong/wutonghui-pro/logs/gateway-error.log`),找 `embedded run agent end: isError=true` + 紧跟的 `error=LLM request failed` 行。
 2. **看 sessions.json 里那个 agent 的 modelOverride**(`~/.openclaw/agents/<agent>/sessions/sessions.json`,key 是 `agent:<agent>:feishu:direct:<user_ouid>`):
    - 如果有 `modelOverride` + `modelOverrideSource: "user"` → 说明之前 `/model <xx>` 把会话锁死在那个模型上了。
    - **修复**:用户在该 agent 对话里发 `/model <默认主模型>`,或 IT Engineer 删掉 sessions.json 里的 `modelOverride/providerOverride/modelOverrideSource` 三个字段(注意先 `cp` 备份 `.bak-<日期>`)。

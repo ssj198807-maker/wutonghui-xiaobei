@@ -1,5 +1,5 @@
 #!/bin/bash
-# apply-addons.sh - wiseflow 基础能力安装 + 补丁应用 + 配置同步
+# apply-addons.sh - wutonghui 基础能力安装 + 补丁应用 + 配置同步
 #
 # Phase 7 续精简（2026-07-04）：删除原 addons/ 扫描循环（D8 扁平化后死代码）。
 # 本脚本现仅负责：
@@ -168,7 +168,7 @@ if [ -f "$CONFIG_PATH" ] && [ -f "$PROJECT_ROOT/config-templates/openclaw.json" 
     let changed = false;
 
     // 同步 skills.entries：
-    //   enabled: true  → 强制覆写（wiseflow 功能依赖，必须保证开启）
+    //   enabled: true  → 强制覆写（wutonghui 功能依赖，必须保证开启）
     //   enabled: false → 仅在运行配置中尚无该条目时写��（首次初始化语义，
     //                    保留用户已主动开启的配置，不回退）
     if (template.skills?.entries) {
@@ -176,7 +176,7 @@ if [ -f "$CONFIG_PATH" ] && [ -f "$PROJECT_ROOT/config-templates/openclaw.json" 
       if (!running.skills.entries) running.skills.entries = {};
       for (const [name, entry] of Object.entries(template.skills.entries)) {
         if (entry && entry.enabled === true) {
-          // 强制写入：确保 wiseflow 依赖的技能始终开启
+          // 强制写入：确保 wutonghui 依赖的技能始终开启
           running.skills.entries[name] = entry;
           changed = true;
         } else if (!(name in running.skills.entries)) {
@@ -508,7 +508,7 @@ if [ "$NEEDS_INSTALL" = "true" ]; then
   # pnpm 在算包 hash digest 时（TypedArrayPrototypeJoin → crypto::Hash::OneShotDigest）对大包
   # 一次性 join 整个文件当 TypedArray digest，单 isolate OOM。曾试过 fetch 预拉绕开 digest，
   # 但 pnpm fetch 无脑下所有 optionalDependencies + 平台包（@github/copilot 104MB /
-  # @openai/codex 91MB / @zed-industries/codex-acp 65MB），这些 wiseflow 根本不用，fetch 自己就炸。
+  # @openai/codex 91MB / @zed-industries/codex-acp 65MB），这些 wutonghui 根本不用，fetch 自己就炸。
   # 真根治走 patches 008/009/010/013 把 copilot/codex/acpx/codex-supervisor 四个 extension 的
   # dependencies 段置空 + patches 011/012 删 pnpm-workspace.yaml 的 patchedDependencies + mra-exclude 段——
   # pnpm 解析依赖树时这四个 extension 还是 workspace package 但依赖空，transitive 大包一个都不拉，

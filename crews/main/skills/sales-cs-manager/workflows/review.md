@@ -38,7 +38,7 @@ sales-cs-review --since 2026-06-01
 建议改动：
 1. MEMORY.md「常见问题 FAQ」补一条：退款流程 -> 引导填反馈问卷
 2. AGENTS.md 3.1 话术：把"先讲适合解决什么问题"改为"先问客户场景再匹配"
-3. IDENTITY 称呼：小明助手 -> 小贝同学
+3. IDENTITY 称呼：小明助手 -> 吴桐荟同学
 确认后我直接改 sales-cs workspace。
 ```
 
