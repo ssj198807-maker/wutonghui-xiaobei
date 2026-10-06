@@ -77,3 +77,4 @@ Users/
 
 # 测试 / 临时文件
 /100
+test/integration/.fake-home/

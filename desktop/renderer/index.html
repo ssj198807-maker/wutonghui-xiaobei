@@ -270,9 +270,36 @@
       append('user', text);
       input.value = '';
 
-      // MVP: 模拟响应（M0 阶段，daemon 还没接 chat API）
-      await new Promise((r) => setTimeout(r, 600));
-      append('assistant', `（MVP 模拟响应）\n\n收到："${text}"\n\n后续阶段会接入 OpenClaw daemon 的 /chat 端点，调用 4 个 crew 团队处理。\n\n当前阶段你可以：\n• 查看 ~/.wutonghui/logs/daemon.log 看 daemon 输出\n• 跑 bash scripts/install.sh 让 daemon 完全启动`);
+      // 调 daemon /chat API（M1 阶段：实接）
+      if (!app.daemonReady) {
+        append('assistant', '⚠️ daemon 未就绪，请先跑 bash scripts/install.sh 装 OpenClaw daemon。');
+        return;
+      }
+
+      // 显示"处理中"指示
+      const loadingId = 'loading-' + Date.now();
+      const loadingDiv = document.createElement('div');
+      loadingDiv.id = loadingId;
+      loadingDiv.className = 'msg assistant';
+      loadingDiv.innerHTML = '<div class="msg-meta">吴桐荟 · 处理中…</div><div class="msg-content"><span class="loading-dots">●●●</span></div>';
+      chat.appendChild(loadingDiv);
+      chat.scrollTop = chat.scrollHeight;
+
+      try {
+        const resp = await fetch('http://127.0.0.1:18789/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: text, session_id: 'desktop' }),
+        });
+        document.getElementById(loadingId)?.remove();
+
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        const data = await resp.json();
+        append('assistant', data.content || '(无响应)');
+      } catch (err) {
+        document.getElementById(loadingId)?.remove();
+        append('assistant', `❌ 调用失败：${err.message}\n\n请检查 ~/.wutonghui/logs/daemon.log`);
+      }
     }
 
     function quickPrompt(t) {
