@@ -196,6 +196,47 @@ function setupIpc() {
     await shell.openPath(path.join(USER_HOME, 'logs'));
   });
 
+  // 通过 openclaw agent CLI 跑 chat（IPC：避免直接打 daemon HTTP API）
+  ipcMain.handle('app:chat', async (_evt, { message, session_id }) => {
+    return await new Promise((resolve) => {
+      const proc = spawn(DAEMON_BIN, [
+        'agent',
+        '--channel', 'last',
+        '--message', message,
+        '--session-id', session_id,
+        '--json',
+      ], {
+        cwd: USER_HOME,
+        env: { ...process.env, WUTONGHUI_HOME: USER_HOME, OPENCLAW_HOME: USER_HOME },
+      });
+      let stdout = '';
+      let stderr = '';
+      proc.stdout.on('data', (b) => (stdout += b.toString()));
+      proc.stderr.on('data', (b) => (stderr += b.toString()));
+      proc.on('close', (code) => {
+        try {
+          const j = JSON.parse(stdout || '{}');
+          // openclaw agent JSON 失败时返回 {ok:false, error:{message:...}}
+          if (j.ok === false) {
+            const msg = j.error?.message || stderr || `exit ${code}`;
+            resolve({ ok: false, error: msg, raw: stdout });
+          } else {
+            // 找回复内容（OpenClaw agent 输出格式不固定）
+            const reply = j.reply || j.message || j.content
+              || j.response?.message?.content || stdout;
+            resolve({ ok: true, content: reply, raw: j });
+          }
+        } catch (e) {
+          resolve({ ok: false, error: `parse: ${e}`, raw: stdout });
+        }
+      });
+      proc.on('error', (e) => resolve({ ok: false, error: e.message }));
+      // 超时 60s
+      setTimeout(() => { try { proc.kill('SIGKILL'); } catch(_){}
+        resolve({ ok: false, error: 'timeout 60s' }); }, 60000);
+    });
+  });
+
   // 让 renderer 知道 daemon 状态变化
   setInterval(() => {
     if (mainWindow && !mainWindow.isDestroyed()) {

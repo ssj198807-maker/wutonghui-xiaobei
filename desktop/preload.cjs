@@ -27,4 +27,7 @@ contextBridge.exposeInMainWorld('wutonghui', {
     ipcRenderer.on('daemon:exit', listener);
     return () => ipcRenderer.removeListener('daemon:exit', listener);
   },
+  // 通过 main.cjs 调 openclaw agent CLI（绕开 WebSocket 复杂性）
+  chat: (message, session_id = 'desktop') =>
+    ipcRenderer.invoke('app:chat', { message, session_id }),
 });

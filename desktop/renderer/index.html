@@ -286,16 +286,19 @@
       chat.scrollTop = chat.scrollHeight;
 
       try {
-        const resp = await fetch('http://127.0.0.1:18789/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: text, session_id: 'desktop' }),
-        });
+        // 通过 preload IPC → main.cjs 调 openclaw agent CLI（绕开 OpenClaw 内部 HTTP API）
+        if (!window.wutonghui?.chat) {
+          append('assistant', '⚠️ preload.cjs 未加载，无法调 daemon。\n\n请检查 main.cjs 的 preload 配置。');
+          return;
+        }
+        const result = await window.wutonghui.chat(text, 'desktop');
         document.getElementById(loadingId)?.remove();
 
-        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-        const data = await resp.json();
-        append('assistant', data.content || '(无响应)');
+        if (result.ok) {
+          append('assistant', result.content || '(无响应)');
+        } else {
+          append('assistant', `❌ 调用失败：${result.error}\n\n请检查 ~/.wutonghui/logs/daemon.log`);
+        }
       } catch (err) {
         document.getElementById(loadingId)?.remove();
         append('assistant', `❌ 调用失败：${err.message}\n\n请检查 ~/.wutonghui/logs/daemon.log`);
