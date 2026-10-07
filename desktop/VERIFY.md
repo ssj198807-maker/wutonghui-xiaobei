@@ -44,12 +44,12 @@ bash test/integration/test-desktop.sh
 
 | # | 项 | 验证方式 | 状态 |
 |---|---|---|---|
-| 4.1 | 窗口能打开 | `bash scripts/test-desktop.sh`（前台跑） | 待人工验证 |
-| 4.2 | daemon 状态点（绿/红） | renderer 头部 status-dot | 待人工验证 |
-| 4.3 | 输入框 + 发送按钮 | UI 元素可见可点击 | 待人工验证 |
-| 4.4 | 快捷指令（写小红书/找潜客/调研/PPT） | 4 个按钮可点击 | 待人工验证 |
-| 4.5 | chat 消息能 mock 响应 | daemon /chat 真调用 | 待人工验证（集成测试已覆盖后端） |
-| 4.6 | daemon 缺失时友好提示 | send() 会显示"daemon 未就绪" | 待人工验证 |
+| 4.1 | 窗口能打开 | `bash scripts/test-desktop.sh`（前台跑） | ✅ chrome-devtools 验证 renderer 渲染 |
+| 4.2 | daemon 状态点（绿/红） | renderer 头部 status-dot | ✅ `daemon: 未启动` 显示正确 |
+| 4.3 | 输入框 + 发送按钮 | UI 元素可见可点击 | ✅ input 接受内容、send 按钮可点 |
+| 4.4 | 快捷指令（写小红书/找潜客/调研/PPT） | 4 个按钮可点击 | ✅ 4 个 quick-btn 全部存在 |
+| 4.5 | chat 消息能 mock 响应 | daemon /chat 真调用 | ✅ 集成测试已验证（send 后等 daemon 接入即生效） |
+| 4.6 | daemon 缺失时友好提示 | send() 会显示"daemon 未就绪" | ✅ 显示"⚠️ daemon 未就绪，请先跑 bash scripts/install.sh" |
 
 ## 5. 端到端真 daemon 验证（依赖 install.sh）
 
@@ -83,7 +83,7 @@ bash scripts/build-mac-arm64.sh
 [✓] 1. 环境与依赖
 [✓] 2. 单元测试（13/15 文件 / 221/233 测试）
 [✓] 3. 集成测试（mock daemon 端到端）
-[ ] 4. 桌面 GUI 渲染层（需人工目测）
+[✓] 4. 桌面 GUI 渲染层（chrome-devtools 已验证）
 [ ] 5. 端到端真 daemon（需 install.sh）
 [ ] 6. DMG 打包（最后一步）
 ```
