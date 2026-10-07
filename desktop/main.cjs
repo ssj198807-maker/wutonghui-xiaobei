@@ -109,7 +109,8 @@ async function startDaemon() {
   daemonProcess = spawn(binPath, [
     'gateway', 'run',
     '--port', String(DAEMON_PORT_START),
-    '--host', DAEMON_HOST,
+    '--bind', 'loopback',  // 替代 --host（OpenClaw upstream 用 --bind）
+    '--allow-unconfigured',  // 允许无配置启动（首次安装友好）
   ], {
     cwd: USER_HOME,
     env: { ...process.env, WUTONGHUI_HOME: USER_HOME, OPENCLAW_HOME: USER_HOME },

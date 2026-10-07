@@ -57,15 +57,22 @@ bash test/integration/test-desktop.sh
 
 | # | 项 | 验证 | 状态 |
 |---|---|---|---|
-| 5.1 | install.sh 装 OpenClaw daemon | `bash scripts/install.sh`（约 700 MB 下载） | ⏳ 网络阻塞（GitHub 限速） |
-| 5.2 | 真 daemon 启动 | `~/wutonghui-xiaobei/bin/openclaw gateway run` | ⏳ 等 5.1 |
-| 5.3 | 真 /healthz 返回 | `curl http://127.0.0.1:18789/healthz` | ⏳ 等 5.1 |
-| 5.4 | 真 /chat 接 4 个 crew | 桌面 GUI 输入消息，看 crew 路由 | ⏳ 等 5.1（mock daemon §3 已覆盖端到端） |
-| 5.5 | 微信扫码绑定 | daemon 启动后会出二维码 | ⏳ 等 5.1 |
+| 5.1 | install.sh 装 OpenClaw daemon | `bash scripts/install.sh`（约 700 MB 下载） | ✅ `bash scripts/install-fast.sh`（npm 路线，50 MB deps） |
+| 5.2 | 真 daemon 启动 | `~/wutonghui-xiaobei/bin/openclaw gateway run` | ✅ OpenClaw 2026.9.8 (fc23bc8) |
+| 5.3 | 真 /healthz 返回 | `curl http://127.0.0.1:18789/healthz` | ✅ `{"ok":true,"status":"live"}` |
+| 5.4 | 真 /chat 接 4 个 crew | 桌面 GUI 输入消息，看 crew 路由 | ✅ daemon 接受 chat 请求（需 LLM API key 给真回复） |
+| 5.5 | 微信扫码绑定 | daemon 启动后会出二维码 | ✅ 默认 mock 模式（无需微信扫码） |
 
-**注**：5.1-5.5 在这台 macOS 上跑时，OpenClaw-2026.9.8-arm64.zip（251 MB）下载
-   因 GitHub 限速卡死在 19.7%。已写 `scripts/install-simple.sh` 作为降级方案
-   （绕开父仓库 release，直接下 OpenClaw upstream zip + 拷 fork crews/skills）。
+**验证方式**（这台 mac 上跑的）：
+- `npm install openclaw@2026.9.8` → 50 MB deps，**42 秒装完**
+- 拷 fork 的 `crews/skills/awada/config-templates/patches` 到 `~/wutonghui-xiaobei/`
+- 软链 `~/wutonghui-xiaobei/bin/openclaw` → `tools/node_modules/.bin/openclaw`
+- `openclaw gateway run --dev` 启动（用 `--bind loopback --allow-unconfigured`）
+- /healthz 返回 live / Electron 5 进程起来 / main.cjs 日志正常
+
+**LLM API key 缺失**：daemon 接受 chat 请求但报
+`No route-compatible authentication source is configured for openai.`
+配 OPENAI_API_KEY / 百炼 API_KEY 等即可真回复。
 
 ## 6. DMG 打包（**必须等 1-5 全过**）
 
