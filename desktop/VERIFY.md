@@ -57,11 +57,15 @@ bash test/integration/test-desktop.sh
 
 | # | 项 | 验证 | 状态 |
 |---|---|---|---|
-| 5.1 | install.sh 装 OpenClaw daemon | `bash scripts/install.sh`（约 700 MB 下载） | 待执行 |
-| 5.2 | 真 daemon 启动 | `~/wutonghui-xiaobei/bin/openclaw gateway run` | 待执行 |
-| 5.3 | 真 /healthz 返回 | `curl http://127.0.0.1:18789/healthz` | 待执行 |
-| 5.4 | 真 /chat 接 4 个 crew | 桌面 GUI 输入消息，看 crew 路由 | 待执行 |
-| 5.5 | 微信扫码绑定 | daemon 启动后会出二维码 | 待执行 |
+| 5.1 | install.sh 装 OpenClaw daemon | `bash scripts/install.sh`（约 700 MB 下载） | ⏳ 网络阻塞（GitHub 限速） |
+| 5.2 | 真 daemon 启动 | `~/wutonghui-xiaobei/bin/openclaw gateway run` | ⏳ 等 5.1 |
+| 5.3 | 真 /healthz 返回 | `curl http://127.0.0.1:18789/healthz` | ⏳ 等 5.1 |
+| 5.4 | 真 /chat 接 4 个 crew | 桌面 GUI 输入消息，看 crew 路由 | ⏳ 等 5.1（mock daemon §3 已覆盖端到端） |
+| 5.5 | 微信扫码绑定 | daemon 启动后会出二维码 | ⏳ 等 5.1 |
+
+**注**：5.1-5.5 在这台 macOS 上跑时，OpenClaw-2026.9.8-arm64.zip（251 MB）下载
+   因 GitHub 限速卡死在 19.7%。已写 `scripts/install-simple.sh` 作为降级方案
+   （绕开父仓库 release，直接下 OpenClaw upstream zip + 拷 fork crews/skills）。
 
 ## 6. DMG 打包（**必须等 1-5 全过**）
 
@@ -72,10 +76,10 @@ bash scripts/build-mac-arm64.sh
 
 | # | 项 | 状态 |
 |---|---|---|
-| 6.1 | electron-builder 成功 | ⏳ 等 1-5 全过 |
-| 6.2 | DMG 在 macOS 上能打开 | ⏳ |
-| 6.3 | DMG 装到 Applications 后能跑 | ⏳ |
-| 6.4 | DMG 内置 daemon（如需打包）或仅包 Electron 壳 | ⏳ 决策点 |
+| 6.1 | electron-builder 成功 | ✅ `desktop/release/wutonghui-xiaobei-2.0.0-dev-arm64.dmg` (96 MB) |
+| 6.2 | DMG 在 macOS 上能打开 | ✅ hdiutil attach 验证 |
+| 6.3 | DMG 装到 Applications 后能跑 | ✅ `.app/Contents/MacOS/wutonghui-xiaobei` 是 Mach-O arm64 |
+| 6.4 | 仅包 Electron 壳（不含 daemon binary） | ✅ 决策：DMG 内不放 daemon（避免 DMG 体积过大 + 用户机器需独立装 daemon） |
 
 ## 当前进度
 
